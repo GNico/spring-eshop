@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org./1999/xhtml">
+<head th:replace="common/header :: common-header" />
+
+
+<body>
+  <div th:replace="common/header :: navbar"> </div>
+
+  <div class="container ">
+    <div class="row">
+      <div class="col-8">
+        <div class="card">
+          <div class="card-body">
+            <div id="carouselExampleIndicators" class="carousel slide"
+              data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators"
+                  data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators"
+                  data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators"
+                  data-slide-to="2"></li>
+              </ol>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img class="d-block w-100"
+                    src="http://lorempixel.com/output/sports-q-c-1600-500-1.jpg"
+                    alt="First slide">
+                  <div class="carousel-caption d-none d-md-block">
+                    <h4>First thumbnail label</h4>
+                    <p>Contrary to popular belief, Lorem Ipsum is
+                      not simply random text. It has roots in a piece of
+                      classical Latin literature from 45 BC, making it
+                      over 2000 years old</p>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100"
+                    src="http://lorempixel.com/output/sports-q-c-1600-500-2.jpg"
+                    alt="Second slide">
+                  <div class="carousel-caption d-none d-md-block">
+                    <h4>Second thumbnail label</h4>
+                    <p>Contrary to popular belief, Lorem Ipsum is
+                      not simply random text. It has roots in a piece of
+                      classical Latin literature from 45 BC, making it
+                      over 2000 years old</p>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100"
+                    src="http://lorempixel.com/output/sports-q-c-1600-500-3.jpg"
+                    alt="Third slide">
+                  <div class="carousel-caption d-none d-md-block">
+                    <h4>Third thumbnail label</h4>
+                    <p>Contrary to popular belief, Lorem Ipsum is
+                      not simply random text. It has roots in a piece of
+                      classical Latin literature from 45 BC, making it
+                      over 2000 years old</p>
+                  </div>
+                </div>
+              </div>
+              <a class="carousel-control-prev"
+                href="#carouselExampleIndicators" role="button"
+                data-slide="prev"> <span
+                class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a> <a class="carousel-control-next"
+                href="#carouselExampleIndicators" role="button"
+                data-slide="next"> <span
+                class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <img src="/image/logo.png" class="img-fluid">
+      </div>
+    </div>
+    
+    <hr>
+    
+    <div class="row">
+      <div class="col-4">
+        <div class="card border-0">
+          <div class="card-body">
+            <img src="/image/bestseller.png" class="img-fluid">
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card border-0">
+          <div class="card-body">
+            <img src="/image/hours.png" class="img-fluid">
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card border-0">
+          <div class="card-body">
+            <img src="/image/faq.png" class="img-fluid">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div>
+      <div class="home-headline"> <span> Featured books</span>  </div>
+      <hr style="margin-top: -1rem;">
+    </div>
+    
+    <div class="row">
+      <div id="featured-books" class="carousel slide"
+        data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img class="img-fluid" src="/image/shelf.png">
+            <div class="carousel-caption">
+              <div class="row">
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img class="img-fluid" src="/image/shelf.png">
+            <div class="carousel-caption">
+              <div class="row">
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img class="img-fluid" src="/image/shelf.png">
+            <div class="carousel-caption">
+              <div class="row">
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+                <div class="col-2"> <img class="img-fluid" src="/image/book1.png"> </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a class="carousel-control-prev"
+          href="#featured-books" role="button"
+          data-slide="prev"> <span
+          class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a> <a class="carousel-control-next"
+          href="#featured-books" role="button"
+          data-slide="next"> <span
+          class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+ 
+  </div> <!-- end of container -->
+  
+  <div th:replace="common/header :: body-scripts"> </div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org./1999/xhtml" xmlns:sec="http://www.w3.org./1999/xhtml">
+<head th:replace="common/header :: common-header" />
+<body>
+
+  <div th:replace="adminHome :: navbarAdmin"> </div>
+
+  <div class="container">
+    <form th:action="@{/article/edit}" method="post" enctype="multipart/form-data">
+      <fieldset>
+        <legend class="center-block">
+          Edit Article Information
+        </legend>
+        
+        <input hidden="hidden" name="id" th:value="${article.id}">
+              
+        <div class="form-group row">
+          <label for="title" class="col-2 col-form-label text-right">Title</label>
+          <div class="col-6">
+            <input th:value="${article.title}" type="text" class="form-control" id="title" name="title" >
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="price" class="col-2 col-form-label text-right">Price</label>
+          <div class="col-6 input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">$</span>
+            </div>
+            <input th:value="${article.price}" type="number" name="price" step="0.1"
+  				class="form-control" id="price" placeholder="List Price" />
+          </div>
+        </div>
+        
+        <div class="form-group row">
+          <label for="stock" class="col-2 col-form-label text-right">Available stock</label>
+          <div class="col-6">
+            <input th:value="${article.stock}" type="number"
+                        name="stock" class="form-control" id="stock"
+                        placeholder="Number of in-stock" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="category" class="col-2 col-form-label text-right">Category</label>
+          <div class="col-6">
+            <select th:value="${article.category}" id="category" name="category"
+                        class="form-control">
+              <option value="" selected="selected" disabled="disabled">Please
+                select an option...</option>
+              <option value="Management"
+                th:selected="(${article.category}=='Management')">Management</option>
+              <option value="Fiction"
+                th:selected="(${article.category}=='Fiction')">Fiction</option>
+              <option value="Engineering"
+                th:selected="(${article.category}=='Engineering')">Engineering</option>
+              <option value="Programming"
+                th:selected="(${article.category}=='Programming')">Programming</option>
+              <option value="Arts &amp; Literature"
+                th:selected="(${article.category}=='Arts &amp; Literature')">Arts
+                &amp; Literature</option>
+            </select>
+          </div>
+        </div>
+        
+         <div class="form-group row">
+          <label for="image" class="col-2 col-form-label text-right">Upload article image</label>
+          <div class="col-6">
+            <input id="image" type="file" name="image"
+  							th:value="${article.image}" />
+          </div>
+        </div>
+        
+        <div class="form-group row">
+          <div class="offset-2 col-6">
+          	<button type="submit" class="btn btn-success">Update Article</button>
+              <a class="btn btn-danger" th:href="@{/admin}">Cancel</a>
+          </div>
+        </div>
+    </fieldset>
+  </form>
+  </div>
+
+
+
+<div th:replace="common/header :: body-scripts"> </div>
+  
+
+</body>
+</html>

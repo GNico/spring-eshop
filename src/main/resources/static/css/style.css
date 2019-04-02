@@ -1,0 +1,64 @@
+/* Show it's not fixed to the top */
+body {
+  min-height: 75rem;
+}
+
+hr {
+	border: none;
+	height: 1px;
+	color: #333;
+	background-color: #333;
+}
+
+.box {
+	border: 1px solid red;
+}
+
+.bd-placeholder-img {
+     font-size: 1.125rem;
+     text-anchor: middle;
+     -webkit-user-select: none;
+     -moz-user-select: none;
+     -ms-user-select: none;
+     user-select: none;
+   }
+
+   @media (min-width: 768px) {
+     .bd-placeholder-img-lg {
+       font-size: 3.5rem;
+     }
+   }
+   
+@media (min-width: 1500px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+
+.home-headline {
+	font-family: 'Times New Roman', Times, serif;
+	font-size: 1.5rem;
+	color: #fff;
+	margin-bottom: 0.25rem;
+	text-align: center;
+	
+}
+
+.home-headline span {
+	background-color: #231f20;
+	padding: 0.3125rem 1.375rem;
+}
+
+.section-headline {
+	font-family: 'Times New Roman', Times, serif;
+	font-size: 1.5rem;
+	color: #fff;
+	margin-bottom: 0.25rem;
+	text-align: center;
+	margin-top: 90px;
+}
+
+.section-headline span {
+	background-color: #231f20;
+	padding: 0.3125rem 1.375rem;
+}

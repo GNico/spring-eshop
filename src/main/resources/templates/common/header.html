@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org./1999/xhtml" xmlns:sec="http://www.w3.org./1999/xhtml">
+<head th:fragment="common-header">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  
+  <title>Le's Bookstore</title>
+  <link rel="icon" href="/image/apple-touch-icon.png">
+  
+  <!-- Bootstrap core CSS -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet" >
+  
+  <!-- Tables plugin -->
+  <link href="/css/datatables.min.css" rel="stylesheet" />
+  
+  <!-- Custom styles -->
+  <link href="/css/style.css" rel="stylesheet">
+  
+</head>
+
+
+<body>
+<div th:fragment="navbar">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" th:href="@{/}">LE'S BOOKSTORE</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+      data-target="#navbarCollapse" aria-controls="navbarCollapse"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown"><a
+          class="nav-link dropdown-toggle" th:href="@{/store}" id="navbarDropdown"
+          role="button" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false"> PRODUCTS </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" th:href="@{/store}">Browse the store</a> 
+            <a class="dropdown-item" href="#">Store hours &#38; Directions</a> 
+            <a class="dropdown-item" href="#">FAQ</a>
+          </div>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/shopping-cart/cart}">SHOPPING CART </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}"> MY ACCOUNT </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/myProfile}"> MY ACCOUNT </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}"> LOG OUT </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" sec:authorize="hasRole('ADMIN')" th:href="@{/admin}" 
+              style="background-color:rgba(255,255,255,.5); color:#212529;"> ADMIN PORTAL</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div th:fragment="body-scripts">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script>
+    window.jQuery
+        || document
+            .write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')
+  </script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/datatables.min.js"></script>
+  <script src="/js/scripts.js"></script>
+</div>
+
+</body>
+
+</html>

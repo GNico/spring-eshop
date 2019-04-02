@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org./1999/xhtml" xmlns:sec="http://www.w3.org./1999/xhtml">
+<head th:replace="common/header :: common-header" />
+<body>
+
+  <div th:replace="adminHome :: navbarAdmin"> </div>
+
+  <div class="container">
+    <table id="table-article" class="table table-striped table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Operation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-th-each="article : ${articles}">
+        <td th:text="${article.title}"></td>
+        <td th:text="${article.category}"></td>
+        <td th:text="${article.price}"></td>
+        <td th:text="${article.stock}"></td>
+        <td><a th:href="@{/article/edit?id=}+${article.id}">EDIT</a>  DELETE  </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+
+
+  <div th:replace="common/header :: body-scripts"> </div>
+  
+  <script>
+  	$(document).ready(function() {
+	    $('#table-article').DataTable({
+	    	stateSave: true
+	    });
+	} );
+  </script> 
+
+</body>
+</html>

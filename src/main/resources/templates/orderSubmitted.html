@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org./1999/xhtml">
+<head th:replace="common/header :: common-header" />
+
+
+<body>
+  <div th:replace="common/header :: navbar"> </div>
+
+  <div class="container">
+    <div class="row" style="margin-bottom: -100px;">
+      <div class="col-8">
+        <h2 class="section-headline"> <span>Order sent</span> </h2>
+      </div>
+      <div class="col-4">
+        <img src="/image/logo.png" class="img-fluid">
+      </div>
+    </div>
+    <hr style="position:absolute; width:100%; height:6px; background-color:#333; z-index:-1; margin-top:-80px;">
+    <img class="img-fluid" src="/image/wood.png" style="margin-top: -75px;">
+    
+    <div class="row" style="margin-top: 10px;">
+      <div class="col-12">
+        <div class="alert alert-success">
+          <h3> Thank you, your order has beenplaced.</h3>
+          <h4>The estimated delivery date is <span th:text="${estimatedDeliveryDate}"></span></h4>
+        </div>
+
+        <h3>List of Items</h3>
+        <div class="row" th:each="cartItem : ${cartItemList}">
+          <hr />
+          <div class="col-2"></div>
+          <div class="col-2">
+
+            <a th:href="@{/article-detail(id=${cartItem.article.id})}"> <img
+              class="img-fluid"
+              th:src="@{/image/article/}+${cartItem.article.id}+'.png'"
+              style="width: 70px;" />
+            </a>
+          </div>
+          <div class="col-6">
+            <div style="margin-left: 50px;">
+              <h4><a th:href="@{/article-detail?id=}+${cartItem.article.id}" th:text="${cartItem.article.title}"></a></h4>
+            </div>
+          </div>
+
+          <div class="col-2">
+            <h5 style="color: #db3208; font-size: large;">
+              $<span th:text="${cartItem.article.price}"
+                th:style="${cartItem.article.stock}==0? 'text-decoration: line-through' : ''"></span>
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+  </div> <!-- end container -->
+  
+  <div th:replace="common/header :: body-scripts"> </div>
+</body>
+</html>

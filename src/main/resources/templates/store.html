@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org./1999/xhtml">
+<head th:replace="common/header :: common-header" />
+
+
+<body>
+  <div th:replace="common/header :: navbar"> </div>
+
+  <div class="container">
+    <div class="row" style="margin-bottom: -100px;">
+      <div class="col-8">
+        <h2 class="section-headline"> <span>Store</span> </h2>
+      </div>
+      <div class="col-4">
+        <img src="/image/logo.png" class="img-fluid">
+      </div>
+    </div>
+    <hr style="position:absolute; width:100%; height:6px; background-color:#333; z-index:-1; margin-top:-80px;">
+    <img class="img-fluid" src="/image/wood.png" style="margin-top: -75px;">
+    
+   <div class="row" style="margin-top: 60px;">
+      <div class="col-9 offset-md-3">
+        <div th:if="${emptyList}">
+          <h5 style="font-style: italic;">Oops, no result is found. Try
+            something else or try again later.</h5>
+        </div>
+
+        <table id="store-list">
+          <thead>
+            <tr>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="store-item" data-th-each="article : ${articles}">
+              <td>
+                <div th:if="${article != null}">
+                  <div class="row">
+                    <div class="col-4 text-center" >
+                      <a th:href="@{/article-detail?id=}+${article.id}"> <img class="img-fluid" th:src="'/image/article/'+${article.id}+'.png'" /></a>
+                    </div>
+                    <div class="col-8">
+                      <h4> <a th:href="@{/article-detail?id=}+${article.id}" th:text="${article.title}"> </a> </h4> 
+                      <span th:text="${article.category}"></span>
+                      <p th:text="'Available stock: '+${article.stock}"></p>                    
+                      <span style="font-size:x-Large; color:#db3208;">$<span
+                        th:text="${#numbers.formatDecimal(article.price, 0 , 'COMMA', 2, 'POINT')}"></span></span>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+    
+
+  </div>
+  
+  <div th:replace="common/header :: body-scripts"> </div>
+</body>
+</html>
