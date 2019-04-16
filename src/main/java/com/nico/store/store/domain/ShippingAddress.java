@@ -17,7 +17,6 @@ public class ShippingAddress {
 	private String city;
 	private String country;
 	private String zipCode;
-	
 	@OneToOne
 	private Order order;
 	
@@ -27,7 +26,6 @@ public class ShippingAddress {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
-	
 	public Long getId() {
 		return id;
 	}

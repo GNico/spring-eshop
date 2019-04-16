@@ -21,13 +21,43 @@
           </div>
         </div>
         <div class="form-group row">
+          <label for="category" class="col-2 col-form-label text-right">Category</label>
+          <div class="col-6">
+            <input type="text" class="form-control" id="categories" name="category" data-role="tagsinput" th:value="${preselectedCategories}">
+          </div>
+          <div class="col-4">
+            <button type=button class="btn btn-primary btn-category badge badge-pill badge-primary mr-1 mb-1" th:each="item : ${allCategories}" 
+            th:text="${item}" th:id="item+${category}"></button>           
+          </div>          
+        </div>
+        <div class="form-group row">
+          <label for="brand" class="col-2 col-form-label text-right">Sizes</label>
+          <div class="col-6">
+            <input type="text" class="form-control" id="sizes" name="size" data-role="tagsinput" th:value="${preselectedSizes}">
+          </div>
+          <div class="col-4">
+            <button type=button class="btn btn-primary btn-size" th:each="item : ${allSizes}" th:text="${item}" th:id="size+${item}"></button>           
+          </div>          
+        </div>
+        <div class="form-group row">
+          <label for="brand" class="col-2 col-form-label text-right">Brand</label>
+          <div class="col-6">
+            <input type="text" class="form-control" id="brands" name="brand" data-role="tagsinput" th:value="${preselectedBrands}">
+          </div>
+          <div class="col-4">
+            <button type=button class="btn btn-primary btn-brand badge badge-pill badge-primary mr-1 mb-1" th:each="item : ${allBrands}" 
+            th:text="${#strings.capitalize(item)}" th:id="brand+${item}"></button>           
+          </div>
+        </div>
+        
+        <div class="form-group row">
           <label for="price" class="col-2 col-form-label text-right">Price</label>
           <div class="col-6 input-group">
             <div class="input-group-prepend">
               <span class="input-group-text" id="basic-addon1">$</span>
             </div>
             <input th:value="${article.price}" type="number" name="price" step="0.1"
-  				class="form-control" id="price" placeholder="List Price" />
+          class="form-control" id="price" placeholder="List Price" />
           </div>
         </div>
         
@@ -39,27 +69,7 @@
                         placeholder="Number of in-stock" />
           </div>
         </div>
-        <div class="form-group row">
-          <label for="category" class="col-2 col-form-label text-right">Category</label>
-          <div class="col-6">
-            <select th:value="${article.category}" id="category" name="category"
-                        class="form-control">
-              <option value="" selected="selected" disabled="disabled">Please
-                select an option...</option>
-              <option value="Management"
-                th:selected="(${article.category}=='Management')">Management</option>
-              <option value="Fiction"
-                th:selected="(${article.category}=='Fiction')">Fiction</option>
-              <option value="Engineering"
-                th:selected="(${article.category}=='Engineering')">Engineering</option>
-              <option value="Programming"
-                th:selected="(${article.category}=='Programming')">Programming</option>
-              <option value="Arts &amp; Literature"
-                th:selected="(${article.category}=='Arts &amp; Literature')">Arts
-                &amp; Literature</option>
-            </select>
-          </div>
-        </div>
+        
         
          <div class="form-group row">
           <label for="image" class="col-2 col-form-label text-right">Upload article image</label>

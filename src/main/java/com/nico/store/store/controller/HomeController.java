@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nico.store.store.domain.Article;
 import com.nico.store.store.domain.User;
@@ -62,9 +63,9 @@ public class HomeController {
 	
 	@RequestMapping(value="/new-user", method=RequestMethod.POST)
 	public String newUserPost(HttpServletRequest request, @ModelAttribute("email") String userEmail,
-			@ModelAttribute("username") String username, @ModelAttribute("password") String password, Model model) throws Exception {
+			@ModelAttribute("username") String username, @ModelAttribute("new-password") String password, Model model) throws Exception {
 		
-		model.addAttribute("classActiveNewAccount", true);
+		//model.addAttribute("classActiveNewAccount", true);
 		model.addAttribute("email", userEmail);
 		model.addAttribute("username", username);
 		if (userService.findByUsername(username) != null) {
@@ -111,6 +112,21 @@ public class HomeController {
 		model.addAttribute("classActiveEdit", true);
 		return "myProfile";
 	}
+	
+	@RequestMapping("/myOrders")
+	public String myOrders(Model model, Principal principal) {
+		User user = userService.findByUsername(principal.getName());
+		model.addAttribute("user", user);
+		return "myOrders";
+	}
+	
+	@RequestMapping("/myAddress")
+	public String myAddress(Model model, Principal principal) {
+		User user = userService.findByUsername(principal.getName());
+		model.addAttribute("user", user);
+		return "myAddress";
+	}
+	
 	
 	@RequestMapping(value="/update-user-info", method=RequestMethod.POST)
 	public String updateUserInfo(
@@ -180,9 +196,13 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/store")
-	public String store(Model model) {
+	public String store(@RequestParam(value="sizes", required=false) List<String> sizes , Model model) {
 		List<Article> articles = articleService.findAll();
 		model.addAttribute("articles", articles);
+		model.addAttribute("allCategories", articleService.findAllCategories());
+		model.addAttribute("allBrands", articleService.findAllBrands());
+		model.addAttribute("allSizes", articleService.findAllSizes());
+			
 		return "store";
 	}
 	

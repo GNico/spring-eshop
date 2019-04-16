@@ -11,7 +11,7 @@ function checkPasswordMatch() {
 	} else {
 		if (password != confirmPassword) {
 
-			$("#checkPasswordMatch").html("Passwords do not match");
+			$("#checkPasswordMatch").html(" - Passwords do not match");
 			$("#updateUserInfoButton").attr("disabled", true);
 		} else {
 			$("#checkPasswordMatch").html("");
@@ -22,11 +22,25 @@ function checkPasswordMatch() {
 
 $(document).ready(function(){
 	$(".cartItemQty").on('change', function(){
-		var id=this.id;
-		
+		var id=this.id;		
 		$('#update-item-'+id).css('display', 'inline-block');
 	});
+	
 	$("#txtConfirmPassword").keyup(checkPasswordMatch);
 	$("#txtNewPassword").keyup(checkPasswordMatch);
+	
+		
+	$(".btn-size").click(function() {	
+		var val = $(this).text();		
+		$("#sizes").tagsinput('add', val);
+	});
+	$(".btn-brand").click(function() {
+		var val = $(this).text();
+		$("#brands").tagsinput('add', val);
+	});
+	$(".btn-category").click(function() {
+		var val = $(this).text();
+		$("#categories").tagsinput('add', val);
+	});
 	
 });

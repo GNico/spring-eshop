@@ -3,62 +3,239 @@
 <head th:replace="common/header :: common-header" />
 
 
-<body>
+<body class="d-flex flex-column">
   <div th:replace="common/header :: navbar"> </div>
 
-  <div class="container">
-    <div class="row" style="margin-bottom: -100px;">
-      <div class="col-8">
-        <h2 class="section-headline"> <span>Store</span> </h2>
-      </div>
-      <div class="col-4">
-        <img src="/image/logo.png" class="img-fluid">
-      </div>
-    </div>
-    <hr style="position:absolute; width:100%; height:6px; background-color:#333; z-index:-1; margin-top:-80px;">
-    <img class="img-fluid" src="/image/wood.png" style="margin-top: -75px;">
+  <div class="container page-content">
     
-   <div class="row" style="margin-top: 60px;">
-      <div class="col-9 offset-md-3">
-        <div th:if="${emptyList}">
-          <h5 style="font-style: italic;">Oops, no result is found. Try
-            something else or try again later.</h5>
-        </div>
+   <div class="container mt-3 mb-3">
+      <div class="row gutters-3">
 
-        <table id="store-list">
-          <thead>
-            <tr>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="store-item" data-th-each="article : ${articles}">
-              <td>
-                <div th:if="${article != null}">
-                  <div class="row">
-                    <div class="col-4 text-center" >
-                      <a th:href="@{/article-detail?id=}+${article.id}"> <img class="img-fluid" th:src="'/image/article/'+${article.id}+'.png'" /></a>
-                    </div>
-                    <div class="col-8">
-                      <h4> <a th:href="@{/article-detail?id=}+${article.id}" th:text="${article.title}"> </a> </h4> 
-                      <span th:text="${article.category}"></span>
-                      <p th:text="'Available stock: '+${article.stock}"></p>                    
-                      <span style="font-size:x-Large; color:#db3208;">$<span
-                        th:text="${#numbers.formatDecimal(article.price, 0 , 'COMMA', 2, 'POINT')}"></span></span>
-                    </div>
+        <!-- Shop Filters -->
+        <div class="col-lg-3 col-md-4">
+        <form th:action="@{/store}" method="get">
+          <div class="accordion accordion-caret accordion-sidebar d-none d-md-block">
+            <div class="card">
+              <div class="card-header">
+                <a href="#filter-categories" data-toggle="collapse" aria-expanded="true" aria-controls="filter-categories" role="button" class="h6">
+                  CATEGORIES
+                </a>
+              </div>
+              <div id="filter-categories" class="collapse show">
+                <div class="card-body">
+                  <div th:each="item : ${allCategories}" class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" th:id="${item}" th:name="category" th:value="${item}"
+                           th:checked="${((param.category != null) and (#lists.contains(param.category, item )))} ? checked">
+                    <label class="custom-control-label" th:for="${item}" th:text="${item}"></label>
                   </div>
                 </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <a href="#filter-price" data-toggle="collapse" aria-expanded="true" aria-controls="filter-price" role="button" class="h6">
+                  PRICE
+                </a>
+              </div>
+              <div id="filter-price" class="collapse show">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between mb-3">
+                    <input type="text" class="form-control form-control-sm rounded-pill text-center font-weight-bold bg-light mr-2 minw-0"
+                           th:name="pricelow" th:value="${param.pricelow}">
+                    <input type="text" class="form-control form-control-sm rounded-pill text-center font-weight-bold bg-light ml-2 minw-0"
+                           th:name="pricehigh" th:value="${param.pricehigh}">                   
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <a href="#filter-size" data-toggle="collapse" aria-expanded="true" aria-controls="filter-size" role="button" class="h6">
+                  SIZE
+                </a>
+              </div>
+              <div id="filter-size" class="collapse show">
+                <div class="card-body">
+                  <div th:each="size : ${allSizes}" class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" th:id="${size}" th:name="sizes" th:value="${size}"
+                           th:checked="${((param.sizes != null) and (#lists.contains(param.sizes, size )))} ? checked">
+                    <label class="custom-control-label" th:for="${size}" th:text="${size}"></label>
+                  </div>
+                </div>
+              </div>
+            </div>            
+            <div class="card">
+              <div class="card-header">
+                <a href="#filter-brands" data-toggle="collapse" aria-expanded="true" aria-controls="filter-brands" role="button" class="h6">
+                  BRANDS
+                </a>
+              </div>
+              <div id="filter-brands" class="collapse show">
+                <div class="card-body">               
+                  <div th:each="item : ${allBrands}" class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" th:id="${item}" th:name="size" th:value="${item}"
+                           th:checked="${((param.size != null) and (#lists.contains(param.size, item )))} ? checked">
+                    <label class="custom-control-label" th:for="${item}" th:text="${item}"></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card align-items-center">
+              <div class="card-body">
+                 <button type="submit" class="btn btn-primary rounded-pill mt-3" data-dismiss="modal">APPLY FILTERS</button>              
+              </div>
+            </div>
+          </div>                  
+          </form>
+        </div>        
+        <!-- /Shop Filters -->
 
+        <div class="col-lg-9 col-md-8">
+          <!-- /Shop Toolbar -->
+          <div class="card mb-3">
+            <div class="card-body d-flex justify-content-end align-items-center py-2">
+              <button class="btn btn-sm btn-outline-primary rounded-pill d-block d-md-none mr-auto" data-toggle="modal" data-target="#filterModal"><i data-feather="filter"></i> Filter</button>
+              <ol class="breadcrumb d-none d-md-flex p-0 mb-0 mr-auto">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="shop-grid.html">Men's Fashion</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Clothing</li>
+              </ol>
+              <div class="dropdown dropdown-hover">
+                <button class="btn btn-light btn-sm border rounded-pill dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Popular <i data-feather="chevron-down"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right shadow-sm" aria-labelledby="dropdownMenuButton">
+                  <button class="dropdown-item" type="button">Popular</button>
+                  <button class="dropdown-item" type="button">Low - High Price</button>
+                  <button class="dropdown-item" type="button">High - Low Price</button>
+                  <button class="dropdown-item" type="button">Avarage Rating</button>
+                  <button class="dropdown-item" type="button">A - Z Order</button>
+                  <button class="dropdown-item" type="button">Z - A Order</button>
+                </div>
+              </div>
+              <a href="#" class="btn btn-icon rounded-pill btn-sm btn-outline-primary ml-3" data-toggle="tooltip" title="Show Grid"><i data-feather="grid"></i></a>
+              <a href="#" class="btn btn-icon rounded-pill btn-sm btn-primary ml-1" data-toggle="tooltip" title="Show List"><i data-feather="list"></i></a>
+            </div>
+          </div>
+
+          <!-- Shop List -->
+          <div class="row gutters-3 mt-n3">            
+            <div class="col-12 mt-3">
+              <div class="card card-product card-product-list">
+                <a href="shop-single.html"><img class="card-img-top" src="/image/article/itemexample.jpg" alt="Card image cap"></a>
+                <div class="card-body">
+                  <a href="shop-single.html" class="card-title">The Flash Logo T-Shirt</a>
+                  <div class="attr">
+                    <div class="price"><span class="h5">$16.64</span></div>
+                  </div>
+                  <p class="d-none d-sm-block">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam odio veritatis itaque, iure repudiandae qui neque enim debitis, beatae mollitia.</p>
+                  
+                  <button class="btn btn-sm rounded-pill btn-outline-primary atc-demo">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 mt-3">
+              <div class="card card-product card-product-list">
+                <a href="shop-single.html"><img class="card-img-top" src="/image/article/itemexample.jpg" alt="Card image cap"></a>
+                <div class="card-body">
+                  <a href="shop-single.html" class="card-title">Men's Buck Camp Flannel Shirt</a>
+                  <div class="attr">
+                    <div class="price"><span class="h5">$29.99</span></div>
+                    <span class="badge badge-warning"><i data-feather="star"></i> 5</span>
+                    <span class="badge badge-danger"><i data-feather="star"></i> Best Seller</span>
+                  </div>
+                  <p class="d-none d-sm-block">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, sequi. Dolores, fugit laboriosam quae ea id. Quae eveniet est, quas.</p>
+                  <div class="size-options btn-group btn-group-sm btn-group-toggle mr-3" data-toggle="buttons">
+                    <label class="btn btn-outline-secondary">
+                      <input type="radio" name="size"> S
+                    </label>
+                    <label class="btn btn-outline-secondary active">
+                      <input type="radio" name="size" checked> M
+                    </label>
+                    <label class="btn btn-outline-secondary">
+                      <input type="radio" name="size"> L
+                    </label>
+                    <label class="btn btn-outline-secondary">
+                      <input type="radio" name="size"> XL
+                    </label>
+                  </div>
+                  <button class="btn btn-sm rounded-pill btn-outline-primary atc-demo">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 mt-3">
+              <div class="card card-product card-product-list">
+                <a href="shop-single.html"><img class="card-img-top" src="/image/article/itemexample.jpg" alt="Card image cap"></a>
+                <button class="wishlist atw-demo" title="Add to wishlist"><i data-feather="heart"></i></button>
+                <div class="card-body">
+                  <a href="shop-single.html" class="card-title">Jurassic Park Logo Men's T-Shirt</a>
+                  <div class="attr">
+                    <div class="price">
+                      <span class="h5 del">$12.99</span>
+                      <span class="h5">$10.99</span>
+                    </div>
+                    <span class="rating" data-value="4.5"></span>
+                  </div>
+                  <p class="d-none d-sm-block">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius illo, enim numquam inventore repellat ipsam quas, corporis qui ex impedit!</p>
+                  <button class="btn btn-sm rounded-pill btn-outline-primary atc-demo">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 mt-3">
+              <div class="card card-pagination">
+                <div class="card-body">
+                  <a href="javascript:void(0)" class="btn btn-link btn-icon"><i data-feather="chevron-left"></i></a>
+                  <div class="d-inline-flex">
+                    <a href="javascript:void(0)" class="btn btn-icon rounded-pill btn-light">1</a>
+                    <a href="javascript:void(0)" class="btn btn-icon rounded-pill btn-primary">2</a>
+                    <a href="javascript:void(0)" class="btn btn-icon rounded-pill btn-light">3</a>
+                    <button type="button" class="btn btn-icon rounded-pill bg-white">...</button>
+                    <a href="javascript:void(0)" class="btn btn-icon rounded-pill btn-light">10</a>
+                  </div>
+                  <a href="javascript:void(0)" class="btn btn-link btn-icon"><i data-feather="chevron-right"></i></a>
+                </div>              
+              </div>
+            </div>
+          </div>
+          <!-- /Shop List -->
+        </div>
+      </div>
+    </div> 
+    
+    <!-- Filter Modal -->
+    <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-bottom-0">
+            <h5 class="modal-title">Shop Filters</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body p-0">
+          </div>
+        </div>
       </div>
     </div>
+    <!-- /Filter Modal -->
     
-
   </div>
   
+  <div th:replace="common/header :: footer"> </div>
   <div th:replace="common/header :: body-scripts"> </div>
+  
+  <script>
+    var sidebarContent = $('.accordion-sidebar').html()
+    $('#filterModal').on('show.bs.modal', function () {
+      // move filter contents to modal body
+      $(this).find('.modal-body').html('<div class="accordion accordion-caret accordion-sidebar accordion-modal">'+sidebarContent+'</div>')
+      // empty the sidebar filter contents
+      $('.accordion-sidebar:not(.accordion-modal)').html('')
+    }) 
+    $('#filterModal').on('hidden.bs.modal', function () {
+      $('.accordion-modal').remove() // remove modal filter contents
+      $('.accordion-sidebar').html(sidebarContent) // move filter contents back to the sidebar
+    })
+  </script>
 </body>
 </html>

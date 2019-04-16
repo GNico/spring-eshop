@@ -11,6 +11,8 @@
       <tr>
         <th>Title</th>
         <th>Category</th>
+        <th>Brand</th>
+        <th>Sizes</th>
         <th>Price</th>
         <th>Stock</th>
         <th>Operation</th>
@@ -19,10 +21,16 @@
     <tbody>
       <tr data-th-each="article : ${articles}">
         <td th:text="${article.title}"></td>
-        <td th:text="${article.category}"></td>
+        <td><div style="display:flex;"><span th:each="item : ${article.categories}" 
+            th:text="${item.getName()}" class="badge badge-secondary mt-1 mr-1" ></span></div></td>
+        <td><div style="display:flex;"><span th:each="item : ${article.brands}" 
+            th:text="${item.getName()}" class="badge badge-secondary mt-1 mr-1" ></span></div></td>
+        <td><div style="display:flex;"><span th:each="item : ${article.sizes}" 
+            th:text="${item.getValue()}" class="badge badge-secondary mt-1 mr-1" ></span></div></td>
         <td th:text="${article.price}"></td>
         <td th:text="${article.stock}"></td>
-        <td><a th:href="@{/article/edit?id=}+${article.id}">EDIT</a>  DELETE  </td>
+        <td><a th:href="@{/article/edit?id=}+${article.id}" class="badge badge-primary">EDIT</a>  
+            <a th:href="@{/article/delete?id=}+${article.id}" class="badge badge-danger">DELETE </a> </td>
       </tr>
     </tbody>
   </table>

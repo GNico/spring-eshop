@@ -12,8 +12,14 @@
   <link href="/css/bootstrap.min.css" rel="stylesheet" >
   
   <!-- Tables plugin -->
-  <link href="/css/datatables.min.css" rel="stylesheet" />
+  <link href="/css/datatables.min.css" rel="stylesheet" >
   
+  <!-- Bootstrap tagsinput -->
+  <link href="/css/tagsinput.css" rel="stylesheet" >
+  
+  <!-- Feather icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+    
   <!-- Custom styles -->
   <link href="/css/style.css" rel="stylesheet">
   
@@ -21,50 +27,115 @@
 
 
 <body>
-<div th:fragment="navbar">
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-    <a class="navbar-brand" th:href="@{/}">LE'S BOOKSTORE</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-      data-target="#navbarCollapse" aria-controls="navbarCollapse"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item dropdown"><a
-          class="nav-link dropdown-toggle" th:href="@{/store}" id="navbarDropdown"
-          role="button" data-toggle="dropdown" aria-haspopup="true"
-          aria-expanded="false"> PRODUCTS </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" th:href="@{/store}">Browse the store</a> 
-            <a class="dropdown-item" href="#">Store hours &#38; Directions</a> 
-            <a class="dropdown-item" href="#">FAQ</a>
-          </div>
-        </li>
-      </ul>
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/shopping-cart/cart}">SHOPPING CART </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}"> MY ACCOUNT </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/myProfile}"> MY ACCOUNT </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}"> LOG OUT </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" sec:authorize="hasRole('ADMIN')" th:href="@{/admin}" 
-              style="background-color:rgba(255,255,255,.5); color:#212529;"> ADMIN PORTAL</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-</div>
+  <div th:fragment="navbar">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+      <a class="navbar-brand" th:href="@{/}">LE'S BOOKSTORE</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse"
+        data-target="#navbarCollapse" aria-controls="navbarCollapse"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown"><a
+            class="nav-link dropdown-toggle" th:href="@{/store}" id="navbarDropdown"
+            role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false"> PRODUCTS </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" th:href="@{/store}">Browse the store</a> 
+              <a class="dropdown-item" href="#">Store hours &#38; Directions</a> 
+              <a class="dropdown-item" href="#">FAQ</a>
+            </div>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/shopping-cart/cart}">SHOPPING CART </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}"> MY ACCOUNT </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/myProfile}"> MY ACCOUNT </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}"> LOG OUT </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" sec:authorize="hasRole('ADMIN')" th:href="@{/admin}" 
+                style="background-color:rgba(255,255,255,.5); color:#212529;"> ADMIN PORTAL</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 
-<div th:fragment="body-scripts">
+  <div th:fragment="footer">
+    <br /> <br />
+    <footer>
+      <div class="row">
+        <div class="col-xs-3 footerleft">
+          <div class="logofooter">
+            <a th:href="@{/}"><img class="img-responsive"
+              src="/image/logo.png" style="width: 200px;" /></a>
+          </div>
+          <p>
+            Le's Independent Book Store. <br />Serving our customers
+            with the best.
+          </p>
+        </div>
+        <div class="col-xs-3 paddingtop-bottom">
+          <h6 class="heading7">CONTACT</h6>
+          <ul class="post">
+            <p>
+              <i class="fa fa-map-pin"></i> 123 XXX Ave<br /> Boston
+              MA, USA 02112
+            </p>
+            <p>
+              <i class="fa fa-phone"></i> Phone (USA) : +1 999 999 9999
+            </p>
+            <p>
+              <i class="fa fa-envelope"></i> E-mail :
+              info@lebookstore.com
+            </p>
+          </ul>
+        </div>
+        <div class="col-xs-3 paddingtop-bottom">
+          <h6 class="heading7">LINKS</h6>
+          <ul class="footer-ul">
+            <li><a href="#"> Privacy Policy</a></li>
+            <li><a href="#"> Terms &#38; Conditions</a></li>
+            <li><a href="#"> Frequently Ask Questions</a></li>
+          </ul>
+        </div>
+        <div class="col-xs-3 paddingtop-bottom">
+          <h6 class="heading7">STORE HOURS</h6>
+          <div class="post">
+            <p>Monday - Saturday: 9am - 11pm</p>
+            <p>Sunday: 10am - 10pm</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="row copyright">
+      <div class="col-md-6">
+        <p>© 2017 - All Rights Reserved</p>
+      </div>
+      <div class="col-md-6">
+        <ul class="bottom_ul">
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Faq's</a></li>
+          <li><a href="#">Contact us</a></li>
+          <li><a href="#">Site Map</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <div th:fragment="body-scripts">
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script>
     window.jQuery
@@ -73,7 +144,9 @@
   </script>
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="/js/datatables.min.js"></script>
+  <script src="/js/tagsinput.js"></script>
   <script src="/js/scripts.js"></script>
+  <script>feather.replace()</script>
 </div>
 
 </body>

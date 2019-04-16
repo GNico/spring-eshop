@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org./1999/xhtml">
+<head th:replace="common/header :: common-header" />
+
+
+<body class="d-flex flex-column">
+  <div th:replace="common/header :: navbar"> </div>
+
+  <div class="container page-content">
+    <div class="row">
+      
+       <div th:replace="myProfile :: profile-menu"></div>
+      
+       <div class="col mt-3 mt-md-0">
+          <div class="card">
+            <div class="card-body">
+              <h3>My Orders</h3><hr>
+              <div class="table-responsive">
+                <table class="table table-hover" data-addclass-on-xs="table-sm">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Order ID</th>
+                      <th scope="col">Date</th>
+                      <th scope="col" class="text-right">Total</th>
+                      <th scope="col" class="text-center">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row"><a href="account-order-detail.html">ORD556789</a></th>
+                      <td>Dec 19, 2017</td>
+                      <td class="text-right">$74.00</td>
+                      <td class="text-center"><span class="badge badge-warning rounded">In Progress</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><a href="account-order-detail.html">ORD456789</a></th>
+                      <td>Dec 10, 2017</td>
+                      <td class="text-right">$100.00</td>
+                      <td class="text-center"><span class="badge badge-danger rounded">Canceled</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><a href="account-order-detail.html">ORD356789</a></th>
+                      <td>Dec 01, 2017</td>
+                      <td class="text-right">$20.00</td>
+                      <td class="text-center"><span class="badge badge-success rounded">Finished</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><a href="account-order-detail.html">ORD256789</a></th>
+                      <td>Nov 19, 2017</td>
+                      <td class="text-right">$74.00</td>
+                      <td class="text-center"><span class="badge badge-success rounded">Finished</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><a href="account-order-detail.html">ORD156789</a></th>
+                      <td>Nov 10, 2017</td>
+                      <td class="text-right">$100.00</td>
+                      <td class="text-center"><span class="badge badge-success rounded">Finished</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+    </div>
+  </div> <!--  end container -->
+  
+  <div th:replace="common/header :: footer"> </div>
+  
+  
+  <div th:replace="common/header :: body-scripts"> </div>
+</body>
+</html>
