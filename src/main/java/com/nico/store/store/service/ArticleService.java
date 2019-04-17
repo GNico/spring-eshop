@@ -2,6 +2,8 @@ package com.nico.store.store.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+
 import com.nico.store.store.domain.Article;
 
 public interface ArticleService {
@@ -22,5 +24,5 @@ public interface ArticleService {
 
 	List<String> findAllBrands();
 
-	List<Article> findByCriteria(String priceLow, String priceHigh, String size);
+	List<Article> findByCriteria(Pageable pageable, String priceLow, String priceHigh, List<String> sizes, List<String> categories, List<String> brands);
 }

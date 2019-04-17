@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +21,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nico.store.store.domain.Article;
 import com.nico.store.store.domain.User;
@@ -198,11 +198,17 @@ public class HomeController {
 	@RequestMapping("/store")
 	public String store(HttpServletRequest request, Model model) {
 		String sort = request.getParameter("sort");
+		String[] sizes = request.getParameterValues("size");
 		String[] categories = request.getParameterValues("category");
-		String[] brands = request.getParameterValues("brands");
+		String[] brands = request.getParameterValues("brand");
 		String priceLow = request.getParameter("pricelow");
 		String priceHigh= request.getParameter("pricehigh");
-		List<Article> articles = articleService.findByCriteria(priceLow, priceHigh, "40" );	
+		
+		List<String> filterSizes = (sizes != null) ? Arrays.asList(sizes) : null;
+		List<String> filterCategories = (categories != null) ? Arrays.asList(categories) : null;
+		List<String> filterBrands = (brands != null) ? Arrays.asList(brands) : null;
+		
+		List<Article> articles = articleService.findByCriteria(PageRequest.of(0,2), priceLow, priceHigh, filterSizes, filterCategories, filterBrands );	
  
 		model.addAttribute("articles", articles);
 		model.addAttribute("allCategories", articleService.findAllCategories());

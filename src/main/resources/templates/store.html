@@ -54,10 +54,10 @@
               </div>
               <div id="filter-size" class="collapse show">
                 <div class="card-body">
-                    <div th:each="size : ${allSizes}" class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" th:id="${size}" th:name="sizes" th:value="${size}"
-                             th:checked="${((param.sizes != null) and (#lists.contains(param.sizes, size )))} ? checked">
-                      <label class="custom-control-label" th:for="${size}" th:text="${size}"></label>
+                    <div th:each="item : ${allSizes}" class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" th:id="${item}" th:name="size" th:value="${item}"
+                             th:checked="${((param.size != null) and (#lists.contains(param.size, item )))} ? checked">
+                      <label class="custom-control-label" th:for="${item}" th:text="${item}"></label>
                     </div>
                 </div>
               </div>
@@ -71,8 +71,8 @@
               <div id="filter-brands" class="collapse show">
                 <div class="card-body">               
                   <div th:each="item : ${allBrands}" class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" th:id="${item}" th:name="size" th:value="${item}"
-                           th:checked="${((param.size != null) and (#lists.contains(param.size, item )))} ? checked">
+                    <input type="checkbox" class="custom-control-input" th:id="${item}" th:name="brand" th:value="${item}"
+                           th:checked="${((param.brand != null) and (#lists.contains(param.brand, item )))} ? checked">
                     <label class="custom-control-label" th:for="${item}" th:text="${item}"></label>
                   </div>
                 </div>
