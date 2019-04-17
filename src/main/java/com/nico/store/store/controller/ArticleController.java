@@ -118,8 +118,8 @@ public class ArticleController {
 		model.addAttribute("preselectedBrands", preselectedBrands);
 		model.addAttribute("preselectedCategories", preselectedCategories);
 		model.addAttribute("allSizes", articleService.findAllSizes());
-		model.addAttribute("allBrands", Article.ALL_BRANDS);
-		model.addAttribute("allCategories", Article.ALL_CATEGORIES);
+		model.addAttribute("allBrands", articleService.findAllBrands());
+		model.addAttribute("allCategories", articleService.findAllCategories());
 		return "editArticle";
 	}
 	

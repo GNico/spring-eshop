@@ -22,4 +22,5 @@ public interface ArticleService {
 
 	List<String> findAllBrands();
 
+	List<Article> findByCriteria(String priceLow, String priceHigh, String size);
 }

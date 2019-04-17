@@ -345,22 +345,18 @@ footer {
  box-shadow:none
 }
 
+.card {
+ box-shadow: 0 .0625rem .25rem rgba(0,0,0,.075);
+ border: 0 solid;
+}
+
 .card-product {
  text-align:center
 }
-.card-product:not(.card-product-list) .card-img-top {
+.card-product .card-img-top {
  margin-bottom:1rem
 }
-.card-product:not(.card-product-list) .color-options {
- margin-top:.5rem
-}
-.card-product:not(.card-product-list) .rating {
- display:block;
- margin-bottom:.5rem
-}
-.card-product:not(.card-product-list) .badge {
- margin-bottom:.5rem
-}
+
 .card-product .card-title {
  font-weight:700;
  display:block
@@ -368,16 +364,7 @@ footer {
 .card-product .card-title:not(:hover) {
  color:#606975
 }
-.card-product .badge {
- border-radius:.5rem;
- border-top-left-radius:0;
- border-bottom-right-radius:0
-}
-@media (min-width:576px) {
- .card-product .badge {
-  font-size:90%
- }
-}
+
 .card-product .card-footer {
  padding:0 1rem 1rem;
  background-color:transparent
@@ -397,66 +384,16 @@ footer {
   font-size:.875rem
  }
 }
-.card-product-list {
- -ms-flex-direction:row;
- flex-direction:row
-}
-.card-product-list>a {
- padding:1rem
-}
-@media (max-width:991.98px) {
- .card-product-list>a {
-  width:40%
- }
-}
-@media (min-width:992px) and (max-width:1199.98px) {
- .card-product-list>a {
-  width:35%
- }
-}
-@media (min-width:1200px) {
- .card-product-list>a {
-  width:25%
- }
-}
-.card-product-list .card-title {
- font-size:1.09375rem
-}
-.card-product-list .card-body {
- text-align:left
-}
-@media (max-width:991.98px) {
- .card-product-list .card-body {
-  width:60%
- }
-}
-@media (min-width:992px) and (max-width:1199.98px) {
- .card-product-list .card-body {
-  width:65%
- }
-}
-@media (min-width:1200px) {
- .card-product-list .card-body {
-  width:75%
- }
-}
-.card-product-list .badge,
-.card-product-list .rating {
- margin-left:.5rem
-}
-.card-product-list .color-options {
- -ms-flex-pack:start;
- justify-content:start;
- margin-bottom:.5rem
-}
-.card-product-list .attr {
- display:-ms-flexbox;
+
+
+.card-pagination .card-body {
  display:flex;
- -ms-flex-wrap:wrap;
- flex-wrap:wrap;
- -ms-flex-align:center;
- align-items:center;
- margin-bottom:.5rem
+ padding:.5rem 0;
+ justify-content:space-between;
+ align-items:center
+}
+.card-pagination .btn {
+ font-weight:700
 }
 
 

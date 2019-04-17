@@ -15,10 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Entity
 public class Article {
 	
-	public static final String[] ALL_SIZES = { "38", "39", "40", "41", "42", "43", "44", "45", "46" };
-	public static final String[] ALL_BRANDS = { "Nike", "Adidas", "Puma", "Dior", "New Balance", "Brooks" };
-	public static final String[] ALL_CATEGORIES = { "Deportivas", "Urbanas" };
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
@@ -120,11 +116,6 @@ public class Article {
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
 	}
-
-
-
-	
-	
 	
 
 }

@@ -196,13 +196,19 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/store")
-	public String store(@RequestParam(value="sizes", required=false) List<String> sizes , Model model) {
-		List<Article> articles = articleService.findAll();
+	public String store(HttpServletRequest request, Model model) {
+		String sort = request.getParameter("sort");
+		String[] categories = request.getParameterValues("category");
+		String[] brands = request.getParameterValues("brands");
+		String priceLow = request.getParameter("pricelow");
+		String priceHigh= request.getParameter("pricehigh");
+		List<Article> articles = articleService.findByCriteria(priceLow, priceHigh, "40" );	
+ 
 		model.addAttribute("articles", articles);
 		model.addAttribute("allCategories", articleService.findAllCategories());
 		model.addAttribute("allBrands", articleService.findAllBrands());
 		model.addAttribute("allSizes", articleService.findAllSizes());
-			
+		model.addAttribute("sort", sort);
 		return "store";
 	}
 	
