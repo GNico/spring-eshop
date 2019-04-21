@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.w3.org./1999/xhtml">
-<head th:replace="common/header :: common-header" />
+<head th:replace="common/header :: common-header">
+  
 
 
 <body class="d-flex flex-column">
@@ -88,7 +89,7 @@
         <!-- /Shop Filters -->
 
         <div class="col-lg-9 col-md-8">
-        
+                
           <!-- /Shop Toolbar -->
           <div class="card mb-3">
             <div class="card-body d-flex justify-content-end align-items-center py-2">
@@ -97,8 +98,7 @@
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                 <li class="breadcrumb-item"><a href="shop-grid.html">Men's Fashion</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Clothing</li>
-              </ol>
-              
+              </ol>            
               
               <div class="btn-group">
                 <button type="button" class="btn btn-light btn-sm border rounded-pill" data-toggle="dropdown" 
@@ -130,7 +130,7 @@
             <div class="col-sm-6 col-lg-4" th:each="article : ${articles}">
               <div class="card card-product mb-3">
                 <div class="card-body">
-                  <a th:href="@{/article-detail?id=}+${article.id}"><img class="card-img-top" src="/image/article/itemexample.jpg" alt="Card image cap"></a>
+                  <a th:href="@{/article-detail?id=}+${article.id}"><img class="card-img-top" th:src="${article.picture} ? ${article.picture} : '/image/article/itemexample.jpg'" alt="Card image cap"></a>
                   <a th:href="@{/article-detail?id=}+${article.id}" class="card-title" th:text="${article.title}"></a>
                   <div class="price"><span class="h5" th:text="'$'+${article.price}"></span></div>
                 </div>              
@@ -138,28 +138,26 @@
             </div>    
           </div>      
           <!-- /Shop Grid -->
-          
-          <div class="card card-pagination">
-            <div class="card-body">
-              <a href="javascript:void(0)" class="btn btn-link btn-icon"><i data-feather="chevron-left"></i></a>
-              <div class="d-inline-flex">
-                <a href="javascript:void(0)" class="btn btn-icon rounded-pill btn-light">1</a>
-                <a href="javascript:void(0)" class="btn btn-icon rounded-pill btn-primary">2</a>
-                <a href="javascript:void(0)" class="btn btn-icon rounded-pill btn-light">3</a>
-                <button type="button" class="btn btn-icon rounded-pill bg-white">...</button>
-                <a href="javascript:void(0)" class="btn btn-icon rounded-pill btn-light">10</a>
-              </div>
-              <a href="javascript:void(0)" class="btn btn-link btn-icon"><i data-feather="chevron-right"></i></a>
+
+          <!-- Pagination -->
+          <div class="card" >
+            <div class="card-body d-flex justify-content-center">
+              <div id="light-pagination"></div>
             </div>
           </div>
+          <!-- /Pagination -->
 
-         
-           
-           
         </div>
       </div>
-    </div> <!-- end container -->
+    </div> <!-- end container -->      
+        
+    <input id="page" hidden="hidden" type="text" name="page" th:value="${page}">
+       
     </form>
+    
+    <input id="totalitems" hidden="hidden" type="text" th:value="${totalitems}">
+    <input id="itemsperpage" hidden="hidden" type="text" th:value="${itemsperpage}">
+    
     
     <!-- Filter Modal -->
     <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -182,7 +180,7 @@
   <div th:replace="common/header :: footer"> </div>
   <div th:replace="common/header :: body-scripts"> </div>
   
-  <script>
+  <script>  
     var sidebarContent = $('.accordion-sidebar').html()
     $('#filterModal').on('show.bs.modal', function () {
       // move filter contents to modal body
@@ -193,17 +191,28 @@
     $('#filterModal').on('hidden.bs.modal', function () {
       $('.accordion-modal').remove() // remove modal filter contents
       $('.accordion-sidebar').html(sidebarContent) // move filter contents back to the sidebar
-    })
-    
+    })    
     $('.button-sort').click(function () {
       var value = $(this).val()
       var text = $(this).text()      
       $('#input-sort').val(value)
-      $('#dropdown-sort-text').text(text)
-      
-      $('#filter-form').submit()
-      
+      $('#dropdown-sort-text').text(text)      
+      $('#filter-form').submit()     
     })
+    
+	$(function() {    
+		$('#light-pagination').pagination({
+          items: $('#totalitems').val(),
+          itemsOnPage: $('#itemsperpage').val(),
+          currentPage: $('#page').val(),
+          cssStyle: 'light-theme',
+          useAnchors: false,
+          onPageClick: function(pageNumber) {
+        	$('#page').val(pageNumber)
+            $('#filter-form').submit()     
+          }
+    	});
+	});
   </script>
 </body>
 </html>

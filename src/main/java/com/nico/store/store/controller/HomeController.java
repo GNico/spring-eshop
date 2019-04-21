@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -204,17 +205,27 @@ public class HomeController {
 		String priceLow = request.getParameter("pricelow");
 		String priceHigh= request.getParameter("pricehigh");
 		
+		String page = request.getParameter("page");
+		int pagenumber = (page == null || page.isEmpty()) ? 1 : Integer.parseInt(request.getParameter("page"));
+		
 		List<String> filterSizes = (sizes != null) ? Arrays.asList(sizes) : null;
 		List<String> filterCategories = (categories != null) ? Arrays.asList(categories) : null;
 		List<String> filterBrands = (brands != null) ? Arrays.asList(brands) : null;
 		
-		List<Article> articles = articleService.findByCriteria(PageRequest.of(0,2), priceLow, priceHigh, filterSizes, filterCategories, filterBrands );	
- 
+		Page<Article> pageresult = articleService.findByCriteria(PageRequest.of(pagenumber-1,9), priceLow, priceHigh, filterSizes, filterCategories, filterBrands );	
+		
+		List<Article> articles = pageresult.getContent();
+		Long totalitems = pageresult.getTotalElements();
+		int itemsperpage = 9;
+		
 		model.addAttribute("articles", articles);
 		model.addAttribute("allCategories", articleService.findAllCategories());
 		model.addAttribute("allBrands", articleService.findAllBrands());
 		model.addAttribute("allSizes", articleService.findAllSizes());
 		model.addAttribute("sort", sort);
+		model.addAttribute("page", page);
+		model.addAttribute("totalitems", totalitems);
+		model.addAttribute("itemsperpage", itemsperpage);
 		return "store";
 	}
 	

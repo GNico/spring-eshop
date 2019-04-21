@@ -16,11 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class Article {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	private String title;
 	private int stock;	
 	private double price;
+	private String picture;
 	
 	@OneToMany(mappedBy="article", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Size> sizes;
@@ -116,6 +117,13 @@ public class Article {
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
 	}
+	public String getPicture() {
+		return picture;
+	}
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+	
 	
 
 }

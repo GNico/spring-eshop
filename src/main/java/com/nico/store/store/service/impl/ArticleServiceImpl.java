@@ -71,8 +71,8 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public List<Article> findByCriteria(Pageable pageable, String priceLow, String priceHigh, List<String> sizes, List<String> categories, List<String> brands) {
-		Page page = articleRepository.findAll(new Specification<Article>() {
+	public Page<Article> findByCriteria(Pageable pageable, String priceLow, String priceHigh, List<String> sizes, List<String> categories, List<String> brands) {
+		Page<Article> page = articleRepository.findAll(new Specification<Article>() {
             @Override
             public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();                
@@ -99,9 +99,10 @@ public class ArticleServiceImpl implements ArticleService {
             }
         }, pageable);
 		
-		page.getTotalElements();        // get total elements
-        page.getTotalPages();           // get total pages
-        return page.getContent();       // get List of Employee
+		//page.getTotalElements();        // get total elements
+      //  page.getTotalPages();           // get total pages
+       // return page.getContent();       // get List of Employee
+        return page;
 		
 		
 		
