@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -33,7 +34,9 @@ public class User implements UserDetails {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private String phone;
+	@OneToOne(cascade= CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name="address_id")
+	private Address address;
 	private boolean enabled=true;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -44,14 +47,14 @@ public class User implements UserDetails {
 	private ShoppingCart shoppingCart;
 		
 	public User(Long id, String username, String password, String firstName, String lastName, String email,
-			String phone, boolean enabled, Set<UserRole> userRoles, ShoppingCart shoppingCart) {
+			Address address, boolean enabled, Set<UserRole> userRoles, ShoppingCart shoppingCart) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.phone = phone;
+		this.address = address;
 		this.enabled = enabled;
 		this.userRoles = userRoles;
 		this.shoppingCart = shoppingCart;
@@ -96,11 +99,11 @@ public class User implements UserDetails {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getPhone() {
-		return phone;
+	public Address getAddress() {
+		return address;
 	}
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	public void setEnabled(boolean enabled) {

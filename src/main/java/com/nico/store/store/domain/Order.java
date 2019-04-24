@@ -31,7 +31,7 @@ public class Order {
 	private List<CartItem> cartItems;
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	private ShippingAddress shippingAddress;
+	private Shipping shipping;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	private Payment payment;
@@ -87,12 +87,12 @@ public class Order {
 		this.cartItems = cartItems;
 	}
 
-	public ShippingAddress getShippingAddress() {
-		return shippingAddress;
+	public Shipping getShipping() {
+		return shipping;
 	}
 
-	public void setShippingAddress(ShippingAddress shippingAddress) {
-		this.shippingAddress = shippingAddress;
+	public void setShipping(Shipping shipping) {
+		this.shipping = shipping;
 	}
 
 	public Payment getPayment() {

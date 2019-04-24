@@ -26,19 +26,33 @@
       </div>
       
        <div class="col mt-3 mt-md-0">
+          <div th:if="${updateSuccess}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Profile updated!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div th:if="${incorrectPassword}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Incorrect password</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+       
+       
           <div class="card">
             <div class="card-body">
               <h3>My Profile</h3><hr>
-              <form th:action="@{/update-user-info}" method="post">
+              <form id="profileForm" th:action="@{/update-user-info}" method="post">
                 <div class="form-row">
                   <div class="form-group col-sm-6">
                     <label for="firstName">First Name</label>                        
-                    <input required="required" type="text" class="form-control" 
+                    <input type="text" class="form-control" 
                                 id="firstName" name="firstName" th:value="${user.firstName}">
                   </div>
                   <div class="form-group col-sm-6">
                     <label for="lastName">Last Name</label>                        
-                    <input required="required" type="text" class="form-control" 
+                    <input type="text" class="form-control" 
                                 id="lastName" name="lastName" th:value="${user.lastName}">
                   </div>
                   <div class="form-group col-sm-6">
@@ -53,18 +67,41 @@
                   </div>
                   <div class="form-group col-sm-6">
                     <label for="txtNewPassword">New password</label>
-                    <input required="required" type="password" class="form-control" 
+                    <input type="password" class="form-control" 
                                 id="txtNewPassword" name="newPassword" autocomplete="new-password">
                   </div>
                   <div class="form-group col-sm-6">                
                     <label for="txtConfirmPassword">Confirm password</label>&nbsp;<span id="checkPasswordMatch" class="text-danger"></span>
-                    <input required="required" type="password" class="form-control" 
+                    <input type="password" class="form-control" 
                                 id="txtConfirmPassword" >
                   </div>
                   <div class="form-group col-12">                
-                    <button id="updateUserInfoButton" type="submit" class="btn btn-primary">UPDATE PROFILE</button>
+                    <button id="updateUserInfoButton" type="button" class="btn btn-primary">UPDATE PROFILE</button>
                   </div>
                 </div>
+                
+                <!--  password check modal -->
+                <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Type your current password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                         <input type="password" class="form-control" id="password" name="password">
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+                <!--  /password check modal -->
+                
               </form>
             </div>
           </div>
@@ -73,9 +110,41 @@
 
   </div> <!--  end container -->
   
-  <div th:replace="common/header :: footer"> </div>
-  
-  
+  <div th:replace="common/header :: footer"> </div>   
   <div th:replace="common/header :: body-scripts"> </div>
+  
+  <script>
+  	function checkPasswordMatch() {
+		var password = $("#txtNewPassword").val();
+		var confirmPassword = $("#txtConfirmPassword").val();
+		if (password == "" && confirmPassword == "") {
+			$("#checkPasswordMatch").html("");
+			$("#updateUserInfoButton").attr("disabled", false);
+		} else {
+			if (password != confirmPassword) {
+
+				$("#checkPasswordMatch").html(" - Passwords do not match");
+				$("#updateUserInfoButton").attr("disabled", true);
+			} else {
+				$("#checkPasswordMatch").html("");
+				$("#updateUserInfoButton").attr("disabled", false);
+			}
+		}		
+	}
+  
+  
+  	$(document).ready(function(){
+  		$("#txtConfirmPassword").keyup(checkPasswordMatch);
+  		$("#txtNewPassword").keyup(checkPasswordMatch);
+    	$('#updateUserInfoButton').click(function() {
+    		console.log("clickeo")
+    		if ($('#txtNewPassword').val() == '') {   
+    			$('#profileForm').submit()    		
+    		} else {
+    			$('#passwordModal').modal('show');
+    		}
+    	 });
+    });
+  </script>
 </body>
 </html>

@@ -15,35 +15,28 @@
           <div class="card">
             <div class="card-body">
               <h3>My Address</h3><hr>
-              <form class="form-style-1">
+              <form th:action="@{/update-user-address}" method="post">
                 <div class="form-row">
                   <div class="form-group col-12">
                     <label for="billingAddress">Address</label>
-                    <input type="text" class="form-control" id="billingAddress" value="2114  Jadewood Farms">
+                    <input type="text" class="form-control" th:name="streetAddress" th:value="${user?.address?.streetAddress}">
                   </div>
                   <div class="form-group col-6 col-sm-5">
                     <label for="billingCountry">Country</label>
-                    <select class="form-control custom-select" id="billingCountry">
-                      <option>Choose country</option>
-                      <option value="Australia">Australia</option>
-                      <option value="Canada">Canada</option>
-                      <option value="France">France</option>
-                      <option value="Germany">Germany</option>
-                      <option value="Switzerland">Switzerland</option>
-                      <option value="USA" selected >United States</option>
-                    </select>
+                    <input type="text" class="form-control" th:name="country" th:value="${user?.address?.country}">
+                    
                   </div>
                   <div class="form-group col-6 col-sm-5">
                     <label for="billingCity">City</label>
-                    <input type="text" class="form-control" id="billingCity" value="Piscataway, New Jersey">
+                    <input type="text" class="form-control"   th:name="city" th:value="${user?.address?.city}">
                   </div>
                   <div class="form-group col-3 col-sm-2">
                     <label for="billingZip">ZIP Code</label>
-                    <input type="number" class="form-control" id="billingZip" value="08854">
+                    <input type="number" class="form-control" th:name="zipCode" th:value="${user?.address?.zipCode}">
                   </div>
                 </div>
                 <div class="form-group">
-                  <button type="button" class="btn btn-primary">UPDATE ADDRESS</button>
+                  <button type="submit" class="btn btn-primary">UPDATE ADDRESS</button>
                 </div>
               </form>
              

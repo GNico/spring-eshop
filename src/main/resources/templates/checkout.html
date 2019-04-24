@@ -7,63 +7,16 @@
   <div th:replace="common/header :: navbar"> </div>
 
   <div class="container">
-    <div class="row" style="margin-bottom: -100px;">
-      <div class="col-8">
-        <h2 class="section-headline"> <span>Checkout</span> </h2>
-      </div>
-      <div class="col-4">
-        <img src="/image/logo.png" class="img-fluid">
-      </div>
-    </div>
-    <hr style="position:absolute; width:100%; height:6px; background-color:#333; z-index:-1; margin-top:-80px;">
-    <img class="img-fluid" src="/image/wood.png" style="margin-top: -75px;">
+    
     
     <form th:action="@{/checkout}" method="post">
       <div class="row" style="margin-top: 10px;">
 
         <!-- Left Panel -->
         <div class="col-4">
-       <!--   <div class="panel panel-default">
-            <div class="panel-body">
-              <button type="submit" class="btn btn-warning btn-block">Place
-                your order</button>
-              <p style="font-size: smaller;">
-                By placing your order, you agree to Le's Bookstore <a href="#">privacy</a>
-                notice and <a href="#">conditions</a> of use.
-              </p>
-              <hr />
-              <h3>Order Summary</h3>
-              <div class="row">
-                <div class="col-xs-7 text-left">Total before tax:</div>
-                <div class="col-xs-5 text-right">
-                  $<span th:text="${shoppingCart.grandTotal}"></span>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xs-7 text-left">Estimated tax:</div>
-                <div class="col-xs-5 text-right">
-                  $<span th:with="tax=${shoppingCart.grandTotal*0.06}"
-                      th:text="${#numbers.formatDecimal(tax, 0 ,2)}"></span>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xs-7 text-left">
-                  <h3 style="color: darkred;">
-                    <strong>Order Total: </strong>
-                  </h3>
-                </div>
-                <div class="col-xs-5 text-right">
-                  <h3>
-                    <strong style="color: darkred;">$<span
-                      th:with="total=${shoppingCart.grandTotal+shoppingCart.grandTotal*0.06}"
-                      th:text="${#numbers.formatDecimal(total, 0 ,2)}"></span></strong>
-                  </h3>
-                </div>
-              </div>
-              <div class="panel-footer">Shipping and handling haven't
-                applied.</div>
-            </div>
-          </div> -->
+          <div class="card">
+            order summary
+          </div>
         </div>
 
         <!-- Checkout Info -->

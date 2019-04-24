@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.nico.store.store.domain.Address;
 import com.nico.store.store.domain.Article;
 import com.nico.store.store.domain.User;
 import com.nico.store.store.domain.security.Role;
@@ -134,32 +135,28 @@ public class HomeController {
 	@RequestMapping(value="/update-user-info", method=RequestMethod.POST)
 	public String updateUserInfo(
 			@ModelAttribute("user") User user,
-			@ModelAttribute("newPassword") String newPassword,
-			Model model
+			@RequestParam("newPassword") String newPassword,
+			Model model, Principal principal
 			) throws Exception {
-		User currentUser = userService.findById(user.getId());
-		
+		User currentUser = userService.findByUsername(principal.getName());
 		if(currentUser == null) {
 			throw new Exception ("User not found");
 		}
-		
 		/*check email already exists*/
 		if (userService.findByEmail(user.getEmail())!=null) {
 			if(userService.findByEmail(user.getEmail()).getId() != currentUser.getId()) {
 				model.addAttribute("emailExists", true);
 				return "myProfile";
 			}
-		}
-		
+		}		
 		/*check username already exists*/
 		if (userService.findByUsername(user.getUsername())!=null) {
 			if(userService.findByUsername(user.getUsername()).getId() != currentUser.getId()) {
 				model.addAttribute("usernameExists", true);
 				return "myProfile";
 			}
-		}
-		
-//		update password
+		}		
+		/*update password*/
 		if (newPassword != null && !newPassword.isEmpty() && !newPassword.equals("")){
 			BCryptPasswordEncoder passwordEncoder = SecurityUtility.passwordEncoder();
 			String dbPassword = currentUser.getPassword();
@@ -192,6 +189,21 @@ public class HomeController {
 		return "myProfile";
 	}
 	
+	
+	@RequestMapping(value="/update-user-address", method=RequestMethod.POST)
+	public String updateUserAddress(
+			@ModelAttribute("user") User user,
+			@ModelAttribute("address") Address address, 
+			Model model, Principal principal) throws Exception {
+		User currentUser = userService.findByUsername(principal.getName());
+		if(currentUser == null) {
+			throw new Exception ("User not found");
+		}
+		currentUser.setAddress(address);
+		userService.save(currentUser);
+		return "redirect:myAddress";
+	}
+
 	
 	@RequestMapping("/admin")
 	public String admin() {

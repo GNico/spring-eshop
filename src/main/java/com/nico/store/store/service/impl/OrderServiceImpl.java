@@ -11,7 +11,7 @@ import com.nico.store.store.domain.Article;
 import com.nico.store.store.domain.CartItem;
 import com.nico.store.store.domain.Order;
 import com.nico.store.store.domain.Payment;
-import com.nico.store.store.domain.ShippingAddress;
+import com.nico.store.store.domain.Shipping;
 import com.nico.store.store.domain.ShoppingCart;
 import com.nico.store.store.domain.User;
 import com.nico.store.store.repository.OrderRepository;
@@ -28,11 +28,11 @@ public class OrderServiceImpl implements OrderService {
 	CartItemService cartItemService;
 	
 	@Override
-	public synchronized Order createOrder(ShoppingCart shoppingCart, ShippingAddress shippingAddress, Payment payment, User user) {
+	public synchronized Order createOrder(ShoppingCart shoppingCart, Shipping shipping, Payment payment, User user) {
 		Order order = new Order();
 		order.setUser(user);
 		order.setPayment(payment);
-		order.setShippingAddress(shippingAddress);
+		order.setShipping(shipping);
 		
 		List<CartItem> cartItems = cartItemService.findByShoppingCart(shoppingCart);
 		for (CartItem item : cartItems) {
@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setCartItems(cartItems);
 		order.setOrderDate(Calendar.getInstance().getTime());
 		order.setOrderTotal(shoppingCart.getGrandTotal());
-		shippingAddress.setOrder(order);
+		shipping.setOrder(order);
 		payment.setOrder(order);
 		
 		return orderRepository.save(order);

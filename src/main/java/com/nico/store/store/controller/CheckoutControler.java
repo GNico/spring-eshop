@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nico.store.store.domain.CartItem;
 import com.nico.store.store.domain.Payment;
-import com.nico.store.store.domain.ShippingAddress;
+import com.nico.store.store.domain.Shipping;
 import com.nico.store.store.domain.ShoppingCart;
 import com.nico.store.store.domain.User;
 import com.nico.store.store.service.CartItemService;
@@ -64,7 +64,7 @@ public class CheckoutControler {
 	}
 	
 	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
-	public String checkoutPost(@ModelAttribute("shippingAddress") ShippingAddress shippingAddress,
+	public String checkoutPost(@ModelAttribute("shippingAddress") Shipping shippingAddress,
 			@ModelAttribute("payment") Payment payment,
 			Principal principal, Model model) {
 		

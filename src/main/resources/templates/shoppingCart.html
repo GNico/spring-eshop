@@ -51,7 +51,14 @@
   </div> 
   
   <div th:replace="common/header :: footer"> </div>
-  <div th:replace="common/header :: body-scripts"> </div>
+  <script>
+    $(document).ready(function(){
+  		$(".cartItemQty").on('change', function(){
+  			var id=this.id;		
+  			$('#update-item-'+id).css('display', 'inline-block');
+  		});
+    });
+  </script>
   
 </body>
 </html>
