@@ -55,7 +55,7 @@
               </div>
               <div id="filter-size" class="collapse show">
                 <div class="card-body">
-                    <div th:each="item : ${allSizes}" class="custom-control custom-checkbox">
+                    <div th:each="item : ${#lists.sort(allSizes)}" class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input" th:id="${item}" th:name="size" th:value="${item}"
                              th:checked="${((param.size != null) and (#lists.contains(param.size, item )))} ? checked">
                       <label class="custom-control-label" th:for="${item}" th:text="${item}"></label>
@@ -79,9 +79,9 @@
                 </div>
               </div>
             </div>
-            <div class="card align-items-center">
-              <div class="card-body">
-                 <button type="submit" class="btn btn-primary rounded-pill mt-3" data-dismiss="modal">APPLY FILTERS</button>              
+            <div class="card">
+              <div class="card-header px-5 py-2 text-center">
+                 <button type="submit" class="btn btn-primary rounded-pill btn-block btn-sm" data-dismiss="modal">APPLY</button>              
               </div>
             </div>
           </div>                  
@@ -108,12 +108,12 @@
                     <span id="dropdown-sort-text" th:case="'pricedesc'">High - Low Price</span>
                     <span id="dropdown-sort-text" th:case="'alphasc'">A - Z Order</span>
                     <span id="dropdown-sort-text" th:case="'alphdesc'">Z - A Order</span>
-                    <span id="dropdown-sort-text" th:case="*">Popular</span>
+                    <span id="dropdown-sort-text" th:case="*">Newest</span>
                   </th:block>      
                   <i data-feather="chevron-down"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right shadow-sm">
-                  <button class="dropdown-item button-sort" type="button" value="popular">Popular</button>
+                  <button class="dropdown-item button-sort" type="button" value="newest">Newest</button>
                   <button class="dropdown-item button-sort" type="button" value="priceasc">Low - High Price</button>
                   <button class="dropdown-item button-sort" type="button" value="pricedesc">High - Low Price</button>
                   <button class="dropdown-item button-sort" type="button" value="alphasc">A - Z Order</button>

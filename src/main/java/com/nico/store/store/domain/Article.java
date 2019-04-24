@@ -1,5 +1,6 @@
 package com.nico.store.store.domain;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -100,6 +101,7 @@ public class Article {
 		this.image = image;
 	}
 	public List<Size> getSizes() {
+		Collections.sort(sizes);
 		return sizes;
 	}
 	public void setSizes(List<Size> sizes) {

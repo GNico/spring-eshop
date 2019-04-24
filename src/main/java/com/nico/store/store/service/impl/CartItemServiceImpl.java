@@ -41,11 +41,12 @@ public class CartItemServiceImpl implements CartItemService {
 	}
 
 	@Override
-	public CartItem addArticleToCartItem(Article article, User user, int qty) {
+	public CartItem addArticleToCartItem(Article article, User user, int qty, String size) {
 		List<CartItem> cartItems = findByShoppingCart(user.getShoppingCart());
 		for (CartItem cartItem : cartItems) {
 			if(article.getId() == cartItem.getArticle().getId()) {
 				cartItem.setQty(cartItem.getQty()+qty);
+				cartItem.setSize(size);
 				cartItem.setSubtotal(new BigDecimal(article.getPrice()).multiply(new BigDecimal(qty)));
 				cartItemRepository.save(cartItem);
 				return cartItem;
@@ -55,6 +56,7 @@ public class CartItemServiceImpl implements CartItemService {
 		cartItem.setShoppingCart(user.getShoppingCart());
 		cartItem.setArticle(article);
 		cartItem.setQty(qty);
+		cartItem.setSize(size);
 		BigDecimal subt = new BigDecimal(article.getPrice()).multiply(new BigDecimal(qty));
 		cartItem.setSubtotal(subt);
 		System.out.println("el total del cart item es " + subt);

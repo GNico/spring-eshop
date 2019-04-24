@@ -18,6 +18,7 @@ public class CartItem {
 	private Long id;
 	private int qty;
 	private BigDecimal subtotal;
+	private String size;
 	
 	@OneToOne
 	@JoinColumn(name="article_id")
@@ -82,6 +83,15 @@ public class CartItem {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+	
 	
 	
 	

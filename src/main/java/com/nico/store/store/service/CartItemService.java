@@ -17,7 +17,7 @@ public interface CartItemService {
 
 	CartItem findById(Long cartItemId);
 	
-	CartItem addArticleToCartItem(Article article, User user, int qty);
+	CartItem addArticleToCartItem(Article article, User user, int qty, String size);
 	
 	CartItem save(CartItem cartItem);
 }

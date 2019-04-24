@@ -34,7 +34,7 @@
             <input type="text" class="form-control" id="sizes" name="size" data-role="tagsinput">
           </div>
           <div class="col-4">
-            <button type=button class="btn btn-primary btn-size" th:each="item : ${allSizes}" th:text="${item}" th:id="size+${item}"></button>           
+            <button type=button class="btn btn-primary btn-size" th:each="item : ${#lists.sort(allSizes)}" th:text="${item}" th:id="size+${item}"></button>           
           </div>          
         </div>
         <div class="form-group row">

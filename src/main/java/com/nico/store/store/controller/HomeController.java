@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nico.store.store.domain.Article;
 import com.nico.store.store.domain.User;
@@ -30,6 +31,7 @@ import com.nico.store.store.domain.security.UserRole;
 import com.nico.store.store.service.ArticleService;
 import com.nico.store.store.service.UserService;
 import com.nico.store.store.service.impl.UserSecurityService;
+import com.nico.store.store.type.SortFilter;
 
 import utility.SecurityUtility;
 
@@ -197,35 +199,25 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/store")
-	public String store(HttpServletRequest request, Model model) {
-		String sort = request.getParameter("sort");
-		String[] sizes = request.getParameterValues("size");
-		String[] categories = request.getParameterValues("category");
-		String[] brands = request.getParameterValues("brand");
-		String priceLow = request.getParameter("pricelow");
-		String priceHigh= request.getParameter("pricehigh");
-		
+	public String store(@RequestParam(value="size", required=false) List<String> sizes,
+						@RequestParam(value="category", required=false) List<String> categories,
+						@RequestParam(value="brand", required=false) List<String> brands,
+						@RequestParam(value="pricelow", required=false) String priceLow,
+						@RequestParam(value="pricehigh", required=false) String priceHigh,
+						HttpServletRequest request, Model model) {
+		String sort = request.getParameter("sort");					
 		String page = request.getParameter("page");
-		int pagenumber = (page == null || page.isEmpty()) ? 1 : Integer.parseInt(request.getParameter("page"));
-		
-		List<String> filterSizes = (sizes != null) ? Arrays.asList(sizes) : null;
-		List<String> filterCategories = (categories != null) ? Arrays.asList(categories) : null;
-		List<String> filterBrands = (brands != null) ? Arrays.asList(brands) : null;
-		
-		Page<Article> pageresult = articleService.findByCriteria(PageRequest.of(pagenumber-1,9), priceLow, priceHigh, filterSizes, filterCategories, filterBrands );	
-		
-		List<Article> articles = pageresult.getContent();
-		Long totalitems = pageresult.getTotalElements();
-		int itemsperpage = 9;
-		
-		model.addAttribute("articles", articles);
+		int pagenumber = (page == null || page.isEmpty() || Integer.parseInt(page) <= 0) ? 0 : Integer.parseInt(page)-1;	
+		SortFilter sortFilter = new SortFilter(sort);	
+		Page<Article> pageresult = articleService.findByCriteria(PageRequest.of(pagenumber,9, sortFilter.getSortType()), priceLow, priceHigh, sizes, categories, brands );	
+		model.addAttribute("articles", pageresult.getContent());
 		model.addAttribute("allCategories", articleService.findAllCategories());
 		model.addAttribute("allBrands", articleService.findAllBrands());
 		model.addAttribute("allSizes", articleService.findAllSizes());
 		model.addAttribute("sort", sort);
 		model.addAttribute("page", page);
-		model.addAttribute("totalitems", totalitems);
-		model.addAttribute("itemsperpage", itemsperpage);
+		model.addAttribute("totalitems", pageresult.getTotalElements());
+		model.addAttribute("itemsperpage", 9);
 		return "store";
 	}
 	

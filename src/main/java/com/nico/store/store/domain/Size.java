@@ -9,7 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Size {
+public class Size implements Comparable<Size> {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -24,16 +24,12 @@ public class Size {
 	public Size() {
 	}
 	
-	@Override
+/*	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Size )) return false;
-        return id != null && id.equals(((Size) o).getId());
-    }
-    @Override
-    public int hashCode() {
-        return 31;
-    }
+        return value != null && value.equals(((Size) o).getValue());
+    } */
 	
 	public Long getId() {
 		return id;
@@ -52,6 +48,11 @@ public class Size {
 	}
 	public void setArticle(Article article) {
 		this.article = article;
+	}
+
+	@Override
+	public int compareTo(Size s) {
+		return this.value.compareTo(s.getValue());		
 	}
 	
 	

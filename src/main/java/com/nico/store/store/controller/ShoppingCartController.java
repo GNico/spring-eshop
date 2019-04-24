@@ -38,54 +38,44 @@ public class ShoppingCartController {
 	@RequestMapping("/cart")
 	public String shoppingCart(Model model, Principal principal) {
 		User user = userService.findByUsername(principal.getName());
-		ShoppingCart shoppingCart = user.getShoppingCart();
-		
-		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
-		
-		shoppingCartService.updateShoppingCart(shoppingCart);
-		
+		ShoppingCart shoppingCart = user.getShoppingCart();		
+		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);		
+		shoppingCartService.updateShoppingCart(shoppingCart);		
 		model.addAttribute("cartItemList", cartItemList);
-		model.addAttribute("shoppingCart", shoppingCart);
-		
+		model.addAttribute("shoppingCart", shoppingCart);		
 		return "shoppingCart";
 	}
 
 	@RequestMapping("/add-item")
 	public String addItem(
 			@ModelAttribute("article") Article article,
-			@ModelAttribute("qty") String qty,
-			Model model, Principal principal
-			) {
+			@RequestParam("qty") String qty,
+			@RequestParam("size") String size,
+			Model model, Principal principal) {
 		User user = userService.findByUsername(principal.getName());
-		article = articleService.findById(article.getId());
-		
+		article = articleService.findById(article.getId());		
 		if (Integer.parseInt(qty) > article.getStock()) {
 			model.addAttribute("notEnoughStock", true);
 			return "forward:/article-detail?id="+article.getId();
-		}
-		
-		cartItemService.addArticleToCartItem(article, user, Integer.parseInt(qty));
-		model.addAttribute("addArticleSuccess", true);
-		
-		return "redirect:/article-detail?id="+article.getId();
+		}		
+		cartItemService.addArticleToCartItem(article, user, Integer.parseInt(qty), size);
+		model.addAttribute("addArticleSuccess", true);		
+		return "forward:/article-detail?id="+article.getId();
 	}
 	
 	@RequestMapping("/update-item")
 	public String updateShoppingCart(
 			@ModelAttribute("id") Long cartItemId,
-			@ModelAttribute("qty") int qty
-			) {
+			@ModelAttribute("qty") int qty) {
 		CartItem cartItem = cartItemService.findById(cartItemId);
 		cartItem.setQty(qty);
-		cartItemService.updateCartItem(cartItem);
-		
+		cartItemService.updateCartItem(cartItem);		
 		return "redirect:/shopping-cart/cart";
 	}
 	
 	@RequestMapping("/remove-item")
 	public String removeItem(@RequestParam("id") Long id) {
-		cartItemService.removeCartItem(cartItemService.findById(id));
-		
+		cartItemService.removeCartItem(cartItemService.findById(id));		
 		return "redirect:/shopping-cart/cart";
 	} 
 }

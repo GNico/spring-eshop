@@ -5,25 +5,82 @@
 
 <body>
   <div th:replace="common/header :: navbar"> </div>
-
-  <div class="container">
-    <div class="row" style="margin-bottom: -100px;">
-      <div class="col-8">
-        <h2 class="section-headline"> <span>Store</span> </h2>
-      </div>
-      <div class="col-4">
-        <img src="/image/logo.png" class="img-fluid">
-      </div>
+  
+   
+  
+  
+  <div class="container page-content mt-3 mb-3">  
+    <div th:if="${addArticleSuccess}" class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Added item to the shopping cart!</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-    <hr style="position:absolute; width:100%; height:6px; background-color:#333; z-index:-1; margin-top:-80px;">
-    <img class="img-fluid" src="/image/wood.png" style="margin-top: -75px;">
-    
+    <div th:if="${notEnoughStock}" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>Could not add to cart, only <span th:text="${article.stock}"></span> in stock.</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>  
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <img class="img-fluid" th:src="${article.picture}">
+          </div>
+          <div class="col-md-6 mt-3 mt-md-0">
+          
+            <h2 class="card-title" th:text="${article.title}"></h2>
+            <div class="d-flex align-items-center">
+              <h2 class="price font-weight-bold mr-3">
+                <span th:text="'$'+${article.price}"></span>
+              </h2>              
+              <h6>(<span th:text="${article.stock}"></span> in stock)</h6>
+            </div>            
+            <p class="d-none d-lg-block">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta voluptatibus quos ea dolore rem, molestias laudantium et explicabo assumenda fugiat deserunt in, facilis laborum excepturi aliquid nobis ipsam deleniti aut? Aliquid sit hic id velit qui fuga nemo suscipit obcaecati. Officia nisi quaerat minus nulla saepe aperiam sint possimus magni veniam provident.</p>
+            <form th:action="@{/shopping-cart/add-item}" method="post">
+              <input hidden="hidden" th:field="*{article.id}">  
+              <div class="form-row">
+                <div class="form-group col-sm-3">
+                  <label class="font-weight-bold d-block">Size</label>
+                  <select class="form-control" id="size" th:name="size">
+                    <option th:each="size : ${article.sizes}" th:value="${size.getValue()}" th:text="${size.getValue()}"></option>
+                  </select>
+                </div>                               
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-3">
+                  <label class="font-weight-bold" for="quantity">Quantity</label>
+                  <select class="form-control" id="quantity" th:name="qty">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>                   
+                  </select>
+                </div>
+                <div class="form-group col-sm-6 offset-sm-3 d-flex align-items-end">
+                  <button type="submit" class="btn btn-primary btn-block rounded-pill atc-demo">Add to Cart</button>
+                </div>
+              </div>
+            </form>
+            <hr>
+             <div class="pt-1 mb-2"><span class="text-medium">Brand:</span> Adidas</div>
+             <div class="padding-bottom-1x mb-2"><span class="text-medium">Categories:&nbsp;</span><a class="navi-link" href="#">Men’s shoes,</a><a class="navi-link" href="#"> Snickers,</a><a class="navi-link" href="#"> Sport shoes</a></div>
+          </div>
+        </div>
+      </div>    
+    </div>
+  </div>
+
+<!--  <div class="container">
+        
     <form th:action="@{/shopping-cart/add-item}" method="post">
     	<input hidden="hidden" th:field="*{article.id}" />  
     	<div class="row" style="margin-top: 120px;">
     		<div class="col-3">
     			<a th:href="@{/store}">Back to store</a><br/>
-    			<img class="img-fluid" th:src="@{/image/article/}+${article.id}+'.png'" />
+    			<img class="img-fluid" th:src="${article.picture}" />
     		</div>
     		
     		<div class="col-9">        
@@ -32,11 +89,11 @@
     			<h3 th:text="${article.title}">Book Title</h3>
     			<div class="row">
     				<div class="col-5">
-    					<p><strong>Author: </strong><span> Some Dude</span></p>
-    					<p><strong>Publisher: </strong><span>A publisher</span></p>
+    					<p><strong>Category:</strong><span>Running</span></p>
+    					<p><strong>Brand: </strong><span>Adidas</span></p>
     					<p><strong>Publication Date: </strong><span>01-01-2018</span></p>
     					<p><strong>Language: </strong><span>English</span></p>
-    					<p><strong>Category: </strong><span th:text="${article.category}"></span></p>
+    					<p><strong>Category: </strong><span th:text="something"></span></p>
     					<p><strong>Pages:</strong><span>500</span></p>
     					<p><strong>ISBN: </strong><span>123123123123</span></p>
     					<p><strong>Shipping Weight: </strong><span>10 Kg</span> ounces</p>
@@ -79,7 +136,7 @@
     
 
   </div>
-  
+  -->
   <div th:replace="common/header :: footer"> </div> 
   <div th:replace="common/header :: body-scripts"> </div>
 </body>
