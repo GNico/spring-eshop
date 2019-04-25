@@ -74,67 +74,55 @@
   </div>
 
   <div th:fragment="footer">
-    <br /> <br />
-    <footer>
-      <div class="row">
-        <div class="col-xs-3 footerleft">
-          <div class="logofooter">
-            <a th:href="@{/}"><img class="img-responsive"
-              src="/image/logo.png" style="width: 200px;" /></a>
+    <div class="footer mt-5">
+      <div class="container">
+        <div class="row no-gutters">
+          <div class="col-sm-6 col-lg-3 text-center pr-5">
+            <h5 class="font-weight-bold">SUBSCRIBE</h5>
+            <p>to our Newsletter to receive the latest news, sales and promos</p>
+            <form>
+              <div class="form-group">
+                <input type="email" class="form-control rounded-pill text-center footer-input" placeholder="Enter your email">
+              </div>
+              <button type="button" class="btn btn-primary btn-block rounded-pill">SUBSCRIBE</button>
+            </form>
+          </div>          
+          <div class="col-6 col-lg-3 pl-3">
+            <h6 class="font-weight-bold">Customer Service</h6>
+            <div class="list-group list-group-flush list-group-no-border list-group-sm">
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Help Center</a>
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">How to buy</a>
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Delivery</a>
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">How to return</a>
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Payment Method</a>
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Shipping Method</a>
+            </div>
           </div>
-          <p>
-            Le's Independent Book Store. <br />Serving our customers
-            with the best.
-          </p>
+          <div class="col-6 col-lg-3 pl-3">
+            <h6 class="font-weight-bold">Shoepp</h6>
+            <div class="list-group list-group-flush list-group-no-border list-group-sm">
+              <a href="about.html" class="list-group-item list-group-item-action">About Us</a>
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Terms and Conditions</a>
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Privacy Policy</a>
+              <a href="faq.html" class="list-group-item list-group-item-action">FAQs</a>
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Our Story</a>
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Services</a>
+            </div>
+          </div>  
+          <div class="col-sm-6 col-lg-3 pl-3">
+            <h6 class="font-weight-bold ">Contact us</h6>
+            <div class="list-group list-group-flush list-group-no-border list-group-sm">
+              <span class="list-group-item"><strong>Phone:</strong> 00 55 124 8000</span>
+              <span class="list-group-item"><strong>Email:</strong> contact@shoepp.com</span>              
+              <span class="list-group-item"><strong>Mon-Fri:</strong> 9.00 am - 8.00 pm</span>
+              <span class="list-group-item"><strong>Saturday:</strong> 10.00 am - 6.00 pm</span>
+              
+            </div>    
+          </div>        
         </div>
-        <div class="col-xs-3 paddingtop-bottom">
-          <h6 class="heading7">CONTACT</h6>
-          <ul class="post">
-            <p>
-              <i class="fa fa-map-pin"></i> 123 XXX Ave<br /> Boston
-              MA, USA 02112
-            </p>
-            <p>
-              <i class="fa fa-phone"></i> Phone (USA) : +1 999 999 9999
-            </p>
-            <p>
-              <i class="fa fa-envelope"></i> E-mail :
-              info@lebookstore.com
-            </p>
-          </ul>
-        </div>
-        <div class="col-xs-3 paddingtop-bottom">
-          <h6 class="heading7">LINKS</h6>
-          <ul class="footer-ul">
-            <li><a href="#"> Privacy Policy</a></li>
-            <li><a href="#"> Terms &#38; Conditions</a></li>
-            <li><a href="#"> Frequently Ask Questions</a></li>
-          </ul>
-        </div>
-        <div class="col-xs-3 paddingtop-bottom">
-          <h6 class="heading7">STORE HOURS</h6>
-          <div class="post">
-            <p>Monday - Saturday: 9am - 11pm</p>
-            <p>Sunday: 10am - 10pm</p>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <div class="row copyright">
-      <div class="col-md-6">
-        <p>© 2017 - All Rights Reserved</p>
-      </div>
-      <div class="col-md-6">
-        <ul class="bottom_ul">
-          <li><a href="#">About us</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Faq's</a></li>
-          <li><a href="#">Contact us</a></li>
-          <li><a href="#">Site Map</a></li>
-        </ul>
       </div>
     </div>
+    <div class="copyright">Copyright © 2019 Shoepp All right reserved</div>  
   </div>
 
 
