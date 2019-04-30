@@ -3,99 +3,121 @@
 <head th:replace="common/header :: common-header" />
 
 
-<body>
+<body class="d-flex flex-column">
   <div th:replace="common/header :: navbar"> </div>
 
-  <div class="container">
-    
-    
+  <div class="container page-content">   
     <form th:action="@{/checkout}" method="post">
-      <div class="row" style="margin-top: 10px;">
+      <div class="row">      
 
-        <!-- Left Panel -->
-        <div class="col-4">
-          <div class="card">
-            order summary
-          </div>
-        </div>
-
-        <!-- Checkout Info -->
+        <!-- Checkout Info -->                         
         <div class="col-8">
           <div th:if="${missingRequiredField}">
             <h5 class="alert alert-warning">There are some fields
               missing. Field with * is required.</h5>
-          </div>
-          
+          </div>          
           <div id="accordion">
             <div class="card">
-              <div class="card-header" id="headingOne">
+              <div class="card-header bg-white" id="headingOne">
                 <h5 class="mb-0">
-                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Shipping Address
+                  <button class="btn btn-link checkout-header" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    REVIEW ITEMS
+                  </button>
+                </h5>
+              </div>
+              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body border-bottom">
+                  <div class="row align-items-center border-bottom  pb-2 pt-3" th:each="cartItem : ${cartItemList}">
+                    <div class="col-2">
+                      <a th:href="@{/article-detail?id=}+${cartItem.article.id}"><img class="img-fluid" th:src="${cartItem.article.picture}" alt="${cartItem.article.title}"></a>
+                    </div>
+                    <div class="col-7">
+                      <a th:href="@{/article-detail?id=}+${cartItem.article.id}" class="h6 bold d-inline-block" th:text=${cartItem.article.title}></a>
+                        <div><i data-feather="check-circle" class="text-success"></i> In Stock</div>                  
+                        <small class="ml-3"><b>Size</b>: <span th:text="${cartItem.size}"></span></small>                  
+                        <small class="ml-3"><b>Unit Price</b>: $<span th:text="${cartItem.article.price}"></span></small>
+                    </div>
+                    <div class="col-1">
+                    
+                      <span>x<span th:text="${cartItem.qty}"></span></span>
+                           
+                    </div>
+                    <div class="col-2 text-right">
+                      <span class="font-weight-bold">$ <span th:id="'price'+${cartItem.id}" th:text=${cartItem.subtotal}></span></span>
+                    </div>                             
+                 </div>  
+                 <div class="d-flex justify-content-between align-items-center mt-3">
+                   <a th:href="@{/shopping-cart/cart}" class="btn btn-info rounded-pill "><i data-feather="arrow-left"></i> Edit cart</a>             
+                   <div class="text-center">
+                     <small class="counter">TOTAL</small>
+                     <h3 class="font-weight-bold">$ <span th:text="${shoppingCart.grandTotal}"></span></h3>
+                    </div>
+                   <a data-toggle="collapse" data-parent="#accordion"
+                      class="btn btn-primary rounded-pill" href="#collapseTwo">Next <i data-feather="arrow-right"></i></a>
+                 </div>
+                 </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header bg-white" id="headingTwo">
+                <h5 class="mb-0">
+                  <button class="btn btn-link checkout-header" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    SHIPPING
                   </button>
                 </h5>
               </div>    
-              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                <div class="card-body">
-                  <div class="form-group">
-                    <label for="receiver">* Name</label> <input type="text"
-                      class="form-control" id="receiver"
-                      placeholder="Receiver Name" name="receiver" />
-                  </div>
-
-                  <div class="form-group">
-                    <label for="streetAddress">* Street Address</label> <input
-                      type="text" class="form-control" id="streetAddress"
-                      placeholder="Street Address" name="streetAddress" />
-                  </div>
-                  
-
-                  <div class="row">
-                    <div class="col-4">
-                      <div class="form-group">
-                        <label for="city">* City</label> <input type="text"
-                          class="form-control" id="city"
-                          placeholder="Shipping City" th:name="city"
-                          required="required"/>
-                      </div>
-                    </div> 
-                    <div class="col-4">
-                      <div class="form-group">
-                        <label for="country">* Country</label> <input type="text"
-                          class="form-control" id="country"
-                          placeholder="Shipping City" th:name="country"
-                          required="required"/>
-                      </div>
-                    </div>                  
-                    <div class="col-4">
-                      <div class="form-group">
-                        <label for="zipCode">* Zipcode</label> <input
-                          type="text" class="form-control" id="zipCode"
-                          placeholder="Zipcode"
-                          th:name="zipCode" required="required" />
-                      </div>
+              <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                <div class="card-body border-bottom">
+                  <div class="form-row">
+                    <div class="form-group col-12">
+                      <label for="receiver">Receiver Name</label> 
+                      <input type="text" class="form-control" id="receiver" name="receiver" />
                     </div>
+  
+                    <div class="form-group col-12">
+                      <label for="streetAddress">Address</label> 
+                      <input type="text" class="form-control" id="streetAddress" name="streetAddress" />
+                    </div>
+                    
+  
+                    <div class="form-group col-4">
+                      <label for="city">City</label> <input type="text"
+                        class="form-control" id="city" th:name="city"
+                        required="required"/>
+                    </div>
+                    <div class="form-group col-4">
+                      <label for="country">Country</label> <input type="text"
+                        class="form-control" id="country" th:name="country"
+                        required="required"/>
+                    </div>
+                    <div class="form-group col-4">
+                      <label for="zipCode">Zipcode</label> <input
+                        type="text" class="form-control" id="zipCode"
+                        th:name="zipCode" required="required" />
+                    </div>                                       
                   </div>
-                  <a data-toggle="collapse" data-parent="#accordion"
-                    class="btn btn-warning pull-right" href="#collapseTwo">Next</a>
+                  <div class="mt-2 text-right">
+                    <a data-toggle="collapse" data-parent="#accordion"
+                      class="btn btn-primary rounded-pill" href="#collapseThree">Next <i data-feather="arrow-right"></i></a>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="card">
-              <div class="card-header" id="headingTwo">
+              <div class="card-header bg-white" id="headingThree">
                 <h5 class="mb-0">
-                  <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Payment Information
+                  <button class="btn btn-link checkout-header collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    PAYMENT 
                   </button>
                 </h5>
               </div>
-              <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                <div class="card-body">
+              <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body border-bottom">
                   <div class="row">
                     <div class="col-12">
-                      <img src="/image/creditcard.png" class="img-fluid" /><br />
+                      <img src="/image/creditcard.png" class="img-fluid mb-2" /><br />
                       <div class="form-group">
-                        <label for="cardType">* Select Card Type: </label> <select
+                        <label for="cardType">Select Card Type: </label> <select
                           class="form-control" id="cardType" name="type">
                           <option value="visa">Visa</option>
                           <option value="mastercard">Mastercard</option>
@@ -105,19 +127,15 @@
                       </div>
 
                       <div class="form-group">
-                        <label for="cardHolder">* Card Holder Name:</label> <input
+                        <label for="cardHolder">Card Holder Name:</label> <input
                           type="text" class="form-control" id="cardHolder"
-                          required="required" placeHolder="Card Holder Name"
-                          th:name="holderName" />
+                          required="required" th:name="holderName">
                       </div>
                       <div class="form-group">
-                        <label for="cardNumber">* Card Number:</label>
+                        <label for="cardNumber">Card Number:</label>
                         <div class="input-group">
                           <input type="tel" class="form-control" id="cardNumber"
-                            required="required" placeHolder="Valid Card Number"
-                            th:name="cardNumber"  />
-                         <!--   <span class="input-group-addon"><i
-                            class="fa fa-credit-card" aria-hidden="true"></i></span>-->
+                            required="required" th:name="cardNumber">
                         </div>
                       </div>
                     </div>
@@ -126,21 +144,21 @@
                   <div class="row">
                     <div class="col-7">
                       <div class="form-group">
-                        <label>* Expiration Date</label>
+                        <label>Expiration Date</label>
                         <div class="row">
                           <div class="col-6">
                             <select class="form-control" name="expiryMonth"
                               required="required">
                               <option disabled="disabled">-- Month --</option>
-                              <option value="01">Jan (01)</option>
-                              <option value="02">Feb (02)</option>
-                              <option value="03">Mar (03)</option>
-                              <option value="04">Apr (04)</option>
-                              <option value="05">May (05)</option>
-                              <option value="06">June (06)</option>
-                              <option value="07">July (07)</option>
-                              <option value="08">Aug (08)</option>
-                              <option value="09">Sep (09)</option>
+                              <option value="1">Jan (01)</option>
+                              <option value="2">Feb (02)</option>
+                              <option value="3">Mar (03)</option>
+                              <option value="4">Apr (04)</option>
+                              <option value="5">May (05)</option>
+                              <option value="6">June (06)</option>
+                              <option value="7">July (07)</option>
+                              <option value="8">Aug (08)</option>
+                              <option value="9">Sep (09)</option>
                               <option value="10">Oct (10)</option>
                               <option value="11">Nov (11)</option>
                               <option value="12">Dec (12)</option>
@@ -167,100 +185,55 @@
                     <div class="col-5">
                       <div class="form-group">
                         <label for="cardCVC">CV Code</label> <input id="cardCVC"
-                          type="tel" class="form-control" name="cvc" placeholder="CVC"/>
+                          type="tel" class="form-control" name="cvc"/>
                       </div>
                     </div>
-                  </div>
-                  <a data-toggle="collapse" data-parent="#accordion"
-                    class="btn btn-warning pull-right" href="#collapseThree">Next</a>
-                </div>
+                  </div>  
+                  <div class="mt-2 text-right">
+                    <a data-toggle="collapse" data-parent="#accordion"
+                      class="btn btn-primary rounded-pill" href="#collapseThree">Next <i data-feather="arrow-right"></i></a>
+                  </div>                
+                </div>                
               </div>
-            </div>
-            <div class="card">
-              <div class="card-header" id="headingThree">
-                <h5 class="mb-0">
-                  <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Review items and shipping
-                  </button>
-                </h5>
-              </div>
-              <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-8">
-                      <h4>Products</h4>
-                    </div>
-                    <div class="col-2">
-                      <h4>Price</h4>
-                    </div>
-                    <div class="col-2">
-                      <h4>Qty</h4>
-                    </div>
-                  </div>
-
-                  <!-- display products in cart -->
-                  <div class="row" th:each="cartItem : ${cartItemList}">
-                      <hr />
-                      <div class="col-2">
-                        <a th:href="@{/article-detail(id=${cartItem.article.id})}"> <img
-                          class="img-fluid"
-                          th:src="@{/image/article/}+${cartItem.article.id}+'.png'"
-                          style="width: 70px;" />
-                        </a>
-                      </div>
-                      <div class="col-6">
-                        <div style="margin-left: 50px;">
-                          <h4><a th:href="@{/article-detail?id=}+${cartItem.article.id}" th:text="${cartItem.article.title}">></a></h4>
-                          <p th:if="${cartItem.article.stock&gt;10}"
-                            style="color: green;">In Stock</p>
-                          <p
-                            th:if="${cartItem.article.stock&lt;10 and cartItem.article.stock&gt;0}"
-                            style="color: green;">
-                            Only <span th:text="${cartItem.article.stock}"></span>
-                            In Stock
-                          </p>
-                          <p th:if="${cartItem.article.stock==0}"
-                            style="color: darkred;">Product Unavailable</p>
-                          <a th:href="@{/shopping-cart/remove-item?id=}+${cartItem.id}">delete</a>
-                        </div>
-                      </div>
-
-                      <div class="col-2">
-                        <h5 style="color: #db3208; font-size: large;">
-                          $<span th:text="${cartItem.article.price}"
-                            th:style="${cartItem.article.stock}==0? 'text-decoration: line-through' : ''"></span>
-                        </h5>
-                      </div>
-
-                      <div class="col-2">
-                        <h5 style="font-size: large;" th:text="${cartItem.qty}"></h5>
-                      </div>
-                    
-                  </div>
-
-                  <hr />
-                  <h4 class="col-12 text-right">
-                    <strong style="font-size: large;">Order Total (<span
-                      th:text="${#lists.size(cartItemList)}"></span> items):
-                    </strong> <span style="color: #db3208; font-szie: large;">$<span
-                      th:text="${shoppingCart.grandTotal}"></span></span>
-                  </h4>
-                  <br />
-                  <br />
-                  <button type="submit" class="btn btn-warning btn-block">Place
-                    your order</button>
-                  <p style="font-size: smaller;">
-                    By placing your order, you agree to Le's Bookstore <a href="#">privacy</a>
-                    notice and <a href="#">conditions</a> of use.
-                  </p>
-
-                </div>
-              </div>
-            </div>
+            </div>            
           </div> <!--  end accordion -->          
         </div>
+        
+        
+        <!-- Summary Panel -->
+        <div class="col-4">
+          <div class="card">
+            <div class="card-header bg-white checkout-header">ORDER SUMMARY</div>
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <span>Cart subtotal</span>
+                <span>$ <span th:text="${shoppingCart.grandTotal}"> </span></span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span>Shipping</span>
+                <span>$0</span>
+              </div>
+              <hr>
+              <div class="d-flex justify-content-between">
+                <span>Total</span>
+                <span class="font-weight-bold">$ <span th:text="${shoppingCart.grandTotal}"> </span></span>
+              </div>
+            </div>
+            <div class="card-footer bg-white border-top-0">
+              <button class="btn btn-primary rounded-pill btn-lg btn-block mt-2 mb-3">
+              Place your order
+              </button>
+            
+              <p style="font-size: smaller;">
+                By placing your order, you agree to Shoepp <a href="#">privacy</a>
+                notice and <a href="#">conditions</a>.</p>
+                    
+            </div>
+          </div>
+        </div>        
       </div>
-    </form>  
+    </form>             
+    
   </div> <!--  end container -->
   
   <div th:replace="common/header :: footer"> </div>  

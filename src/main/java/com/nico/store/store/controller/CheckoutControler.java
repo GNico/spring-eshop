@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.nico.store.store.domain.Address;
 import com.nico.store.store.domain.CartItem;
 import com.nico.store.store.domain.Payment;
 import com.nico.store.store.domain.Shipping;
@@ -64,16 +65,17 @@ public class CheckoutControler {
 	}
 	
 	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
-	public String checkoutPost(@ModelAttribute("shippingAddress") Shipping shippingAddress,
-			@ModelAttribute("payment") Payment payment,
-			Principal principal, Model model) {
+	public String placeOrder(@ModelAttribute("shipping") Shipping shipping,
+							@ModelAttribute("address") Address address,
+							@ModelAttribute("payment") Payment payment,
+							Principal principal, Model model) {
 		
 		User user = userService.findByUsername(principal.getName());
 		ShoppingCart shoppingCart = user.getShoppingCart();
-		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
-		model.addAttribute("cartItemList", cartItemList);
+		model.addAttribute("shoppingCart", shoppingCart);
 		//	return "redirect:/checkout?missingRequiredField=true";	
-		orderService.createOrder(shoppingCart, shippingAddress, payment, user);
+		shipping.setAddress(address);
+		orderService.createOrder(shoppingCart, shipping, payment, user);
 				
 		shoppingCartService.clearShoppingCart(shoppingCart);
 		
@@ -84,4 +86,5 @@ public class CheckoutControler {
 		
 		return "orderSubmitted";
 	}
+
 }

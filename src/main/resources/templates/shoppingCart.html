@@ -8,49 +8,52 @@
 
   <div class="container page-content">       
     <form th:action="@{/shopping-cart/update-item}" method="post">   
-    <div class="card-body ">
-       <div class="row align-items-center border-bottom  pb-2 pt-3" th:each="cartItem : ${cartItemList}">
-          <div class="col-2">
-            <a th:href="@{/article-detail?id=}+${cartItem.article.id}"><img class="img-fluid" th:src="${cartItem.article.picture}" alt="${cartItem.article.title}"></a>
-          </div>
-          <div class="col-5">
-            <a th:href="@{/article-detail?id=}+${cartItem.article.id}" class="h6 bold d-inline-block" th:text=${cartItem.article.title}></a>
-              <div><i data-feather="check-circle" class="text-success"></i> In Stock</div>                  
-              <small class="ml-3"><b>Size</b>: <span th:text="${cartItem.size}"></span></small>                  
-              <small class="ml-3"><b>Unit Price</b>: $<span th:text="${cartItem.article.price}"></span></small>
-          </div>
-          <div class="col-2">
-            <input hidden="hidden" name="id" th:value="${cartItem.id}"> 
-            <div class="form-group row mt-3">
-              <label th:for="${cartItem.id}" class="col-2 col-form-label text-right">Qty</label>
-              <div class="col">
-                <input th:id="${cartItem.id}" th:name="qty" th:disabled="${cartItem.article.stock==0}" 
-                   type="number" min="0" max="${cartItem.article.stock}"
-                   class="form-control cartItemQty" th:value="${cartItem.qty}">
-                <button style="display: none;"
-                    th:id="'update-item-'+${cartItem.id}" type="submit"
-                    class="btn btn-warning btn-xs">Update</button>   
-              </div>
-            </div>            
-          </div>
-          <div class="col-2 text-right">
-            <span class="font-weight-bold">$ <span th:id="'price'+${cartItem.id}" th:text=${cartItem.subtotal}></span></span>
-          </div>
-          <div class="col-1">
-            <a th:href="@{/shopping-cart/remove-item?id=}+${cartItem.id}"><i class="mb-1" data-feather="trash-2"></i></a>                              
-          </div>         
-       </div>
-       <div class="text-center mt-3">
-          <small class="counter">TOTAL</small>
-          <h3 class="font-weight-bold">$ <span th:text="${shoppingCart.grandTotal}"></span></h3>
-          <a th:href="@{/store}" class="btn btn-warning rounded-pill "><i data-feather="arrow-left"></i> Back to shop</a>            
-          <a th:href="@{/checkout}" class="btn btn-primary rounded-pill">Checkout <i data-feather="arrow-right"></i></a>
+    <div class="card">
+      <div class="card-body ">
+         <div class="row align-items-center border-bottom  pb-2 pt-3" th:each="cartItem : ${cartItemList}">
+            <div class="col-2">
+              <a th:href="@{/article-detail?id=}+${cartItem.article.id}"><img class="img-fluid" th:src="${cartItem.article.picture}" alt="${cartItem.article.title}"></a>
+            </div>
+            <div class="col-5">
+              <a th:href="@{/article-detail?id=}+${cartItem.article.id}" class="h6 bold d-inline-block" th:text=${cartItem.article.title}></a>
+                <div><i data-feather="check-circle" class="text-success"></i> In Stock</div>                  
+                <small class="ml-3"><b>Size</b>: <span th:text="${cartItem.size}"></span></small>                  
+                <small class="ml-3"><b>Unit Price</b>: $<span th:text="${cartItem.article.price}"></span></small>
+            </div>
+            <div class="col-2">
+              <input hidden="hidden" name="id" th:value="${cartItem.id}"> 
+              <div class="form-group row mt-3">
+                <label th:for="${cartItem.id}" class="col-md-6 col-form-label text-right">Qty</label>
+                <div class="col-md-6">
+                  <input th:id="${cartItem.id}" th:name="qty" th:disabled="${cartItem.article.stock==0}" 
+                     type="number" min="0" max="${cartItem.article.stock}"
+                     class="form-control cartItemQty" th:value="${cartItem.qty}">
+                  <button style="display: none;"
+                      th:id="'update-item-'+${cartItem.id}" type="submit"
+                      class="btn btn-warning btn-xs">Update</button>   
+                </div>
+              </div>            
+            </div>
+            <div class="col-2 text-right">
+              <span class="font-weight-bold">$ <span th:id="'price'+${cartItem.id}" th:text=${cartItem.subtotal}></span></span>
+            </div>
+            <div class="col-1">
+              <a th:href="@{/shopping-cart/remove-item?id=}+${cartItem.id}"><i class="mb-1" data-feather="trash-2"></i></a>                              
+            </div>         
+         </div>
+         <div class="text-center mt-3">
+            <small class="counter">TOTAL</small>
+            <h3 class="font-weight-bold">$ <span th:text="${shoppingCart.grandTotal}"></span></h3>
+            <a th:href="@{/store}" class="btn btn-info rounded-pill "><i data-feather="arrow-left"></i> Back to shop</a>            
+            <a th:href="@{/checkout}" class="btn btn-primary rounded-pill">Checkout <i data-feather="arrow-right"></i></a>
+        </div>
       </div>
     </div>
     </form> 
   </div> 
   
   <div th:replace="common/header :: footer"> </div>
+  <div th:replace="common/header :: body-scripts"> </div>
   <script>
     $(document).ready(function(){
   		$(".cartItemQty").on('change', function(){

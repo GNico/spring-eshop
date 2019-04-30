@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   
-  <title>Le's Bookstore</title>
-  <link rel="icon" href="/image/apple-touch-icon.png">
+  <title>Shoepp</title>
+  <link rel="icon" href="/image/icon-logo.png">
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Nunito|Roboto|Roboto+Condensed|Roboto+Slab" rel="stylesheet">
   
   <!-- Bootstrap core CSS -->
   <link href="/css/bootstrap.min.css" rel="stylesheet" >
@@ -31,8 +34,8 @@
 
 <body>
   <div th:fragment="navbar">
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-      <a class="navbar-brand" th:href="@{/}">LE'S BOOKSTORE</a>
+    <nav class="navbar navbar-expand-md navbar-light bg-white fixed-top shadow-sm">
+      <a class="navbar-brand" th:href="@{/}"><img width="150" height="30" src="/image/logo.png"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse"
         data-target="#navbarCollapse" aria-controls="navbarCollapse"
         aria-expanded="false" aria-label="Toggle navigation">
@@ -75,8 +78,8 @@
 
   <div th:fragment="footer">
     <div class="footer mt-5">
-      <div class="container">
-        <div class="row no-gutters">
+      <div class="container mt-4">
+        <div class="row">
           <div class="col-sm-6 col-lg-3 text-center pr-5">
             <h5 class="font-weight-bold">SUBSCRIBE</h5>
             <p>to our Newsletter to receive the latest news, sales and promos</p>
@@ -122,24 +125,24 @@
         </div>
       </div>
     </div>
-    <div class="copyright">Copyright © 2019 Shoepp All right reserved</div>  
+    <div class="copyright">Copyright © 2019 Shoepp All rights reserved</div>  
   </div>
 
 
   <div th:fragment="body-scripts">
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script>
-    window.jQuery
-        || document
-            .write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')
-  </script>
-  <script src="/js/bootstrap.bundle.min.js"></script>
-  <script src="/js/datatables.min.js"></script>
-  <script src="/js/tagsinput.js"></script>
-  <script>feather.replace()</script>
-  <script type="text/javascript" src="/js/jquery.simplePagination.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>
+      window.jQuery
+          || document
+              .write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')
+    </script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/datatables.min.js"></script>
+    <script src="/js/tagsinput.js"></script>
+    <script>feather.replace()</script>
+    <script type="text/javascript" src="/js/jquery.simplePagination.js"></script>
   
-</div>
+  </div>
 
 </body>
 

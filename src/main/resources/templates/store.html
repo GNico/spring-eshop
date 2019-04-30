@@ -8,7 +8,7 @@
   <div th:replace="common/header :: navbar"> </div>
       
    <form id="filter-form" th:action="@{/store}" method="get">
-   <div class="container page-content mt-3 mb-3">
+   <div class="container page-content">
       <div class="row gutters-3">
 
         <!-- Shop Filters -->
@@ -126,16 +126,14 @@
           <!-- Shop toolbar -->
           
           <!-- Shop Grid -->          
-          <div class="row">
-            <div class="col-sm-6 col-lg-4" th:each="article : ${articles}">
-              <div class="card card-product mb-3">
+          <div class="grid grid-gap-3 grid-col-2 grid-col-lg-3 mb-3">
+              <div class="card card-product" th:each="article : ${articles}">
                 <div class="card-body">
                   <a th:href="@{/article-detail?id=}+${article.id}"><img class="card-img-top" th:src="${article.picture} ? ${article.picture} : '/image/article/itemexample.jpg'" alt="Card image cap"></a>
                   <a th:href="@{/article-detail?id=}+${article.id}" class="card-title" th:text="${article.title}"></a>
                   <div class="price"><span class="h5" th:text="'$'+${article.price}"></span></div>
                 </div>              
               </div>
-            </div>    
           </div>      
           <!-- /Shop Grid -->
 
