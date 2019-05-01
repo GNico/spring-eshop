@@ -49,7 +49,9 @@ public class HomeController {
 	private ArticleService articleService;
 	
 	@RequestMapping("/")
-	public String index() {
+	public String index(Model model) {		
+		List<Article> articles = articleService.findAllTop(8);
+		model.addAttribute("articles", articles);
 		return "index";
 	}
 	

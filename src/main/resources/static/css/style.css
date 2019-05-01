@@ -333,6 +333,11 @@ a {
  border: 0 solid;
 }
 
+.price {
+	font-weight: 700;
+	color: #e83e8c;	
+}
+
 .card-product {
  text-align:center
 }
@@ -353,16 +358,29 @@ a {
   padding:.5rem
  }
 }
-@media (min-width:768px) and (max-width:991.98px) {
- .card-product .price span {
-  font-size:.875rem
- }
+
+
+
+.card-featured {
+	height: 100%;
+	margin-right: 0.5rem;
+	margin-left: 0.5rem;
+	border: 1px solid #e1e7ec;
+	border-radius: 7px;	
+	padding:1rem;
 }
-@media (max-width:575.98px) {
- .card-product .price span {
-  font-size:.875rem
- }
+ 
+.slick-next:before { 
+	content: ">"; 
+	color: #787D85;
+	font-size: 30px; 
 }
+
+.slick-prev:before { 
+	content: "<"; 
+	color: #787D85;
+	font-size: 30px; 
+} 
 
 .btn-size {
 	margin: 0 0.2rem 0.2rem 0;

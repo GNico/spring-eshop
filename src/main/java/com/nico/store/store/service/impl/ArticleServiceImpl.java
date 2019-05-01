@@ -12,6 +12,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,11 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public List<Article> findAll() {
 		return (List<Article>) articleRepository.findAll();
+	}
+	
+	@Override
+	public List<Article> findAllTop(int number) {
+		return articleRepository.findAll(PageRequest.of(0,number)).getContent(); 
 	}
 
 	@Override
@@ -98,15 +104,6 @@ public class ArticleServiceImpl implements ArticleService {
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         }, pageable);
-		
-		//page.getTotalElements();        // get total elements
-      //  page.getTotalPages();           // get total pages
-       // return page.getContent();       // get List of Employee
-        return page;
-		
-		
-		
+        return page;		
 	}
-
-
 }

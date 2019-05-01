@@ -15,6 +15,8 @@ public interface ArticleService {
 	
 	List<Article> findAll();
 	
+	List<Article> findAllTop(int number);
+
 	Article findById(Long id);
 
 	void deleteById(Long id);
@@ -26,4 +28,5 @@ public interface ArticleService {
 	List<String> findAllBrands();
 
 	Page<Article> findByCriteria(Pageable pageable, String priceLow, String priceHigh, List<String> sizes, List<String> categories, List<String> brands);
+
 }
