@@ -22,16 +22,19 @@
                     <em>to your account</em>
                   </div>
                   <div class="form-group">
-                    <span class="input-icon"> 
+                    <div class="input-icon"> 
                       <i data-feather="user"></i> 
-                      <input required="required" type="text" class="form-control" placeholder="Username" name="username">
-                    </span>
+                      <input required="required" type="text" class="form-control" placeholder="Username" name="username" 
+                             th:classappend="${param.error} ? is-invalid" >
+                    </div>
                   </div>
                   <div class="form-group">
-                    <span class="input-icon"> 
+                    <div class="input-icon"> 
                       <i data-feather="lock"></i> 
-                      <input required="required" type="password" class="form-control" placeholder="Password" name="password">
-                    </span>
+                      <input required="required" type="password" class="form-control" placeholder="Password" name="password"
+                             th:classappend="${param.error} ? is-invalid" >
+                      <div class="invalid-feedback">Incorrect username or password</div>  
+                    </div>                    
                   </div>
                   <div class="form-group d-flex justify-content-between">
                     <div class="custom-control custom-checkbox">
@@ -62,7 +65,7 @@
                       <i data-feather="mail"></i> 
                       <input required="required" type="email" class="form-control" th:classappend="${emailExists} ? is-invalid" 
                              name="email" placeholder="Email address" th:value="${email}">
-                      <div class="invalid-feedback">Email already in use</div>                 
+                      <div class="invalid-feedback">Email is already in use</div>                 
                     </div>
                   </div>
                   <div class="form-group">
@@ -70,7 +73,7 @@
                       <i data-feather="user"></i> 
                       <input required="required" type="text" class="form-control" th:classappend="${usernameExists} ? is-invalid"
                              placeholder="Username" name="username" th:value="${username}">
-                      <div class="invalid-feedback">Username already in use</div>                 
+                      <div class="invalid-feedback">Username is already in use</div>                 
                       
                     </div>
                   </div>

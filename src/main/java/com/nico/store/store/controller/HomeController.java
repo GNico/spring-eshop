@@ -2,11 +2,9 @@ package com.nico.store.store.controller;
 
 import java.security.Principal;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,8 +27,6 @@ import com.nico.store.store.domain.Address;
 import com.nico.store.store.domain.Article;
 import com.nico.store.store.domain.Order;
 import com.nico.store.store.domain.User;
-import com.nico.store.store.domain.security.Role;
-import com.nico.store.store.domain.security.UserRole;
 import com.nico.store.store.form.ArticleFilterForm;
 import com.nico.store.store.service.ArticleService;
 import com.nico.store.store.service.OrderService;
@@ -96,9 +93,13 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/new-user", method=RequestMethod.POST)
-	public String newUserPost(@ModelAttribute("user") User user, @ModelAttribute("new-password") String password, Model model) {
+	public String newUserPost(@Valid @ModelAttribute("user") User user, BindingResult bindingResults,
+							  @ModelAttribute("new-password") String password, Model model) {
 		model.addAttribute("email", user.getEmail());
-		model.addAttribute("username", user.getUsername());
+		model.addAttribute("username", user.getUsername());		
+		if (bindingResults.hasErrors()) {
+			return "myAccount";
+		}		
 		boolean invalidFields = false;
 		if (userService.findByUsername(user.getUsername()) != null) {
 			model.addAttribute("usernameExists", true);
@@ -110,8 +111,7 @@ public class HomeController {
 		}	
 		if (invalidFields) {
 			return "myAccount";
-		}
-		
+		}		
 		userService.createBasicUser(user.getUsername(), user.getEmail(), password);
 		
 		//set new user as authenticated
@@ -125,11 +125,9 @@ public class HomeController {
 	
 	
 	@RequestMapping(value="/update-user-info", method=RequestMethod.POST)
-	public String updateUserInfo(
-			@ModelAttribute("user") User user,
-			@RequestParam("newPassword") String newPassword,
-			Model model, Principal principal
-			) throws Exception {
+	public String updateUserInfo( @ModelAttribute("user") User user,
+								  @RequestParam("newPassword") String newPassword,
+								  Model model, Principal principal) throws Exception {
 		User currentUser = userService.findByUsername(principal.getName());
 		if(currentUser == null) {
 			throw new Exception ("User not found");
@@ -195,7 +193,7 @@ public class HomeController {
 		SortFilter sortFilter = new SortFilter(filters.getSort());	
 		Page<Article> pageresult = articleService.findByCriteria(PageRequest.of(pagenumber,9, sortFilter.getSortType()), 
 																filters.getPricelow(), filters.getPricehigh(), 
-																filters.getSize(), filters.getCategory(), filters.getBrand() );	
+																filters.getSize(), filters.getCategory(), filters.getBrand(), filters.getSearch());	
 		model.addAttribute("allCategories", articleService.findAllCategories());
 		model.addAttribute("allBrands", articleService.findAllBrands());
 		model.addAttribute("allSizes", articleService.findAllSizes());

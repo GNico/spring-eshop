@@ -38,30 +38,26 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item dropdown"><a
-            class="nav-link dropdown-toggle" th:href="@{/store}" id="navbarDropdown"
-            role="button" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false"> PRODUCTS </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" th:href="@{/store}">Browse the store</a> 
-              <a class="dropdown-item" href="#">Store hours &#38; Directions</a> 
-              <a class="dropdown-item" href="#">FAQ</a>
-            </div>
+        <ul class="navbar-nav mr-auto font-weight-bold">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/}"> Home</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/store}"> Store </a>
+          </li>
+          <li class="nav-item">          
+            <a class="nav-link" th:href="@{/shopping-cart/cart}">Shopping Cart</a>
+          </li>                        
         </ul>
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{/shopping-cart/cart}">SHOPPING CART </a>
+        <ul class="navbar-nav ml-auto font-weight-bold">          
+          <li class="nav-item">          
+            <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}">My Account </a>
+          </li>
+          <li class="nav-item">           
+            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/myProfile}">My Account</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}"> MY ACCOUNT </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/myProfile}"> MY ACCOUNT </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}"> LOG OUT </a>
+            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}"> Log Out </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" sec:authorize="hasRole('ADMIN')" th:href="@{/admin}" 

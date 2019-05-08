@@ -24,6 +24,12 @@ a {
   margin-bottom: 2rem;
 }
 
+.input-group-search {
+    border: 1px solid #dee2e6;
+    border-radius: 2rem;
+    overflow: hidden;
+}
+
 .jumbotron {
   flex: 1 0 auto;
   font-family: 'Roboto Slab', serif;
