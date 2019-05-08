@@ -20,7 +20,7 @@ public class ShoppingCart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private BigDecimal GrandTotal;
+	private BigDecimal grandTotal;
 	
 	@OneToMany(mappedBy="shoppingCart", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JsonIgnore
@@ -42,11 +42,11 @@ public class ShoppingCart {
 	}
 
 	public BigDecimal getGrandTotal() {
-		return GrandTotal;
+		return grandTotal;
 	}
 
 	public void setGrandTotal(BigDecimal grandTotal) {
-		GrandTotal = grandTotal;
+		this.grandTotal = grandTotal;
 	}
 
 	public List<CartItem> getCartItems() {

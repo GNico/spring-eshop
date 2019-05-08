@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,10 +31,13 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id", nullable=false, updatable=false)
 	private Long id;
+	@NotNull
 	private String username;
 	private String password;
 	private String firstName;
 	private String lastName;
+	@NotNull
+	@Email
 	private String email;
 	@OneToOne(cascade= CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="address_id")
@@ -45,20 +50,6 @@ public class User implements UserDetails {
 	
 	@OneToOne(cascade= CascadeType.ALL, mappedBy= "user")
 	private ShoppingCart shoppingCart;
-		
-	public User(Long id, String username, String password, String firstName, String lastName, String email,
-			Address address, boolean enabled, Set<UserRole> userRoles, ShoppingCart shoppingCart) {
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.address = address;
-		this.enabled = enabled;
-		this.userRoles = userRoles;
-		this.shoppingCart = shoppingCart;
-	}
 
 	public User() {
 	}

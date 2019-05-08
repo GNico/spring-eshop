@@ -15,13 +15,13 @@
           <p>Your order has been placed and will be processed as soon as possible.</p>
           <p class="mb-0">
             <span class="text-muted">Order ID: </span>
-            <span class="text-info">#ORD456789</span>
+            <span class="text-info">#ORD<span th:text="${order.id}"></span></span>
           </p>
           <p>
             <span class="text-muted">Amount: </span>
-            <span class="text-info">$ <span th:text="${amount}"></span></span>
+            <span class="text-info">$ <span th:text="${order.orderTotal}"></span></span>
           </p>
-          <p>The estimated delivery date is <span th:text="${estimatedDeliveryDate}"></span></p>
+          <p>The estimated delivery date is <span th:text="${#dates.format(order.shippingDate, 'dd-MMM-yyyy')}"></span></p>
           <a th:href="@{/store}" class="btn btn-info rounded mb-3">CONTINUE SHOPPING</a>
           <a th:href="@{/store}" class="btn btn-primary rounded mb-3">VIEW ORDER</a>
         </div>

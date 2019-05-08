@@ -9,7 +9,21 @@
   <div class="container page-content">
     <div class="row">
       
-       <div th:replace="myProfile :: profile-menu"></div>
+       <div class="col-md-4 col-lg-3">
+        <div class="card">
+          <div class="card-body text-center">
+            <img src="/image/user/user.jpg" width="100" height="100" alt="User" class="rounded-circle mb-3">
+            <h5 class="bold mb-0" th:text="${#strings.capitalize(user.username)}"></h5>
+            <small class="text-secondary">Joined Dec 31, 2017</small>       
+          </div>
+          <div class="list-group list-group-flush">
+            <a th:href="@{/myProfile}" class="list-group-item list-group-item-action"><i data-feather="user" class="mr-3"></i> Profile</a>
+            <a th:href="@{/myOrders}" class="list-group-item list-group-item-action"><i data-feather="shopping-bag" class="mr-3"></i> Orders</a>
+            <a th:href="@{/myAddress}" class="list-group-item list-group-item-action active"><i data-feather="map" class="mr-3"></i> Address</a>
+            <a th:href="@{/logout}" class="list-group-item list-group-item-action text-danger"><i data-feather="log-out" class="mr-3"></i> Logout</a>
+          </div>
+        </div>
+      </div>
       
        <div class="col mt-3 mt-md-0">
           <div class="card">

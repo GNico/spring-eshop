@@ -26,10 +26,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nico.store.store.domain.Address;
 import com.nico.store.store.domain.Article;
+import com.nico.store.store.domain.Order;
 import com.nico.store.store.domain.User;
 import com.nico.store.store.domain.security.Role;
 import com.nico.store.store.domain.security.UserRole;
+import com.nico.store.store.form.ArticleFilterForm;
 import com.nico.store.store.service.ArticleService;
+import com.nico.store.store.service.OrderService;
 import com.nico.store.store.service.UserService;
 import com.nico.store.store.service.impl.UserSecurityService;
 import com.nico.store.store.type.SortFilter;
@@ -46,7 +49,11 @@ public class HomeController {
 	private UserSecurityService userSecurityService;
 	
 	@Autowired
+	private OrderService orderService;
+	
+	@Autowired
 	private ArticleService articleService;
+	
 	
 	@RequestMapping("/")
 	public String index(Model model) {		
@@ -57,65 +64,18 @@ public class HomeController {
 	
 	@RequestMapping("/login")
 	public String log(Model model) {
-		model.addAttribute("classActiveLogin", true);
 		return "myAccount";
 	}
 	
-	@RequestMapping("/forgotPassword")
-	public String forgotPassword( Model model) {
-		model.addAttribute("classActiveForgotPassword", true);
-		return "myAccount";
-	}
-	
-	@RequestMapping(value="/new-user", method=RequestMethod.POST)
-	public String newUserPost(HttpServletRequest request, @ModelAttribute("email") String userEmail,
-			@ModelAttribute("username") String username, @ModelAttribute("new-password") String password, Model model) throws Exception {
-		
-		//model.addAttribute("classActiveNewAccount", true);
-		model.addAttribute("email", userEmail);
-		model.addAttribute("username", username);
-		if (userService.findByUsername(username) != null) {
-			model.addAttribute("usernameExists", true);
-			return "myAccount";
-		}
-		if (userService.findByEmail(userEmail) != null) {
-			model.addAttribute("emailExists", true);
-			return "myAccount";
-		}
-		User user = new User();
-		user.setUsername(username);
-		user.setEmail(userEmail);
-		
-		String encryptedPassword = SecurityUtility.passwordEncoder().encode(password);
-		user.setPassword(encryptedPassword);
-		
-		Role role = new Role();
-		role.setRoleId(1);
-		role.setName("ROLE_USER");
-		Set<UserRole> userRoles = new HashSet<>();
-		userRoles.add(new UserRole(user,role));
-		try {
-			userService.createUser(user,userRoles);
-		} catch (Exception e) {
-			return "myAccount";			
-		}
-
-		//set new user as authenticated
-		UserDetails userDetails = userSecurityService.loadUserByUsername(username);
-		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), 
-				userDetails.getAuthorities());
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		model.addAttribute("user", user);
-		model.addAttribute("classActiveEdit", true);
-		return "myProfile";  
-
+	@RequestMapping("/admin")
+	public String admin() {
+		return "adminHome";
 	}
 	
 	@RequestMapping("/myProfile")
 	public String myProfile(Model model, Principal principal) {
 		User user = userService.findByUsername(principal.getName());
 		model.addAttribute("user", user);
-		model.addAttribute("classActiveEdit", true);
 		return "myProfile";
 	}
 	
@@ -123,6 +83,8 @@ public class HomeController {
 	public String myOrders(Model model, Principal principal) {
 		User user = userService.findByUsername(principal.getName());
 		model.addAttribute("user", user);
+		List<Order> orders = orderService.findByUser(user);
+		model.addAttribute("orders", orders);
 		return "myOrders";
 	}
 	
@@ -131,6 +93,34 @@ public class HomeController {
 		User user = userService.findByUsername(principal.getName());
 		model.addAttribute("user", user);
 		return "myAddress";
+	}
+	
+	@RequestMapping(value="/new-user", method=RequestMethod.POST)
+	public String newUserPost(@ModelAttribute("user") User user, @ModelAttribute("new-password") String password, Model model) {
+		model.addAttribute("email", user.getEmail());
+		model.addAttribute("username", user.getUsername());
+		boolean invalidFields = false;
+		if (userService.findByUsername(user.getUsername()) != null) {
+			model.addAttribute("usernameExists", true);
+			invalidFields = true;
+		}
+		if (userService.findByEmail(user.getEmail()) != null) {
+			model.addAttribute("emailExists", true);
+			invalidFields = true;
+		}	
+		if (invalidFields) {
+			return "myAccount";
+		}
+		
+		userService.createBasicUser(user.getUsername(), user.getEmail(), password);
+		
+		//set new user as authenticated
+		UserDetails userDetails = userSecurityService.loadUserByUsername(user.getUsername());
+		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), 
+				userDetails.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		model.addAttribute("user", user);
+		return "myProfile";  
 	}
 	
 	
@@ -168,34 +158,25 @@ public class HomeController {
 				model.addAttribute("incorrectPassword", true);
 				return "myProfile";
 			}
-		}
-		
+		}		
 		currentUser.setFirstName(user.getFirstName());
 		currentUser.setLastName(user.getLastName());
 		currentUser.setUsername(user.getUsername());
-		currentUser.setEmail(user.getEmail());
-		
+		currentUser.setEmail(user.getEmail());		
 		userService.save(currentUser);
-		
 		model.addAttribute("updateSuccess", true);
 		model.addAttribute("user", currentUser);
-		model.addAttribute("classActiveEdit", true);
 		
 		UserDetails userDetails = userSecurityService.loadUserByUsername(currentUser.getUsername());
-
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(),
-				userDetails.getAuthorities());
-		
+				userDetails.getAuthorities());		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
 		return "myProfile";
 	}
 	
 	
 	@RequestMapping(value="/update-user-address", method=RequestMethod.POST)
-	public String updateUserAddress(
-			@ModelAttribute("user") User user,
-			@ModelAttribute("address") Address address, 
+	public String updateUserAddress(@ModelAttribute("address") Address address, 
 			Model model, Principal principal) throws Exception {
 		User currentUser = userService.findByUsername(principal.getName());
 		if(currentUser == null) {
@@ -207,33 +188,23 @@ public class HomeController {
 	}
 
 	
-	@RequestMapping("/admin")
-	public String admin() {
-		return "adminHome";
-	}
-	
 	@RequestMapping("/store")
-	public String store(@RequestParam(value="size", required=false) List<String> sizes,
-						@RequestParam(value="category", required=false) List<String> categories,
-						@RequestParam(value="brand", required=false) List<String> brands,
-						@RequestParam(value="pricelow", required=false) String priceLow,
-						@RequestParam(value="pricehigh", required=false) String priceHigh,
-						HttpServletRequest request, Model model) {
-		String sort = request.getParameter("sort");					
-		String page = request.getParameter("page");
-		int pagenumber = (page == null || page.isEmpty() || Integer.parseInt(page) <= 0) ? 0 : Integer.parseInt(page)-1;	
-		SortFilter sortFilter = new SortFilter(sort);	
-		Page<Article> pageresult = articleService.findByCriteria(PageRequest.of(pagenumber,9, sortFilter.getSortType()), priceLow, priceHigh, sizes, categories, brands );	
-		model.addAttribute("articles", pageresult.getContent());
+	public String store(@ModelAttribute("filters") ArticleFilterForm filters, Model model) {
+		Integer page = filters.getPage();			
+		int pagenumber = (page == null ||  page <= 0) ? 0 : page-1;
+		SortFilter sortFilter = new SortFilter(filters.getSort());	
+		Page<Article> pageresult = articleService.findByCriteria(PageRequest.of(pagenumber,9, sortFilter.getSortType()), 
+																filters.getPricelow(), filters.getPricehigh(), 
+																filters.getSize(), filters.getCategory(), filters.getBrand() );	
 		model.addAttribute("allCategories", articleService.findAllCategories());
 		model.addAttribute("allBrands", articleService.findAllBrands());
 		model.addAttribute("allSizes", articleService.findAllSizes());
-		model.addAttribute("sort", sort);
-		model.addAttribute("page", page);
+		model.addAttribute("articles", pageresult.getContent());
 		model.addAttribute("totalitems", pageresult.getTotalElements());
 		model.addAttribute("itemsperpage", 9);
 		return "store";
 	}
+	
 	
 	@RequestMapping("/article-detail")
 	public String articleDetail(@PathParam("id") Long id, Model model) {
@@ -243,7 +214,10 @@ public class HomeController {
 		model.addAttribute("qtyList", qtyList);
 		model.addAttribute("qty", 1);
 		return "articleDetail";
-		
 	}
 	
+	@RequestMapping("/order-detail")
+	public String orderDetail(@PathParam("id") Long id, Model model) {
+		return "to be implemented";
+	}
 }

@@ -103,7 +103,7 @@
               <div class="btn-group">
                 <button type="button" class="btn btn-light btn-sm border rounded-pill" data-toggle="dropdown" 
                         aria-haspopup="true" aria-expanded="false">                        
-                  <th:block th:switch="${sort}">                    
+                  <th:block th:switch="${filters.sort}">                    
                     <span id="dropdown-sort-text" th:case="'priceasc'">Low - High Price</span>
                     <span id="dropdown-sort-text" th:case="'pricedesc'">High - Low Price</span>
                     <span id="dropdown-sort-text" th:case="'alphasc'">A - Z Order</span>
@@ -120,7 +120,7 @@
                   <button class="dropdown-item button-sort" type="button" value="alphdesc">Z - A Order</button>
                 </div>
               </div> 
-              <input id="input-sort" hidden="hidden" type="text" name="sort" th:value="${sort}">                           
+              <input id="input-sort" hidden="hidden" type="text" name="sort" th:value="${filters.sort}">                           
             </div>
           </div>
           <!-- Shop toolbar -->
@@ -149,7 +149,7 @@
       </div>
     </div> <!-- end container -->      
         
-    <input id="page" hidden="hidden" type="text" name="page" th:value="${page}">
+    <input id="page" hidden="hidden" type="text" name="page" th:value="${filters.page}">
        
     </form>
     

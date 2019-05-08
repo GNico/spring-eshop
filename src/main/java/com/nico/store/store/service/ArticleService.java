@@ -27,6 +27,6 @@ public interface ArticleService {
 
 	List<String> findAllBrands();
 
-	Page<Article> findByCriteria(Pageable pageable, String priceLow, String priceHigh, List<String> sizes, List<String> categories, List<String> brands);
+	Page<Article> findByCriteria(Pageable pageable, Integer priceLow, Integer priceHigh, List<String> sizes, List<String> categories, List<String> brands);
 
 }

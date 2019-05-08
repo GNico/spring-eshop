@@ -1,7 +1,6 @@
 package com.nico.store.store.controller;
 
 import java.security.Principal;
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nico.store.store.domain.Address;
 import com.nico.store.store.domain.CartItem;
+import com.nico.store.store.domain.Order;
 import com.nico.store.store.domain.Payment;
 import com.nico.store.store.domain.Shipping;
 import com.nico.store.store.domain.ShoppingCart;
@@ -75,15 +75,9 @@ public class CheckoutControler {
 		model.addAttribute("shoppingCart", shoppingCart);
 		//	return "redirect:/checkout?missingRequiredField=true";	
 		shipping.setAddress(address);
-		orderService.createOrder(shoppingCart, shipping, payment, user);
-				
+		Order order = orderService.createOrder(shoppingCart, shipping, payment, user);				
 		shoppingCartService.clearShoppingCart(shoppingCart);
-		
-		LocalDate today = LocalDate.now();
-		LocalDate estimatedDeliveryDate = today.plusDays(5);
-		
-		model.addAttribute("estimatedDeliveryDate", estimatedDeliveryDate);
-		
+		model.addAttribute("order", order);	
 		return "orderSubmitted";
 	}
 

@@ -77,7 +77,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public Page<Article> findByCriteria(Pageable pageable, String priceLow, String priceHigh, List<String> sizes, List<String> categories, List<String> brands) {
+	public Page<Article> findByCriteria(Pageable pageable, Integer priceLow, Integer priceHigh, List<String> sizes, List<String> categories, List<String> brands) {
 		Page<Article> page = articleRepository.findAll(new Specification<Article>() {
             @Override
             public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -95,10 +95,10 @@ public class ArticleServiceImpl implements ArticleService {
                 	Join<Article, Brand> joinSize = root.join("brands");
                 	predicates.add(criteriaBuilder.and(joinSize.get("name").in(brands)));
                 }   
-                if (priceLow!=null && !priceLow.isEmpty()) {
+                if (priceLow!=null && priceLow >= 0) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.greaterThan(root.get("price"), priceLow)));
                 }
-                if (priceHigh!=null && !priceHigh.isEmpty()) {
+                if (priceHigh!=null && priceHigh >= 0) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.lessThan(root.get("price"), priceHigh)));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));

@@ -1,6 +1,8 @@
 package com.nico.store.store.service.impl;
 
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,10 +43,16 @@ public class OrderServiceImpl implements OrderService {
 			article.setStock(article.getStock() - item.getQty());		
 		}
 		order.setCartItems(cartItems);
-		order.setOrderDate(Calendar.getInstance().getTime());
 		order.setOrderTotal(shoppingCart.getGrandTotal());
 		shipping.setOrder(order);
-		payment.setOrder(order);
+		payment.setOrder(order);		
+		
+		LocalDate today = LocalDate.now();
+		LocalDate estimatedDeliveryDate = today.plusDays(5);				
+		order.setOrderDate(Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		order.setShippingDate(Date.from(estimatedDeliveryDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		order.setOrderStatus("In Progress");
+		
 		
 		return orderRepository.save(order);
 		
@@ -54,5 +62,9 @@ public class OrderServiceImpl implements OrderService {
 		Optional<Order> opt = orderRepository.findById(id);
 		return opt.get();
 	}	
+
+	public List<Order> findByUser(User user) {
+		return orderRepository.findByUser(user);
+	}
 
 }
