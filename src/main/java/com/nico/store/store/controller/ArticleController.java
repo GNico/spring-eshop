@@ -1,8 +1,5 @@
 package com.nico.store.store.controller;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nico.store.store.domain.Article;
+import com.nico.store.store.domain.ArticleBuilder;
 import com.nico.store.store.domain.Brand;
 import com.nico.store.store.domain.Category;
 import com.nico.store.store.domain.Size;
@@ -30,7 +28,7 @@ public class ArticleController {
 	private ArticleService articleService;
 	
 	@RequestMapping("/add")
-	public String addBook(Model model) {
+	public String addArticle(Model model) {
 		Article article = new Article();
 		model.addAttribute("article", article);
 		model.addAttribute("allSizes", articleService.findAllSizes());
@@ -40,35 +38,17 @@ public class ArticleController {
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public String addBookPost(@ModelAttribute("article") Article article, HttpServletRequest request) {
-		String paramSizes = request.getParameter("size");
-		List<String> sizeValues = Arrays.asList(paramSizes.split("\\s*,\\s*"));
-		article.setSizes(new ArrayList<Size>());
-		for (String sizeVal : sizeValues) {
-			Size size = new Size();
-			size.setValue(sizeVal);
-			size.setArticle(article);
-			article.getSizes().add(size);
-		}		
-		String paramCategories = request.getParameter("category");
-		List<String> categoriesValues = Arrays.asList(paramCategories.split("\\s*,\\s*"));
-		article.setCategories(new ArrayList<Category>());
-		for (String catVal : categoriesValues) {
-			Category cat = new Category();
-			cat.setName(catVal);
-			cat.setArticle(article);
-			article.getCategories().add(cat);
-		}		
-		String paramBrands = request.getParameter("brand");
-		List<String> brandsValues = Arrays.asList(paramBrands.split("\\s*,\\s*"));
-		article.setBrands(new ArrayList<Brand>());
-		for (String brandVal : brandsValues) {
-			Brand brand = new Brand();
-			brand.setName(brandVal);
-			brand.setArticle(article);
-			article.getBrands().add(brand);
-		}		
-		articleService.save(article);	
+	public String addArticlePost(@ModelAttribute("article") Article article, HttpServletRequest request) {
+		Article newArticle = new ArticleBuilder()
+				.withTitle(article.getTitle())
+				.stockAvailable(article.getStock())
+				.withPrice(article.getPrice())
+				.imageLink(article.getPicture())
+				.sizesAvailable(Arrays.asList(request.getParameter("size").split("\\s*,\\s*")))
+				.ofCategories(Arrays.asList(request.getParameter("category").split("\\s*,\\s*")))
+				.ofBrand(Arrays.asList(request.getParameter("brand").split("\\s*,\\s*")))
+				.build();		
+		articleService.save(newArticle);	
 		return "redirect:article-list";
 	}
 	
@@ -105,48 +85,24 @@ public class ArticleController {
 	}
 	
 	@RequestMapping(value="/edit", method=RequestMethod.POST)
-	public String editArticlePost(@ModelAttribute("article") Article article, HttpServletRequest request) {
-		String paramSizes = request.getParameter("size");
-		List<String> sizeValues = Arrays.asList(paramSizes.split("\\s*,\\s*"));
-		article.setSizes(new ArrayList<Size>());
-		for (String sizeVal : sizeValues) {
-			Size size = new Size();
-			size.setValue(sizeVal);
-			size.setArticle(article);
-			article.getSizes().add(size);
-		}		
-		String paramCategories = request.getParameter("category");
-		List<String> categoriesValues = Arrays.asList(paramCategories.split("\\s*,\\s*"));
-		article.setCategories(new ArrayList<Category>());
-		for (String catVal : categoriesValues) {
-			Category cat = new Category();
-			cat.setName(catVal);
-			cat.setArticle(article);
-			article.getCategories().add(cat);
-		}		
-		String paramBrands = request.getParameter("brand");
-		List<String> brandsValues = Arrays.asList(paramBrands.split("\\s*,\\s*"));
-		article.setBrands(new ArrayList<Brand>());
-		for (String brandVal : brandsValues) {
-			Brand brand = new Brand();
-			brand.setName(brandVal);
-			brand.setArticle(article);
-			article.getBrands().add(brand);
-		}		
-		articleService.save(article);	
+	public String editArticlePost(@ModelAttribute("article") Article article, HttpServletRequest request) {		
+		Article newArticle = new ArticleBuilder()
+				.withTitle(article.getTitle())
+				.stockAvailable(article.getStock())
+				.withPrice(article.getPrice())
+				.imageLink(article.getPicture())
+				.sizesAvailable(Arrays.asList(request.getParameter("size").split("\\s*,\\s*")))
+				.ofCategories(Arrays.asList(request.getParameter("category").split("\\s*,\\s*")))
+				.ofBrand(Arrays.asList(request.getParameter("brand").split("\\s*,\\s*")))
+				.build();
+		newArticle.setId(article.getId());
+		articleService.save(newArticle);	
 		return "redirect:article-list";
 	}
 	
 	@RequestMapping("/delete")
 	public String deleteArticle(@RequestParam("id") Long id) {
 		articleService.deleteById(id);
-		try {
-			String name = id + ".png";
-			Files.delete(Paths.get("src/main/resources/static/image/article/"+name));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		return "redirect:article-list";
 
 	}

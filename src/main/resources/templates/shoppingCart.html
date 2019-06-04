@@ -42,6 +42,7 @@
             </div>         
          </div>
          <div class="text-center mt-3">
+            <div th:if="${#lists.isEmpty(cartItemList)}">No items added to cart yet! </div>
             <small class="counter">TOTAL</small>
             <h3 class="font-weight-bold">$ <span th:text="${#numbers.formatDecimal(shoppingCart.grandTotal, 0, 'COMMA', 2, 'POINT')}"></span></h3>
             <a th:href="@{/store}" class="btn btn-info rounded-pill "><i data-feather="arrow-left"></i> Back to shop</a>            

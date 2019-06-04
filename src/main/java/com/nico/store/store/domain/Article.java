@@ -33,6 +33,14 @@ public class Article {
 	public Article() {
 	}
 	
+	public boolean hasStock(int amount) {
+		return (this.getStock() > 0) && (amount <= this.getStock());
+	}
+	
+	public void decreaseStock(int amount) {
+		this.stock -= amount;
+	}
+	
 	public void addSize(Size size) {
         sizes.add(size);
         size.setArticle(this);

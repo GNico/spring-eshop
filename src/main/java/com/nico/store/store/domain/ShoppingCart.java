@@ -30,37 +30,38 @@ public class ShoppingCart {
 	private User user;
 
 	public ShoppingCart() {
-		
+	}
+	
+	public CartItem findCartItemByArticle(Long id) {
+		for (CartItem item : this.cartItems) {
+			if (item.getArticle().getId() == id) {
+				return item;
+			}
+		}
+		return null;
 	}
 	
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 	public BigDecimal getGrandTotal() {
 		return grandTotal;
 	}
-
 	public void setGrandTotal(BigDecimal grandTotal) {
 		this.grandTotal = grandTotal;
 	}
-
 	public List<CartItem> getCartItems() {
 		return cartItems;
 	}
-
 	public void setCartItems(List<CartItem> cartItems) {
 		this.cartItems = cartItems;
 	}
-
 	public User getUser() {
 		return user;
 	}
-
 	public void setUser(User user) {
 		this.user = user;
 	}

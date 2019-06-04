@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
 		for (CartItem item : cartItems) {
 			Article article = item.getArticle();
 			item.setOrder(order);
-			article.setStock(article.getStock() - item.getQty());		
+			article.decreaseStock(item.getQty());		
 		}
 		order.setCartItems(cartItems);
 		order.setOrderTotal(shoppingCart.getGrandTotal());
@@ -52,8 +52,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setOrderDate(Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		order.setShippingDate(Date.from(estimatedDeliveryDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		order.setOrderStatus("In Progress");
-		
-		
+			
 		return orderRepository.save(order);
 		
 	}

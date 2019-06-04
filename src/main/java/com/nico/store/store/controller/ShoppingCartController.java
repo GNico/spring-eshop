@@ -54,11 +54,11 @@ public class ShoppingCartController {
 			Model model, Principal principal) {
 		User user = userService.findByUsername(principal.getName());
 		article = articleService.findById(article.getId());		
-		if (Integer.parseInt(qty) > article.getStock()) {
+		if (!article.hasStock(Integer.parseInt(qty))) {
 			model.addAttribute("notEnoughStock", true);
 			return "forward:/article-detail?id="+article.getId();
 		}		
-		cartItemService.addArticleToCartItem(article, user, Integer.parseInt(qty), size);
+		cartItemService.addArticleToCartItem(article, user.getShoppingCart(), Integer.parseInt(qty), size);
 		model.addAttribute("addArticleSuccess", true);		
 		return "forward:/article-detail?id="+article.getId();
 	}
@@ -69,7 +69,7 @@ public class ShoppingCartController {
 			@ModelAttribute("qty") int qty) {
 		CartItem cartItem = cartItemService.findById(cartItemId);
 		cartItem.setQty(qty);
-		cartItemService.updateCartItem(cartItem);		
+		cartItemService.save(cartItem);		
 		return "redirect:/shopping-cart/cart";
 	}
 	

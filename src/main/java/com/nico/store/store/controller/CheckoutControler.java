@@ -48,13 +48,7 @@ public class CheckoutControler {
 		if(cartItemList.size() == 0) {
 			model.addAttribute("emptyCart", true);
 			return "redirect:/shopping-cart/cart";
-		}		
-		for (CartItem cartItem : cartItemList) {
-			if(cartItem.getArticle().getStock() < cartItem.getQty()) {
-				model.addAttribute("notEnoughStock", true);
-				return "redirect:/shopping-cart/cart";
-			}
-		}			
+		}						
 		model.addAttribute("cartItemList", cartItemList);
 		model.addAttribute("shoppingCart", user.getShoppingCart());
 		if(missingRequiredField) {
@@ -73,7 +67,6 @@ public class CheckoutControler {
 		User user = userService.findByUsername(principal.getName());
 		ShoppingCart shoppingCart = user.getShoppingCart();
 		model.addAttribute("shoppingCart", shoppingCart);
-		//	return "redirect:/checkout?missingRequiredField=true";	
 		shipping.setAddress(address);
 		Order order = orderService.createOrder(shoppingCart, shipping, payment, user);				
 		shoppingCartService.clearShoppingCart(shoppingCart);
