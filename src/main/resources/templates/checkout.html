@@ -35,7 +35,7 @@
                       <a th:href="@{/article-detail?id=}+${cartItem.article.id}" class="h6 bold d-inline-block" th:text=${cartItem.article.title}></a>
                         <div><i data-feather="check-circle" class="text-success"></i> In Stock</div>                  
                         <small class="ml-3"><b>Size</b>: <span th:text="${cartItem.size}"></span></small>                  
-                        <small class="ml-3"><b>Unit Price</b>: $<span th:text="${cartItem.article.price}"></span></small>
+                        <small class="ml-3"><b>Unit Price</b>: $<span th:text="${#numbers.formatDecimal(cartItem.article.price, 0, 'COMMA', 2, 'POINT')}"></span></small>
                     </div>
                     <div class="col-1">
                     
@@ -43,14 +43,14 @@
                            
                     </div>
                     <div class="col-2 text-right">
-                      <span class="font-weight-bold">$ <span th:id="'price'+${cartItem.id}" th:text=${cartItem.subtotal}></span></span>
+                      <span class="font-weight-bold">$ <span th:id="'price'+${cartItem.id}" th:text="${#numbers.formatDecimal(cartItem.subtotal, 0, 'COMMA', 2, 'POINT')}"></span></span>
                     </div>                             
                  </div>  
                  <div class="d-flex justify-content-between align-items-center mt-3">
                    <a th:href="@{/shopping-cart/cart}" class="btn btn-info rounded-pill "><i data-feather="arrow-left"></i> Edit cart</a>             
                    <div class="text-center">
                      <small class="counter">TOTAL</small>
-                     <h3 class="font-weight-bold">$ <span th:text="${shoppingCart.grandTotal}"></span></h3>
+                     <h3 class="font-weight-bold">$ <span th:text="${#numbers.formatDecimal(shoppingCart.grandTotal, 0, 'COMMA', 2, 'POINT')}"></span></h3>
                     </div>
                    <a data-toggle="collapse" data-parent="#accordion"
                       class="btn btn-primary rounded-pill" href="#collapseTwo">Next <i data-feather="arrow-right"></i></a>
@@ -71,12 +71,12 @@
                   <div class="form-row">
                     <div class="form-group col-12">
                       <label for="receiver">Receiver Name</label> 
-                      <input type="text" class="form-control" id="receiver" name="receiver" />
+                      <input type="text" class="form-control" id="receiver" name="receiver" required="required"/>
                     </div>
   
                     <div class="form-group col-12">
                       <label for="streetAddress">Address</label> 
-                      <input type="text" class="form-control" id="streetAddress" name="streetAddress" />
+                      <input type="text" class="form-control" id="streetAddress" name="streetAddress" required="required" />
                     </div>
                     
   
@@ -207,16 +207,16 @@
             <div class="card-body">
               <div class="d-flex justify-content-between">
                 <span>Cart subtotal</span>
-                <span>$ <span th:text="${shoppingCart.grandTotal}"> </span></span>
+                <span>$ <span th:text="${#numbers.formatDecimal(shoppingCart.grandTotal, 0, 'COMMA', 2, 'POINT')}"> </span></span>
               </div>
               <div class="d-flex justify-content-between">
                 <span>Shipping</span>
-                <span>$0</span>
+                <span>$0.00</span>
               </div>
               <hr>
               <div class="d-flex justify-content-between">
                 <span>Total</span>
-                <span class="font-weight-bold">$ <span th:text="${shoppingCart.grandTotal}"> </span></span>
+                <span class="font-weight-bold">$ <span th:text="${#numbers.formatDecimal(shoppingCart.grandTotal, 0, 'COMMA', 2, 'POINT')}"> </span></span>
               </div>
             </div>
             <div class="card-footer bg-white border-top-0">

@@ -19,6 +19,14 @@ public class Brand {
 	private Article article;
 	
 	private String name;
+	
+	public Brand() {
+	}
+	
+	public Brand(String name, Article article) {
+		this.name = name;
+		this.article = article;
+	}
 
 	public Long getId() {
 		return id;

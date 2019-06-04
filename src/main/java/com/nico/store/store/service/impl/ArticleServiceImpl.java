@@ -1,28 +1,18 @@
 package com.nico.store.store.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nico.store.store.domain.Article;
-import com.nico.store.store.domain.Brand;
-import com.nico.store.store.domain.Category;
-import com.nico.store.store.domain.Size;
 import com.nico.store.store.repository.ArticleRepository;
+import com.nico.store.store.repository.ArticleSpecification;
 import com.nico.store.store.service.ArticleService;
 
 @Service
@@ -55,10 +45,16 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public void deleteById(Long id) {
-		articleRepository.deleteById(id);
-		
+		articleRepository.deleteById(id);		
 	}
 
+	@Override
+	public Page<Article> findByCriteria(Pageable pageable, Integer priceLow, Integer priceHigh, 
+										List<String> sizes, List<String> categories, List<String> brands, String search) {		
+		Page<Article> page = articleRepository.findAll(ArticleSpecification.filterBy(priceLow, priceHigh, sizes, categories, brands, search), pageable);
+        return page;		
+	}
+	
 	@Override
 	public List<String> findAllSizes() {
 		return articleRepository.findAllSizes();
@@ -67,48 +63,10 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public List<String> findAllCategories() {
 		return articleRepository.findAllCategories();
-
 	}
 
 	@Override
 	public List<String> findAllBrands() {
 		return articleRepository.findAllBrands();
-
-	}
-
-	@Override
-	public Page<Article> findByCriteria(Pageable pageable, Integer priceLow, Integer priceHigh, 
-										List<String> sizes, List<String> categories, List<String> brands, String search) {
-		Page<Article> page = articleRepository.findAll(new Specification<Article>() {
-            @Override
-            public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();                
-                query.distinct(true);                
-                if (sizes!=null && !sizes.isEmpty()) {
-                	Join<Article, Size> joinSize = root.join("sizes");
-                	predicates.add(criteriaBuilder.and(joinSize.get("value").in(sizes)));
-                }
-                if (categories!=null && !categories.isEmpty()) {
-                	Join<Article, Category> joinSize = root.join("categories");
-                	predicates.add(criteriaBuilder.and(joinSize.get("name").in(categories)));
-                }   
-                if (brands!=null && !brands.isEmpty()) {
-                	Join<Article, Brand> joinSize = root.join("brands");
-                	predicates.add(criteriaBuilder.and(joinSize.get("name").in(brands)));
-                }  
-                
-                if(search!=null && !search.isEmpty()) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("title"), "%"+search+"%")));
-                }
-                if (priceLow!=null && priceLow >= 0) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.greaterThan(root.get("price"), priceLow)));
-                }
-                if (priceHigh!=null && priceHigh >= 0) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.lessThan(root.get("price"), priceHigh)));
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        }, pageable);
-        return page;		
 	}
 }

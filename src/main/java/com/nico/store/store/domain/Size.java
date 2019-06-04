@@ -13,24 +13,19 @@ public class Size implements Comparable<Size> {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
-	
+	private Long id;	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="article_id")
-	private Article article;
-	
+	private Article article;	
 	private String value;
+		
+	public Size() {}
 	
-	public Size() {
+	public Size(String value, Article article) {
+		this.value = value;
+		this.article = article;
 	}
-	
-/*	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Size )) return false;
-        return value != null && value.equals(((Size) o).getValue());
-    } */
-	
+		
 	public Long getId() {
 		return id;
 	}

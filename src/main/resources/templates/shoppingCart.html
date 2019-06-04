@@ -18,7 +18,7 @@
               <a th:href="@{/article-detail?id=}+${cartItem.article.id}" class="h6 bold d-inline-block" th:text=${cartItem.article.title}></a>
                 <div><i data-feather="check-circle" class="text-success"></i> In Stock</div>                  
                 <small class="ml-3"><b>Size</b>: <span th:text="${cartItem.size}"></span></small>                  
-                <small class="ml-3"><b>Unit Price</b>: $<span th:text="${cartItem.article.price}"></span></small>
+                <small class="ml-3"><b>Unit Price</b>: $<span th:text="${#numbers.formatDecimal(cartItem.article.price, 0, 'COMMA', 2, 'POINT')}"></span></small>
             </div>
             <div class="col-2">
               <input hidden="hidden" name="id" th:value="${cartItem.id}"> 
@@ -35,7 +35,7 @@
               </div>            
             </div>
             <div class="col-2 text-right">
-              <span class="font-weight-bold">$ <span th:id="'price'+${cartItem.id}" th:text=${cartItem.subtotal}></span></span>
+              <span class="font-weight-bold">$ <span th:id="'price'+${cartItem.id}" th:text="${#numbers.formatDecimal(cartItem.subtotal, 0, 'COMMA', 2, 'POINT')}"></span></span>
             </div>
             <div class="col-1">
               <a th:href="@{/shopping-cart/remove-item?id=}+${cartItem.id}"><i class="mb-1" data-feather="trash-2"></i></a>                              
@@ -43,7 +43,7 @@
          </div>
          <div class="text-center mt-3">
             <small class="counter">TOTAL</small>
-            <h3 class="font-weight-bold">$ <span th:text="${shoppingCart.grandTotal}"></span></h3>
+            <h3 class="font-weight-bold">$ <span th:text="${#numbers.formatDecimal(shoppingCart.grandTotal, 0, 'COMMA', 2, 'POINT')}"></span></h3>
             <a th:href="@{/store}" class="btn btn-info rounded-pill "><i data-feather="arrow-left"></i> Back to shop</a>            
             <a th:href="@{/checkout}" class="btn btn-primary rounded-pill">Checkout <i data-feather="arrow-right"></i></a>
         </div>

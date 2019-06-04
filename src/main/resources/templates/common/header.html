@@ -60,8 +60,7 @@
             <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}"> Log Out </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" sec:authorize="hasRole('ADMIN')" th:href="@{/admin}" 
-                style="background-color:rgba(255,255,255,.5); color:#212529;"> ADMIN PORTAL</a>
+            <a class="nav-link text-dark" sec:authorize="hasRole('ADMIN')" th:href="@{/article/article-list}"> ADMIN PORTAL</a>
           </li>
         </ul>
       </div>

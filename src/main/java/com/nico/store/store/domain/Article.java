@@ -9,9 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
-
-import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 public class Article {
@@ -33,9 +30,6 @@ public class Article {
 	@OneToMany(mappedBy="article", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Category> categories;
 
-	@Transient
-	private MultipartFile image;
-	
 	public Article() {
 	}
 	
@@ -93,12 +87,6 @@ public class Article {
 	}
 	public void setStock(int stock) {
 		this.stock = stock;
-	}
-	public MultipartFile getImage() {
-		return image;
-	}
-	public void setImage(MultipartFile image) {
-		this.image = image;
 	}
 	public List<Size> getSizes() {
 		Collections.sort(sizes);

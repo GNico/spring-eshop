@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nico.store.store.domain.security.Authority;
 import com.nico.store.store.domain.security.UserRole;
 
+@SuppressWarnings("serial")
 @Entity
 public class User implements UserDetails {
 	

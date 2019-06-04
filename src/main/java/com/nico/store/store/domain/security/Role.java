@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -14,7 +16,8 @@ import javax.persistence.OneToMany;
 public class Role {
 
 	@Id
-	private int roleId;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long roleId;
 	
 	@Column(unique = true)
 	private String name;
@@ -25,11 +28,11 @@ public class Role {
 	public Role() {		
 	}
 
-	public int getRoleId() {
+	public Long getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(int roleId) {
+	public void setRoleId(Long roleId) {
 		this.roleId = roleId;
 	}
 

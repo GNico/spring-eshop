@@ -8,12 +8,6 @@ import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,12 +21,10 @@ import com.nico.store.store.domain.Address;
 import com.nico.store.store.domain.Article;
 import com.nico.store.store.domain.Order;
 import com.nico.store.store.domain.User;
-import com.nico.store.store.form.ArticleFilterForm;
 import com.nico.store.store.service.ArticleService;
 import com.nico.store.store.service.OrderService;
 import com.nico.store.store.service.UserService;
 import com.nico.store.store.service.impl.UserSecurityService;
-import com.nico.store.store.type.SortFilter;
 
 import utility.SecurityUtility;
 
@@ -62,11 +54,6 @@ public class HomeController {
 	@RequestMapping("/login")
 	public String log(Model model) {
 		return "myAccount";
-	}
-	
-	@RequestMapping("/admin")
-	public String admin() {
-		return "adminHome";
 	}
 	
 	@RequestMapping("/myProfile")
@@ -112,13 +99,8 @@ public class HomeController {
 		if (invalidFields) {
 			return "myAccount";
 		}		
-		userService.createBasicUser(user.getUsername(), user.getEmail(), password);
-		
-		//set new user as authenticated
-		UserDetails userDetails = userSecurityService.loadUserByUsername(user.getUsername());
-		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), 
-				userDetails.getAuthorities());
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		userService.createUser(user.getUsername(), user.getEmail(), password, Arrays.asList("ROLE_USER"));	
+		userSecurityService.authenticateUser(user.getUsername());
 		model.addAttribute("user", user);
 		return "myProfile";  
 	}
@@ -163,12 +145,8 @@ public class HomeController {
 		currentUser.setEmail(user.getEmail());		
 		userService.save(currentUser);
 		model.addAttribute("updateSuccess", true);
-		model.addAttribute("user", currentUser);
-		
-		UserDetails userDetails = userSecurityService.loadUserByUsername(currentUser.getUsername());
-		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(),
-				userDetails.getAuthorities());		
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		model.addAttribute("user", currentUser);				
+		userSecurityService.authenticateUser(currentUser.getUsername());		
 		return "myProfile";
 	}
 	
@@ -186,36 +164,8 @@ public class HomeController {
 	}
 
 	
-	@RequestMapping("/store")
-	public String store(@ModelAttribute("filters") ArticleFilterForm filters, Model model) {
-		Integer page = filters.getPage();			
-		int pagenumber = (page == null ||  page <= 0) ? 0 : page-1;
-		SortFilter sortFilter = new SortFilter(filters.getSort());	
-		Page<Article> pageresult = articleService.findByCriteria(PageRequest.of(pagenumber,9, sortFilter.getSortType()), 
-																filters.getPricelow(), filters.getPricehigh(), 
-																filters.getSize(), filters.getCategory(), filters.getBrand(), filters.getSearch());	
-		model.addAttribute("allCategories", articleService.findAllCategories());
-		model.addAttribute("allBrands", articleService.findAllBrands());
-		model.addAttribute("allSizes", articleService.findAllSizes());
-		model.addAttribute("articles", pageresult.getContent());
-		model.addAttribute("totalitems", pageresult.getTotalElements());
-		model.addAttribute("itemsperpage", 9);
-		return "store";
-	}
-	
-	
-	@RequestMapping("/article-detail")
-	public String articleDetail(@PathParam("id") Long id, Model model) {
-		Article article = articleService.findById(id);
-		model.addAttribute("article", article);
-		List<Integer> qtyList = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
-		model.addAttribute("qtyList", qtyList);
-		model.addAttribute("qty", 1);
-		return "articleDetail";
-	}
-	
 	@RequestMapping("/order-detail")
 	public String orderDetail(@PathParam("id") Long id, Model model) {
-		return "to be implemented";
+		return "to do";
 	}
 }

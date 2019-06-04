@@ -19,6 +19,14 @@ public class Category {
 	private Article article;
 	
 	private String name;
+	
+	public Category() {
+	}
+	
+	public Category(String name, Article article) {
+		this.name = name;
+		this.article = article;
+	}
 
 	public Long getId() {
 		return id;

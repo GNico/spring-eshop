@@ -1,6 +1,7 @@
 package com.nico.store.store.service.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -48,58 +49,31 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User createAdmin() {
-		User existingAdmin = findByUsername("admin");
-		if (existingAdmin != null) {
-			return existingAdmin;
-		} else {
-			User admin = new User();
-			admin.setUsername("admin");
-			admin.setPassword(SecurityUtility.passwordEncoder().encode("admin"));
-			admin.setEmail("admin@admin.com");
-			Set<UserRole> userRoles = new HashSet<>();
-			Role role1 = new Role();
-			role1.setRoleId(1);
-			role1.setName("ROLE_USER");
-			roleRepository.save(role1);
-			Role role2 = new Role();
-			role2.setRoleId(2);
-			role2.setName("ROLE_ADMIN");
-			roleRepository.save(role2);
-			userRoles.add(new UserRole(admin, role1));
-			userRoles.add(new UserRole(admin, role2));
-			admin.setUserRoles(userRoles);			
-			ShoppingCart shoppingCart = new ShoppingCart();
-			shoppingCart.setUser(admin);
-			admin.setShoppingCart(shoppingCart);						
-			return userRepository.save(admin);
-		}
-	}
-	
-	public User createBasicUser(String username, String email,  String password) {
-		User user = userRepository.findByUsername(username);
+	public User createUser(String username, String password, String email, List<String> roles) {
+		User user = findByUsername(username);
 		if (user != null) {
 			return user;
 		} else {
 			user = new User();
 			user.setUsername(username);
-			user.setEmail(email);
-			user.setPassword(SecurityUtility.passwordEncoder().encode(password));			
-			Role role = new Role();
-			role.setRoleId(1);
-			role.setName("ROLE_USER");
+			user.setPassword(SecurityUtility.passwordEncoder().encode(password));
+			user.setEmail(email);			
 			Set<UserRole> userRoles = new HashSet<>();
-			userRoles.add(new UserRole(user,role));
+			for (String rolename : roles) {
+				Role role = roleRepository.findByName(rolename);
+				if (role == null) {
+					role = new Role();
+					role.setName(rolename);
+					roleRepository.save(role);
+				}
+				userRoles.add(new UserRole(user, role));
+			}			
 			user.setUserRoles(userRoles);
 			ShoppingCart shoppingCart = new ShoppingCart();
 			shoppingCart.setUser(user);
 			user.setShoppingCart(shoppingCart);
 			return userRepository.save(user);
-		}		
-	}
-
-	
-	
-
+		}
+	}	
 	
 }

@@ -65,14 +65,12 @@
                         name="stock" class="form-control" id="stock"
                         placeholder="Number of in-stock" />
           </div>
-        </div>
-       
+        </div>       
         
-         <div class="form-group row">
-          <label for="image" class="col-2 col-form-label text-right">Upload article image</label>
+        <div class="form-group row">
+          <label for="picture" class="col-2 col-form-label text-right">Article image link</label>
           <div class="col-6">
-            <input id="image" type="file" name="image"
-  							th:value="${article.image}" />
+            <input type="text" class="form-control" id="picture" name="picture">
           </div>
         </div>
         

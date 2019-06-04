@@ -1,8 +1,5 @@
 package com.nico.store.store.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.nico.store.store.domain.Article;
 import com.nico.store.store.domain.Brand;
@@ -53,8 +49,7 @@ public class ArticleController {
 			size.setValue(sizeVal);
 			size.setArticle(article);
 			article.getSizes().add(size);
-		}
-		
+		}		
 		String paramCategories = request.getParameter("category");
 		List<String> categoriesValues = Arrays.asList(paramCategories.split("\\s*,\\s*"));
 		article.setCategories(new ArrayList<Category>());
@@ -63,8 +58,7 @@ public class ArticleController {
 			cat.setName(catVal);
 			cat.setArticle(article);
 			article.getCategories().add(cat);
-		}
-		
+		}		
 		String paramBrands = request.getParameter("brand");
 		List<String> brandsValues = Arrays.asList(paramBrands.split("\\s*,\\s*"));
 		article.setBrands(new ArrayList<Brand>());
@@ -73,20 +67,8 @@ public class ArticleController {
 			brand.setName(brandVal);
 			brand.setArticle(article);
 			article.getBrands().add(brand);
-		}
-		
-		articleService.save(article);
-		
-		MultipartFile articleImage = article.getImage();
-		try {
-			byte[] bytes = articleImage.getBytes();
-			String name = article.getId() + ".png";
-			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File("src/main/resources/static/image/article/" + name)));
-			stream.write(bytes);
-			stream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
+		}		
+		articleService.save(article);	
 		return "redirect:article-list";
 	}
 	
@@ -111,8 +93,7 @@ public class ArticleController {
 		String preselectedCategories = "";
 		for (Category category : article.getCategories()) {
 			preselectedCategories += (category.getName() + ",");
-		}
-		
+		}		
 		model.addAttribute("article", article);
 		model.addAttribute("preselectedSizes", preselectedSizes);
 		model.addAttribute("preselectedBrands", preselectedBrands);
@@ -133,8 +114,7 @@ public class ArticleController {
 			size.setValue(sizeVal);
 			size.setArticle(article);
 			article.getSizes().add(size);
-		}
-		
+		}		
 		String paramCategories = request.getParameter("category");
 		List<String> categoriesValues = Arrays.asList(paramCategories.split("\\s*,\\s*"));
 		article.setCategories(new ArrayList<Category>());
@@ -143,8 +123,7 @@ public class ArticleController {
 			cat.setName(catVal);
 			cat.setArticle(article);
 			article.getCategories().add(cat);
-		}
-		
+		}		
 		String paramBrands = request.getParameter("brand");
 		List<String> brandsValues = Arrays.asList(paramBrands.split("\\s*,\\s*"));
 		article.setBrands(new ArrayList<Brand>());
@@ -153,23 +132,8 @@ public class ArticleController {
 			brand.setName(brandVal);
 			brand.setArticle(article);
 			article.getBrands().add(brand);
-		}
-		
-		articleService.save(article);
-				
-		MultipartFile articleImage = article.getImage();
-		if (!articleImage.isEmpty()) {
-			try {
-				byte[] bytes = articleImage.getBytes();
-				String name = article.getId() + ".png";
-				Files.delete(Paths.get("src/main/resources/static/image/article/"+name));
-				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File("src/main/resources/static/image/article/" + name)));
-				stream.write(bytes);
-				stream.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		}		
+		articleService.save(article);	
 		return "redirect:article-list";
 	}
 	

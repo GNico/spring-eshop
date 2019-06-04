@@ -1,6 +1,8 @@
 package com.nico.store.store.service;
 
 
+import java.util.List;
+
 import com.nico.store.store.domain.User;
 
 public interface UserService {
@@ -13,7 +15,6 @@ public interface UserService {
 		
 	void save(User user);
 	
-	User createBasicUser(String username, String email,  String password);
+	User createUser(String username, String email,  String password, List<String> roles);
 
-	User createAdmin();
 }
