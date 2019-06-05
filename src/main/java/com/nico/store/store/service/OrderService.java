@@ -13,4 +13,6 @@ public interface OrderService {
 	Order createOrder(ShoppingCart shoppingCart, Shipping shippingAddress, Payment payment, User user);
 	
 	List<Order> findByUser(User user);
+	
+	Order findById(Long id);
 }

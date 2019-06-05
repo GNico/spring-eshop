@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nico.store.store.domain.Address;
+import com.nico.store.store.domain.CartItem;
 import com.nico.store.store.domain.Order;
 import com.nico.store.store.domain.User;
 import com.nico.store.store.service.OrderService;
@@ -144,7 +145,9 @@ public class AccountController {
 	}
 	
 	@RequestMapping("/order-detail")
-	public String orderDetail(@PathParam("id") Long id, Model model) {
+	public String orderDetail(@RequestParam("order") Long id, Model model) {
+		Order order = orderService.findById(id);
+		model.addAttribute("order", order);
 		return "orderDetails";
 	}
 	

@@ -41,7 +41,7 @@
                   </thead>
                   <tbody>
                     <tr th:each="order : ${orders}">
-                      <th scope="row" ><a th:href="@{/order-detail}" class="text-primary">ORD<span th:text="${order.id}"></span></a></th>                      
+                      <th scope="row" ><a th:href="@{/order-detail?order=}+${order.id}" class="text-primary">ORD<span th:text="${order.id}"></span></a></th>                      
                       <td th:text="${#dates.format(order.orderDate, 'dd-MMM-yyyy')}"></td>
                       <td class="text-right">$<span th:text="${order.orderTotal}"></span></td>
                       <td class="text-center"><span class="badge badge-info rounded" th:text="${order.orderStatus}"></span></td>
