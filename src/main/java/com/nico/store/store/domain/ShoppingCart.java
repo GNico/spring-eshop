@@ -41,6 +41,10 @@ public class ShoppingCart {
 		return null;
 	}
 	
+	public int getItemCount() {
+		return this.cartItems.size();
+	}
+	
 	public Long getId() {
 		return id;
 	}

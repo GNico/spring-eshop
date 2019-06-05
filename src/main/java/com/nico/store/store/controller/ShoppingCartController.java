@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nico.store.store.domain.Article;
 import com.nico.store.store.domain.CartItem;
@@ -51,16 +52,17 @@ public class ShoppingCartController {
 			@ModelAttribute("article") Article article,
 			@RequestParam("qty") String qty,
 			@RequestParam("size") String size,
+			RedirectAttributes attributes,
 			Model model, Principal principal) {
 		User user = userService.findByUsername(principal.getName());
 		article = articleService.findById(article.getId());		
 		if (!article.hasStock(Integer.parseInt(qty))) {
-			model.addAttribute("notEnoughStock", true);
-			return "forward:/article-detail?id="+article.getId();
+			attributes.addFlashAttribute("notEnoughStock", true);
+			return "redirect:/article-detail?id="+article.getId();
 		}		
 		cartItemService.addArticleToCartItem(article, user.getShoppingCart(), Integer.parseInt(qty), size);
-		model.addAttribute("addArticleSuccess", true);		
-		return "forward:/article-detail?id="+article.getId();
+		attributes.addFlashAttribute("addArticleSuccess", true);
+		return "redirect:/article-detail?id="+article.getId();
 	}
 	
 	@RequestMapping("/update-item")
@@ -75,6 +77,7 @@ public class ShoppingCartController {
 	
 	@RequestMapping("/remove-item")
 	public String removeItem(@RequestParam("id") Long id) {
+		
 		cartItemService.removeCartItem(cartItemService.findById(id));		
 		return "redirect:/shopping-cart/cart";
 	} 

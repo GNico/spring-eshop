@@ -40,8 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.authorizeRequests().
-			antMatchers(PUBLIC_MATCHERS).permitAll()
+			.authorizeRequests()
+			.antMatchers(PUBLIC_MATCHERS).permitAll()
 			.antMatchers("/article/**").hasRole("ADMIN")
 			.anyRequest().authenticated();
 		
@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 			.logoutSuccessUrl("/?logout").deleteCookies("remember-me").permitAll()
 			.and()
-			.rememberMe();
+			.rememberMe().key("aSecretKey");
 	}
 	
 	@Autowired
