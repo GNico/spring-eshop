@@ -17,8 +17,7 @@ import com.nico.store.store.service.UserService;
 
 @ControllerAdvice
 public class GlobalControllerAdvice {
-	
-	
+		
 	@Autowired
 	private UserService userService;
 
@@ -26,8 +25,7 @@ public class GlobalControllerAdvice {
 	public void initBinder(WebDataBinder dataBinder) {
 		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
 		dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
-	}
-	
+	}	
 	
 	@ModelAttribute
 	public void populateModel(Model model) {	
@@ -36,11 +34,13 @@ public class GlobalControllerAdvice {
 			!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken) ) {				
 			UserDetails userDetails =  (UserDetails) SecurityContextHolder.getContext()
 			           .getAuthentication().getPrincipal(); 			
-			User user = userService.findByUsername(userDetails.getUsername());
+			User user = userService.findByUsername(userDetails.getUsername()); 
 			if (user != null) {
-				ShoppingCart shopCart = user.getShoppingCart();
-				model.addAttribute("shoppingCartItemNumber", shopCart.getItemCount() );
+				ShoppingCart shopCart = user.getShoppingCart(); 
+				model.addAttribute("shoppingCartItemNumber", shopCart.getItemCount());
 			}
+		} else {
+			model.addAttribute("shoppingCartItemNumber", 0);
 		}
 	}
 }

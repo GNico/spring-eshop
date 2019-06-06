@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nico.store.store.domain.Address;
-import com.nico.store.store.domain.CartItem;
 import com.nico.store.store.domain.Order;
 import com.nico.store.store.domain.User;
 import com.nico.store.store.service.OrderService;

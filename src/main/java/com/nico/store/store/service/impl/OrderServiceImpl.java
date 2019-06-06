@@ -17,7 +17,6 @@ import com.nico.store.store.domain.Shipping;
 import com.nico.store.store.domain.ShoppingCart;
 import com.nico.store.store.domain.User;
 import com.nico.store.store.repository.OrderRepository;
-import com.nico.store.store.service.CartItemService;
 import com.nico.store.store.service.OrderService;
 
 @Service
@@ -25,10 +24,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	OrderRepository orderRepository;
-	
-	@Autowired
-	CartItemService cartItemService;
-	
+		
 	@Override
 	public synchronized Order createOrder(ShoppingCart shoppingCart, Shipping shipping, Payment payment, User user) {
 		Order order = new Order();
@@ -36,13 +32,13 @@ public class OrderServiceImpl implements OrderService {
 		order.setPayment(payment);
 		order.setShipping(shipping);
 		
-		List<CartItem> cartItems = cartItemService.findByShoppingCart(shoppingCart);
+		List<CartItem> cartItems = shoppingCart.getCartItems();
 		for (CartItem item : cartItems) {
 			Article article = item.getArticle();
 			item.setOrder(order);
 			article.decreaseStock(item.getQty());		
 		}
-		order.setCartItems(cartItems);
+		//order.setCartItems(cartItems);
 		order.setOrderTotal(shoppingCart.getGrandTotal());
 		shipping.setOrder(order);
 		payment.setOrder(order);		

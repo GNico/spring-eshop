@@ -16,7 +16,6 @@ import com.nico.store.store.domain.CartItem;
 import com.nico.store.store.domain.ShoppingCart;
 import com.nico.store.store.domain.User;
 import com.nico.store.store.service.ArticleService;
-import com.nico.store.store.service.CartItemService;
 import com.nico.store.store.service.ShoppingCartService;
 import com.nico.store.store.service.UserService;
 
@@ -26,10 +25,7 @@ public class ShoppingCartController {
 
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private CartItemService cartItemService;
-	
+		
 	@Autowired
 	private ArticleService articleService;
 	
@@ -37,48 +33,43 @@ public class ShoppingCartController {
 	private ShoppingCartService shoppingCartService;
 	
 	@RequestMapping("/cart")
-	public String shoppingCart(Model model, Principal principal) {
-		User user = userService.findByUsername(principal.getName());
-		ShoppingCart shoppingCart = user.getShoppingCart();		
-		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);		
-		shoppingCartService.updateShoppingCart(shoppingCart);		
+	public String shoppingCart(Model model, Principal principal) {		
+		User user = userService.findByUsername(principal.getName());		
+		ShoppingCart shoppingCart = user.getShoppingCart();				
+		List<CartItem> cartItemList = shoppingCart.getCartItems();	
 		model.addAttribute("cartItemList", cartItemList);
 		model.addAttribute("shoppingCart", shoppingCart);		
 		return "shoppingCart";
 	}
 
 	@RequestMapping("/add-item")
-	public String addItem(
-			@ModelAttribute("article") Article article,
-			@RequestParam("qty") String qty,
-			@RequestParam("size") String size,
-			RedirectAttributes attributes,
-			Model model, Principal principal) {
+	public String addItem(@ModelAttribute("article") Article article, @RequestParam("qty") String qty,
+						@RequestParam("size") String size, RedirectAttributes attributes, Model model, Principal principal) {
 		User user = userService.findByUsername(principal.getName());
 		article = articleService.findById(article.getId());		
 		if (!article.hasStock(Integer.parseInt(qty))) {
 			attributes.addFlashAttribute("notEnoughStock", true);
 			return "redirect:/article-detail?id="+article.getId();
 		}		
-		cartItemService.addArticleToCartItem(article, user.getShoppingCart(), Integer.parseInt(qty), size);
+		shoppingCartService.addArticleToCartItem(article, user.getShoppingCart(), Integer.parseInt(qty), size);
 		attributes.addFlashAttribute("addArticleSuccess", true);
 		return "redirect:/article-detail?id="+article.getId();
 	}
 	
 	@RequestMapping("/update-item")
-	public String updateShoppingCart(
+	public String updateItemQuantity(
 			@ModelAttribute("id") Long cartItemId,
 			@ModelAttribute("qty") int qty) {
-		CartItem cartItem = cartItemService.findById(cartItemId);
+		CartItem cartItem = shoppingCartService.findById(cartItemId);
 		cartItem.setQty(qty);
-		cartItemService.save(cartItem);		
+		shoppingCartService.save(cartItem);		
 		return "redirect:/shopping-cart/cart";
 	}
 	
 	@RequestMapping("/remove-item")
-	public String removeItem(@RequestParam("id") Long id) {
-		
-		cartItemService.removeCartItem(cartItemService.findById(id));		
+	public String removeItem(@RequestParam("id") Long id, Principal principal) {		
+		User user = userService.findByUsername(principal.getName());		
+		shoppingCartService.removeCartItem(user.getShoppingCart(), shoppingCartService.findById(id));		
 		return "redirect:/shopping-cart/cart";
 	} 
 }

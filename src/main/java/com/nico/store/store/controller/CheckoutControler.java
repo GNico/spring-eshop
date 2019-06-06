@@ -18,7 +18,6 @@ import com.nico.store.store.domain.Payment;
 import com.nico.store.store.domain.Shipping;
 import com.nico.store.store.domain.ShoppingCart;
 import com.nico.store.store.domain.User;
-import com.nico.store.store.service.CartItemService;
 import com.nico.store.store.service.OrderService;
 import com.nico.store.store.service.ShoppingCartService;
 import com.nico.store.store.service.UserService;
@@ -28,10 +27,7 @@ public class CheckoutControler {
 	
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private CartItemService cartItemService;
-	
+		
 	@Autowired 
 	private ShoppingCartService shoppingCartService;
 	
@@ -41,16 +37,16 @@ public class CheckoutControler {
 
 	@RequestMapping("/checkout")
 	public String checkout( @RequestParam(value="missingRequiredField", required=false) boolean missingRequiredField,
-							Model model, Principal principal) {
-		
-		User user = userService.findByUsername(principal.getName());
-		List<CartItem> cartItemList = cartItemService.findByShoppingCart(user.getShoppingCart());		
+							Model model, Principal principal) {		
+		User user = userService.findByUsername(principal.getName());		
+		ShoppingCart shoppingCart = user.getShoppingCart();				
+		List<CartItem> cartItemList = shoppingCart.getCartItems();		
 		if(cartItemList.size() == 0) {
 			model.addAttribute("emptyCart", true);
 			return "redirect:/shopping-cart/cart";
 		}						
 		model.addAttribute("cartItemList", cartItemList);
-		model.addAttribute("shoppingCart", user.getShoppingCart());
+		model.addAttribute("shoppingCart", shoppingCart);
 		if(missingRequiredField) {
 			model.addAttribute("missingRequiredField", true);
 		}		
@@ -66,7 +62,6 @@ public class CheckoutControler {
 		
 		User user = userService.findByUsername(principal.getName());
 		ShoppingCart shoppingCart = user.getShoppingCart();
-		model.addAttribute("shoppingCart", shoppingCart);
 		shipping.setAddress(address);
 		Order order = orderService.createOrder(shoppingCart, shipping, payment, user);				
 		shoppingCartService.clearShoppingCart(shoppingCart);

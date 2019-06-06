@@ -20,8 +20,7 @@ public class ShoppingCart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private BigDecimal grandTotal;
-	
+		
 	@OneToMany(mappedBy="shoppingCart", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JsonIgnore
 	private List<CartItem> cartItems;
@@ -30,6 +29,22 @@ public class ShoppingCart {
 	private User user;
 
 	public ShoppingCart() {
+	}
+	
+	public BigDecimal getGrandTotal() {
+		BigDecimal cartTotal = new BigDecimal(0);
+		for (CartItem item : this.cartItems) {
+			cartTotal = cartTotal.add(item.getSubtotal());
+		}
+		return cartTotal;
+	}
+	
+	public void removeCartItem(CartItem cartItem) {
+		cartItems.removeIf(item -> item.getId() == cartItem.getId());
+	}
+	
+	public void clearItems() {
+		cartItems.clear();
 	}
 	
 	public CartItem findCartItemByArticle(Long id) {
@@ -51,12 +66,6 @@ public class ShoppingCart {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public BigDecimal getGrandTotal() {
-		return grandTotal;
-	}
-	public void setGrandTotal(BigDecimal grandTotal) {
-		this.grandTotal = grandTotal;
-	}
 	public List<CartItem> getCartItems() {
 		return cartItems;
 	}
@@ -69,6 +78,6 @@ public class ShoppingCart {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 	
 }

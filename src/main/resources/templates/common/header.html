@@ -47,7 +47,7 @@
           </li>
           <li class="nav-item">          
             <a class="nav-link" th:href="@{/shopping-cart/cart}">Shopping Cart 
-            <span class="badge badge-primary" style="vertical-align: top;" th:text="${shoppingCartItemNumber}"></span></a>
+            <span class="badge badge-primary" style="vertical-align: top;" th:text="${shoppingCartItemNumber} > 0 ? ${shoppingCartItemNumber}"></span></a>
           </li>                        
         </ul>
         <ul class="navbar-nav ml-auto font-weight-bold">          
