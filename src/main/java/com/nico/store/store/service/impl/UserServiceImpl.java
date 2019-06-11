@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
 	public User findByUsername(String username) {
 		return userRepository.findByUsername(username);
 	}
+	
 
 	@Override
 	public User findByEmail(String email) {
@@ -74,6 +75,6 @@ public class UserServiceImpl implements UserService {
 			user.setShoppingCart(shoppingCart);
 			return userRepository.save(user);
 		}
-	}	
+	}
 	
 }

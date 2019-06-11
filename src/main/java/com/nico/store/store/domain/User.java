@@ -12,6 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
@@ -24,8 +27,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nico.store.store.domain.security.Authority;
 import com.nico.store.store.domain.security.UserRole;
 
-@SuppressWarnings("serial")
+@NamedEntityGraph(
+	name= "UserComplete",
+	attributeNodes= { @NamedAttributeNode(value="userRoles", subgraph="role-subgraph") },
+	subgraphs= { 
+		@NamedSubgraph(name = "role-subgraph", attributeNodes = {  @NamedAttributeNode("role") }
+	)}
+)
 @Entity
+@SuppressWarnings("serial")
 public class User implements UserDetails {
 	
 	@Id
@@ -45,11 +55,11 @@ public class User implements UserDetails {
 	private Address address;
 	private boolean enabled=true;
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Set<UserRole> userRoles = new HashSet<>();
 	
-	@OneToOne(cascade= CascadeType.ALL, mappedBy= "user")
+	@OneToOne(mappedBy= "user", cascade= CascadeType.ALL, fetch=FetchType.LAZY)
 	private ShoppingCart shoppingCart;
 
 	public User() {
@@ -120,7 +130,7 @@ public class User implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<GrantedAuthority> authorites = new HashSet<>();
-		userRoles.forEach(ur -> authorites.add(new Authority(ur.getRole().getName())));
+		userRoles.forEach(userRole -> authorites.add(new Authority(userRole.getRole().getName())));
 		return authorites;
 	}
 
@@ -143,5 +153,12 @@ public class User implements UserDetails {
 	public boolean isEnabled() {
 		return enabled;
 	}
+	
+	@Override
+	public String toString() {
+	  return getClass().getSimpleName() + "[id=" + id + "]" + "[username=" + username + "]" + "[password=" + password + "]" + "[email=" + email + "]";
+	}
 }
+
+
 

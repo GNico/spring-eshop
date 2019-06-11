@@ -7,6 +7,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,8 +39,9 @@ public class AccountController {
 	private OrderService orderService;
 		
 	@RequestMapping("/myProfile")
-	public String myProfile(Model model, Principal principal) {
-		User user = userService.findByUsername(principal.getName());
+	public String myProfile(Model model, Authentication authentication) {				
+		User user = (User) authentication.getPrincipal();
+		//User user = userService.findByUsername(principal.getName());
 		model.addAttribute("user", user);
 		return "myProfile";
 	}
@@ -106,20 +108,18 @@ public class AccountController {
 		if(currentUser == null) {
 			throw new Exception ("User not found");
 		}
-		/*check email already exists*/
-		if (userService.findByEmail(user.getEmail())!=null) {
-			if(userService.findByEmail(user.getEmail()).getId() != currentUser.getId()) {
-				model.addAttribute("emailExists", true);
-				return "myProfile";
-			}
-		}		
 		/*check username already exists*/
-		if (userService.findByUsername(user.getUsername())!=null) {
-			if(userService.findByUsername(user.getUsername()).getId() != currentUser.getId()) {
-				model.addAttribute("usernameExists", true);
-				return "myProfile";
-			}
-		}		
+		User existingUser = userService.findByUsername(user.getUsername());
+		if (existingUser != null && !existingUser.getId().equals(currentUser.getId()))  {
+			model.addAttribute("usernameExists", true);
+			return "myProfile";
+		}	
+		/*check email already exists*/
+		existingUser = userService.findByEmail(user.getEmail());
+		if (existingUser != null && !existingUser.getId().equals(currentUser.getId()))  {
+			model.addAttribute("emailExists", true);
+			return "myProfile";
+		}			
 		/*update password*/
 		if (newPassword != null && !newPassword.isEmpty() && !newPassword.equals("")){
 			BCryptPasswordEncoder passwordEncoder = SecurityUtility.passwordEncoder();

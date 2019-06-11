@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,51 +23,55 @@ public class ArticleServiceImpl implements ArticleService {
 	@Autowired
 	private ArticleRepository articleRepository;
 	
-	@Override
-	public Article save(Article article) {
-		return articleRepository.save(article);
-	}
+	@Value("${articleservice.featured-items-number}")
+	private int featuredArticlesNumber;
 
 	@Override
-	public List<Article> findAll() {
-		return (List<Article>) articleRepository.findAll();
+	public List<Article> findAllArticles() {
+		return (List<Article>) articleRepository.findAllEagerBy();
 	}
 	
 	@Override
-	public List<Article> findAllTop(int number) {
-		return articleRepository.findAll(PageRequest.of(0,number)).getContent(); 
+	public Page<Article> findArticlesByCriteria(Pageable pageable, Integer priceLow, Integer priceHigh, 
+										List<String> sizes, List<String> categories, List<String> brands, String search) {		
+		Page<Article> page = articleRepository.findAll(ArticleSpecification.filterBy(priceLow, priceHigh, sizes, categories, brands, search), pageable);
+        return page;		
+	}	
+	
+	@Override
+	public List<Article> findFirstArticles() {
+		return articleRepository.findAll(PageRequest.of(0,featuredArticlesNumber)).getContent(); 
 	}
 
 	@Override
-	public Article findById(Long id) {
+	public Article findArticleById(Long id) {
 		Optional<Article> opt = articleRepository.findById(id);
 		return opt.get();
 	}
 
 	@Override
-	public void deleteById(Long id) {
-		articleRepository.deleteById(id);		
-	}
-
-	@Override
-	public Page<Article> findByCriteria(Pageable pageable, Integer priceLow, Integer priceHigh, 
-										List<String> sizes, List<String> categories, List<String> brands, String search) {		
-		Page<Article> page = articleRepository.findAll(ArticleSpecification.filterBy(priceLow, priceHigh, sizes, categories, brands, search), pageable);
-        return page;		
+	public Article saveArticle(Article article) {
+		return articleRepository.save(article);
 	}
 	
 	@Override
-	public List<String> findAllSizes() {
+	public void deleteArticleById(Long id) {
+		articleRepository.deleteById(id);		
+	}
+
+	
+	@Override
+	public List<String> getAllSizes() {
 		return articleRepository.findAllSizes();
 	}
 
 	@Override
-	public List<String> findAllCategories() {
+	public List<String> getAllCategories() {
 		return articleRepository.findAllCategories();
 	}
 
 	@Override
-	public List<String> findAllBrands() {
+	public List<String> getAllBrands() {
 		return articleRepository.findAllBrands();
 	}
 }

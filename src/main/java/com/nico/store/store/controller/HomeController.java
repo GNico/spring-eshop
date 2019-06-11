@@ -19,7 +19,7 @@ public class HomeController {
 	
 	@RequestMapping("/")
 	public String index(Model model) {		
-		List<Article> articles = articleService.findAllTop(12);
+		List<Article> articles = articleService.findFirstArticles();
 		model.addAttribute("articles", articles);
 		return "index";
 	}

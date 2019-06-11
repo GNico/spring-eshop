@@ -1,7 +1,6 @@
 package com.nico.store.store.domain;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -22,13 +21,13 @@ public class Article {
 	private String picture;
 	
 	@OneToMany(mappedBy="article", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Size> sizes;
+	private Set<Size> sizes;
 	
 	@OneToMany(mappedBy="article", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Brand> brands;
+	private Set<Brand> brands;
 	
 	@OneToMany(mappedBy="article", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Category> categories;
+	private Set<Category> categories;
 
 	public Article() {
 	}
@@ -41,6 +40,7 @@ public class Article {
 		this.stock -= amount;
 	}
 	
+
 	public void addSize(Size size) {
         sizes.add(size);
         size.setArticle(this);
@@ -96,23 +96,22 @@ public class Article {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
-	public List<Size> getSizes() {
-		Collections.sort(sizes);
+	public Set<Size> getSizes() {
 		return sizes;
 	}
-	public void setSizes(List<Size> sizes) {
+	public void setSizes(Set<Size> sizes) {
 		this.sizes = sizes;
 	}
-	public List<Brand> getBrands() {
+	public Set<Brand> getBrands() {
 		return brands;
 	}
-	public void setBrands(List<Brand> brands) {
+	public void setBrands(Set<Brand> brands) {
 		this.brands = brands;
 	}
-	public List<Category> getCategories() {
+	public Set<Category> getCategories() {
 		return categories;
 	}
-	public void setCategories(List<Category> categories) {
+	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
 	}
 	public String getPicture() {

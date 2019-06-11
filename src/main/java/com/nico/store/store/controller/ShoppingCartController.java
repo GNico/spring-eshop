@@ -46,7 +46,7 @@ public class ShoppingCartController {
 	public String addItem(@ModelAttribute("article") Article article, @RequestParam("qty") String qty,
 						@RequestParam("size") String size, RedirectAttributes attributes, Model model, Principal principal) {
 		User user = userService.findByUsername(principal.getName());
-		article = articleService.findById(article.getId());		
+		article = articleService.findArticleById(article.getId());		
 		if (!article.hasStock(Integer.parseInt(qty))) {
 			attributes.addFlashAttribute("notEnoughStock", true);
 			return "redirect:/article-detail?id="+article.getId();

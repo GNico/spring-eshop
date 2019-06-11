@@ -1,7 +1,8 @@
 package com.nico.store.store.domain;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ArticleBuilder {
 		
@@ -59,7 +60,7 @@ public class ArticleBuilder {
 		article.setPicture(this.picture);		
 		
 		if (this.sizes != null && !this.sizes.isEmpty()) {
-			List<Size> sizeElements = new ArrayList<>();
+			Set<Size> sizeElements = new HashSet<>();
 			for (String val : this.sizes) {
 				sizeElements.add(new Size(val,article));
 			}	
@@ -67,14 +68,14 @@ public class ArticleBuilder {
 		}
 		
 		if (this.categories != null && !this.categories.isEmpty() ) {
-			List<Category> catElements = new ArrayList<>();
+			Set<Category> catElements = new HashSet<>();
 			for (String val : this.categories) {
 				catElements.add(new Category(val,article));
 			}
 			article.setCategories(catElements);
 		}		
 		if (this.brands != null && !this.brands.isEmpty() ) {
-			List<Brand> brandlements = new ArrayList<>();
+			Set<Brand> brandlements = new HashSet<>();
 			for (String val : this.brands) {
 				brandlements.add(new Brand(val,article));
 			}

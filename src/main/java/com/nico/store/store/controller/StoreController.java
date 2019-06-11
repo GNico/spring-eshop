@@ -29,22 +29,22 @@ public class StoreController {
 		Integer page = filters.getPage();			
 		int pagenumber = (page == null ||  page <= 0) ? 0 : page-1;
 		SortFilter sortFilter = new SortFilter(filters.getSort());	
-		Page<Article> pageresult = articleService.findByCriteria(PageRequest.of(pagenumber,9, sortFilter.getSortType()), 
+		Page<Article> pageresult = articleService.findArticlesByCriteria(PageRequest.of(pagenumber,9, sortFilter.getSortType()), 
 																filters.getPricelow(), filters.getPricehigh(), 
 																filters.getSize(), filters.getCategory(), filters.getBrand(), filters.getSearch());	
-		model.addAttribute("allCategories", articleService.findAllCategories());
-		model.addAttribute("allBrands", articleService.findAllBrands());
-		model.addAttribute("allSizes", articleService.findAllSizes());
+		model.addAttribute("allCategories", articleService.getAllCategories());
+		model.addAttribute("allBrands", articleService.getAllBrands());
+		model.addAttribute("allSizes", articleService.getAllSizes());
 		model.addAttribute("articles", pageresult.getContent());
 		model.addAttribute("totalitems", pageresult.getTotalElements());
 		model.addAttribute("itemsperpage", 9);
-				return "store";
+		return "store";
 	}
 	
 	
 	@RequestMapping("/article-detail")
 	public String articleDetail(@PathParam("id") Long id, Model model) {
-		Article article = articleService.findById(id);
+		Article article = articleService.findArticleById(id);
 		model.addAttribute("article", article);
 		List<Integer> qtyList = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
 		model.addAttribute("qtyList", qtyList);
