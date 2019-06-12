@@ -144,7 +144,7 @@ public class AccountController {
 	
 	@RequestMapping("/order-detail")
 	public String orderDetail(@RequestParam("order") Long id, Model model) {
-		Order order = orderService.findById(id);
+		Order order = orderService.findOrderWithDetails(id);
 		model.addAttribute("order", order);
 		return "orderDetails";
 	}

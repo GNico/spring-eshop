@@ -52,15 +52,13 @@ public class User implements UserDetails {
 	private String email;
 	@OneToOne(cascade= CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="address_id")
-	private Address address;
-	private boolean enabled=true;
-	
+	private Address address;	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Set<UserRole> userRoles = new HashSet<>();
 	
-	@OneToOne(mappedBy= "user", cascade= CascadeType.ALL, fetch=FetchType.LAZY)
-	private ShoppingCart shoppingCart;
+	//@OneToMany(mappedBy= "user", cascade= CascadeType.ALL, fetch=FetchType.LAZY)
+	//private Set<CartItem> cartItems;
 
 	public User() {
 	}
@@ -108,9 +106,6 @@ public class User implements UserDetails {
 		this.address = address;
 	}
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
 	public Set<UserRole> getUserRoles() {
 		return userRoles;
 	}
@@ -118,14 +113,14 @@ public class User implements UserDetails {
 	public void setUserRoles(Set<UserRole> userRoles) {
 		this.userRoles = userRoles;
 	}
-		
-	public ShoppingCart getShoppingCart() {
-		return shoppingCart;
+
+/*	public Set<CartItem> getCartItems() {
+		return cartItems;
 	}
 
-	public void setShoppingCart(ShoppingCart shoppingCart) {
-		this.shoppingCart = shoppingCart;
-	}
+	public void setCartItems(Set<CartItem> cartItems) {
+		this.cartItems = cartItems;
+	} */
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -151,7 +146,7 @@ public class User implements UserDetails {
 	
 	@Override
 	public boolean isEnabled() {
-		return enabled;
+		return true;
 	}
 	
 	@Override

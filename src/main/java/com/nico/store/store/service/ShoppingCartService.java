@@ -1,7 +1,5 @@
 package com.nico.store.store.service;
 
-import java.util.List;
-
 import com.nico.store.store.domain.Article;
 import com.nico.store.store.domain.CartItem;
 import com.nico.store.store.domain.ShoppingCart;
@@ -10,16 +8,16 @@ import com.nico.store.store.domain.User;
 
 public interface ShoppingCartService {
 
-	List<CartItem> getCartItems(User user);
+	ShoppingCart getShoppingCart(User user);
 	
-	CartItem findById(Long cartItemId);
+	CartItem findCartItemById(Long cartItemId);
 	
-	CartItem addArticleToCartItem(Article article, ShoppingCart shoppingCart, int qty, String size);
+	CartItem addArticleToShoppingCart(Article article, User user, int qty, String size);
 	
 	CartItem save(CartItem cartItem);
 	
-	void clearShoppingCart(ShoppingCart shoppingCart);
+	void clearShoppingCart(User user);
 
-	void removeCartItem(ShoppingCart cart, CartItem cartItem);
+	void removeCartItem(CartItem cartItem);
 	
 }

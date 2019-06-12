@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,8 +27,7 @@ public class Order {
 	private String orderStatus;
 	private BigDecimal orderTotal;
 	
-	
-	@OneToMany(mappedBy="order", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="order", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<CartItem> cartItems;
 	
 	@OneToOne(cascade=CascadeType.ALL)

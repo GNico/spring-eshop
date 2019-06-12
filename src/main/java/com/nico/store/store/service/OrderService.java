@@ -14,5 +14,5 @@ public interface OrderService {
 	
 	List<Order> findByUser(User user);
 	
-	Order findById(Long id);
+	Order findOrderWithDetails(Long id);
 }

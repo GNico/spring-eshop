@@ -2,7 +2,9 @@ package com.nico.store.store.domain;
 
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,9 +25,9 @@ public class CartItem {
 	@JoinColumn(name="article_id")
 	private Article article;
 	
-	@ManyToOne
-	@JoinColumn(name="shopping_cart_id")
-	private ShoppingCart shoppingCart;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="user_id")
+	private User user;
 	
 	@ManyToOne
 	@JoinColumn(name="order_id")
@@ -62,11 +64,11 @@ public class CartItem {
 	public void setArticle(Article article) {
 		this.article = article;
 	}
-	public ShoppingCart getShoppingCart() {
-		return shoppingCart;
+	public User getUser() {
+		return user;
 	}
-	public void setShoppingCart(ShoppingCart shoppingCart) {
-		this.shoppingCart = shoppingCart;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public Order getOrder() {
 		return order;

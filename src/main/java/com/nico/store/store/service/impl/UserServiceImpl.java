@@ -70,9 +70,6 @@ public class UserServiceImpl implements UserService {
 				userRoles.add(new UserRole(user, role));
 			}			
 			user.setUserRoles(userRoles);
-			ShoppingCart shoppingCart = new ShoppingCart();
-			shoppingCart.setUser(user);
-			user.setShoppingCart(shoppingCart);
 			return userRepository.save(user);
 		}
 	}

@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 import com.nico.store.store.domain.CartItem;
-import com.nico.store.store.domain.ShoppingCart;
+import com.nico.store.store.domain.User;
 
 public interface CartItemRepository extends CrudRepository<CartItem, Long> {
 
-	List<CartItem> findByShoppingCart(ShoppingCart shoppingCart);
+	List<CartItem> findAllByUserAndOrderIsNull(User user);
+	
+	void deleteAllByUserAndOrderIsNull(User user);
 }
