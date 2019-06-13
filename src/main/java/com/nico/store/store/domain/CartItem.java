@@ -2,7 +2,6 @@ package com.nico.store.store.domain;
 
 import java.math.BigDecimal;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -34,6 +33,10 @@ public class CartItem {
 	private Order order;
 	
 	public CartItem() {		
+	}
+	
+	public boolean canUpdateQty(Integer qty) {
+		return qty == null || qty <= 0 || this.getArticle().hasStock(qty);
 	}
 	
 	public BigDecimal getSubtotal() {

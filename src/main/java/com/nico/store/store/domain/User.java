@@ -57,12 +57,41 @@ public class User implements UserDetails {
 	@JsonIgnore
 	private Set<UserRole> userRoles = new HashSet<>();
 	
-	//@OneToMany(mappedBy= "user", cascade= CascadeType.ALL, fetch=FetchType.LAZY)
-	//private Set<CartItem> cartItems;
-
 	public User() {
 	}
 
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		Set<GrantedAuthority> authorites = new HashSet<>();
+		userRoles.forEach(userRole -> authorites.add(new Authority(userRole.getRole().getName())));
+		return authorites;
+	}
+
+	@Override
+	public String toString() {
+	  return getClass().getSimpleName() + "[id=" + id + "]" + "[username=" + username + "]" + "[password=" + password + "]" + "[email=" + email + "]";
+	}
+	
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+	
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -113,46 +142,7 @@ public class User implements UserDetails {
 	public void setUserRoles(Set<UserRole> userRoles) {
 		this.userRoles = userRoles;
 	}
-
-/*	public Set<CartItem> getCartItems() {
-		return cartItems;
-	}
-
-	public void setCartItems(Set<CartItem> cartItems) {
-		this.cartItems = cartItems;
-	} */
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Set<GrantedAuthority> authorites = new HashSet<>();
-		userRoles.forEach(userRole -> authorites.add(new Authority(userRole.getRole().getName())));
-		return authorites;
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
 	
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
-	
-	@Override
-	public String toString() {
-	  return getClass().getSimpleName() + "[id=" + id + "]" + "[username=" + username + "]" + "[password=" + password + "]" + "[email=" + email + "]";
-	}
 }
 
 

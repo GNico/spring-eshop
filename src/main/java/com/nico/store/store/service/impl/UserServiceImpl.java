@@ -7,8 +7,8 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.nico.store.store.domain.ShoppingCart;
 import com.nico.store.store.domain.User;
 import com.nico.store.store.domain.security.Role;
 import com.nico.store.store.domain.security.UserRole;
@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public User createUser(String username, String password, String email, List<String> roles) {
 		User user = findByUsername(username);
 		if (user != null) {

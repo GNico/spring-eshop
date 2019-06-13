@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -50,27 +52,32 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
+	@CacheEvict(value = { "sizes", "categories", "brands" }, allEntries = true)
 	public Article saveArticle(Article article) {
 		return articleRepository.save(article);
 	}
 	
 	@Override
+	@CacheEvict(value = { "sizes", "categories", "brands" }, allEntries = true)
 	public void deleteArticleById(Long id) {
 		articleRepository.deleteById(id);		
 	}
 
 	
 	@Override
+	@Cacheable("sizes")
 	public List<String> getAllSizes() {
 		return articleRepository.findAllSizes();
 	}
 
 	@Override
+	@Cacheable("categories")
 	public List<String> getAllCategories() {
 		return articleRepository.findAllCategories();
 	}
 
 	@Override
+	@Cacheable("brands")
 	public List<String> getAllBrands() {
 		return articleRepository.findAllBrands();
 	}

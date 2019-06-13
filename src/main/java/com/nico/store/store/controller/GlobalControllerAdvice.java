@@ -1,25 +1,34 @@
 package com.nico.store.store.controller;
 
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.nico.store.store.domain.ShoppingCart;
 import com.nico.store.store.domain.User;
-import com.nico.store.store.service.UserService;
+import com.nico.store.store.service.ShoppingCartService;
 
 @ControllerAdvice
 public class GlobalControllerAdvice {
+	
+	public static final String DEFAULT_ERROR_VIEW = "error";
 		
 	@Autowired
-	private UserService userService;
+	private ShoppingCartService shoppingCartService;
 
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
@@ -29,23 +38,28 @@ public class GlobalControllerAdvice {
 	
 	@ModelAttribute
 	public void populateModel(Model model) {	
-		System.out.println("start global advice");
-		if (SecurityContextHolder.getContext().getAuthentication() != null &&
-			SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
-			!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken) ) {				
-			User user =  (User) SecurityContextHolder.getContext()
-			           .getAuthentication().getPrincipal(); 
-			
-			System.out.println(user.toString());
-
-			//User sameuser = userService.findByUsername(user.getUsername()); 
-			//if (sameuser != null) {
-				//ShoppingCart shopCart = user.getShoppingCart();  
-				model.addAttribute("shoppingCartItemNumber", 0 );
-			//}
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)) {				
+			User user =  (User) auth.getPrincipal(); 
+			if (user != null) {
+				model.addAttribute("shoppingCartItemNumber", shoppingCartService.getItemsNumber(user) );
+			}
 		} else { 
 			model.addAttribute("shoppingCartItemNumber", 0);
 		} 
-		System.out.println("end global advice");
 	}
+	
+	@ExceptionHandler(value = Exception.class)
+	public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+		if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null)
+			throw e;		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("timestamp", new Date(System.currentTimeMillis()));
+		mav.addObject("path", req.getRequestURL());
+		mav.addObject("message", e.getMessage());
+		mav.setViewName(DEFAULT_ERROR_VIEW);
+		return mav;
+	}
+	
+	
 }

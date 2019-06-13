@@ -37,7 +37,7 @@ public class ShoppingCartController {
 
 	@RequestMapping("/add-item")
 	public String addItem(@ModelAttribute("article") Article article, @RequestParam("qty") String qty,
-						@RequestParam("size") String size, RedirectAttributes attributes, Model model, Authentication authentication) {
+						  @RequestParam("size") String size, RedirectAttributes attributes, Model model, Authentication authentication) {
 		article = articleService.findArticleById(article.getId());				
 		if (!article.hasStock(Integer.parseInt(qty))) {
 			attributes.addFlashAttribute("notEnoughStock", true);
@@ -50,12 +50,12 @@ public class ShoppingCartController {
 	}
 	
 	@RequestMapping("/update-item")
-	public String updateItemQuantity(
-			@ModelAttribute("id") Long cartItemId,
-			@ModelAttribute("qty") int qty) {
+	public String updateItemQuantity(@RequestParam("id") Long cartItemId,
+									 @RequestParam("qty") Integer qty, Model model) {		
 		CartItem cartItem = shoppingCartService.findCartItemById(cartItemId);
-		cartItem.setQty(qty);
-		shoppingCartService.save(cartItem);		
+		if (cartItem.canUpdateQty(qty)) {
+			shoppingCartService.updateCartItem(cartItem, qty);
+		}
 		return "redirect:/shopping-cart/cart";
 	}
 	

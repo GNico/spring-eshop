@@ -41,14 +41,13 @@ public class AccountController {
 	@RequestMapping("/myProfile")
 	public String myProfile(Model model, Authentication authentication) {				
 		User user = (User) authentication.getPrincipal();
-		//User user = userService.findByUsername(principal.getName());
 		model.addAttribute("user", user);
 		return "myProfile";
 	}
 	
 	@RequestMapping("/myOrders")
-	public String myOrders(Model model, Principal principal) {
-		User user = userService.findByUsername(principal.getName());
+	public String myOrders(Model model, Authentication authentication) {
+		User user = (User) authentication.getPrincipal();
 		model.addAttribute("user", user);
 		List<Order> orders = orderService.findByUser(user);
 		model.addAttribute("orders", orders);
@@ -94,7 +93,7 @@ public class AccountController {
 		if (invalidFields) {
 			return "myAccount";
 		}		
-		userService.createUser(user.getUsername(), user.getEmail(), password, Arrays.asList("ROLE_USER"));	
+		userService.createUser(user.getUsername(), password,  user.getEmail(), Arrays.asList("ROLE_USER"));	
 		userSecurityService.authenticateUser(user.getUsername());
 		model.addAttribute("user", user);
 		return "myProfile";  

@@ -23,7 +23,7 @@
           </p>
           <p>The estimated delivery date is <span th:text="${#dates.format(order.shippingDate, 'dd-MMM-yyyy')}"></span></p>
           <a th:href="@{/store}" class="btn btn-info rounded mb-3">CONTINUE SHOPPING</a>
-          <a th:href="@{/order-detail?id=}+${order.id}" class="btn btn-primary rounded mb-3">VIEW ORDER</a>
+          <a th:href="@{/order-detail?order=}+${order.id}" class="btn btn-primary rounded mb-3">VIEW ORDER</a>
         </div>
       </div>
     </div>  

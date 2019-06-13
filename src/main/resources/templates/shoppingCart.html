@@ -8,6 +8,8 @@
 
   <div class="container page-content">       
     <form th:action="@{/shopping-cart/update-item}" method="post">   
+    <input hidden="hidden" id="newqty" th:name="qty">    
+    <input hidden="hidden" id="newid" th:name="id"> 
     <div class="card">
       <div class="card-body ">
          <div class="row align-items-center border-bottom  pb-2 pt-3" th:each="cartItem : ${cartItemList}">
@@ -21,16 +23,15 @@
                 <small class="ml-3"><b>Unit Price</b>: $<span th:text="${#numbers.formatDecimal(cartItem.article.price, 0, 'COMMA', 2, 'POINT')}"></span></small>
             </div>
             <div class="col-2">
-              <input hidden="hidden" name="id" th:value="${cartItem.id}"> 
               <div class="form-group row mt-3">
                 <label th:for="${cartItem.id}" class="col-md-6 col-form-label text-right">Qty</label>
                 <div class="col-md-6">
-                  <input th:id="${cartItem.id}" th:name="qty" th:disabled="${cartItem.article.stock==0}" 
+                  <input th:id="${cartItem.id}" th:disabled="${cartItem.article.stock==0}" 
                      type="number" min="0" max="${cartItem.article.stock}"
                      class="form-control cartItemQty" th:value="${cartItem.qty}">
                   <button style="display: none;"
                       th:id="'update-item-'+${cartItem.id}" type="submit"
-                      class="btn btn-warning btn-xs">Update</button>   
+                      class="btn btn-warning btn-xs">Update</button>                                     
                 </div>
               </div>            
             </div>
@@ -58,7 +59,10 @@
   <script>
     $(document).ready(function(){
   		$(".cartItemQty").on('change', function(){
-  			var id=this.id;		
+  			var id=this.id;	
+  			var qty=this.value;
+  			$('#newqty').val(qty)
+  			$('#newid').val(id)
   			$('#update-item-'+id).css('display', 'inline-block');
   		});
     });
