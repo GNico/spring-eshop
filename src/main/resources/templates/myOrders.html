@@ -17,9 +17,9 @@
             <small class="text-secondary" th:text="'Last seen '+${#dates.format(#dates.createNow(), 'MMM dd, yyyy')}"></small>       
           </div>
           <div class="list-group list-group-flush">
-            <a th:href="@{/myProfile}" class="list-group-item list-group-item-action"><i data-feather="user" class="mr-3"></i> Profile</a>
-            <a th:href="@{/myOrders}" class="list-group-item list-group-item-action active"><i data-feather="shopping-bag" class="mr-3"></i> Orders</a>
-            <a th:href="@{/myAddress}" class="list-group-item list-group-item-action"><i data-feather="map" class="mr-3"></i> Address</a>
+            <a th:href="@{/my-profile}" class="list-group-item list-group-item-action"><i data-feather="user" class="mr-3"></i> Profile</a>
+            <a th:href="@{/my-orders}" class="list-group-item list-group-item-action active"><i data-feather="shopping-bag" class="mr-3"></i> Orders</a>
+            <a th:href="@{/my-address}" class="list-group-item list-group-item-action"><i data-feather="map" class="mr-3"></i> Address</a>
             <a th:href="@{/logout}" class="list-group-item list-group-item-action text-danger"><i data-feather="log-out" class="mr-3"></i> Logout</a>
           </div>
         </div>

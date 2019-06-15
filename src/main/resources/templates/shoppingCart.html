@@ -9,7 +9,7 @@
   <div class="container page-content">       
     <form th:action="@{/shopping-cart/update-item}" method="post">   
     <input hidden="hidden" id="newqty" th:name="qty">    
-    <input hidden="hidden" id="newid" th:name="id"> 
+    <input hidden="hidden" id="newid" th:name="id">     
     <div class="card">
       <div class="card-body ">
          <div class="row align-items-center border-bottom  pb-2 pt-3" th:each="cartItem : ${cartItemList}">

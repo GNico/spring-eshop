@@ -47,7 +47,7 @@
           </li>
           <li class="nav-item">          
             <a class="nav-link" th:href="@{/shopping-cart/cart}">Shopping Cart 
-            <span class="badge badge-primary" style="vertical-align: top;" th:text="${shoppingCartItemNumber} > 0 ? ${shoppingCartItemNumber}"></span></a>
+            <span class="badge badge-primary badge-pill" style="vertical-align: top;" th:text="${shoppingCartItemNumber} > 0 ? ${shoppingCartItemNumber}"></span></a>
           </li>                        
         </ul>
         <ul class="navbar-nav ml-auto font-weight-bold">          
@@ -55,7 +55,7 @@
             <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}">My Account </a>
           </li>
           <li class="nav-item">           
-            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/myProfile}">My Account</a>
+            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/my-profile}">My Account</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}"> Log Out </a>
@@ -66,6 +66,8 @@
         </ul>
       </div>
     </nav>
+    
+
   </div>
 
   <div th:fragment="footer">
@@ -96,10 +98,10 @@
           <div class="col-6 col-lg-3 pl-3">
             <h6 class="font-weight-bold">Shoepp</h6>
             <div class="list-group list-group-flush list-group-no-border list-group-sm">
-              <a href="about.html" class="list-group-item list-group-item-action">About Us</a>
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">About Us</a>
               <a href="javascript:void(0)" class="list-group-item list-group-item-action">Terms and Conditions</a>
               <a href="javascript:void(0)" class="list-group-item list-group-item-action">Privacy Policy</a>
-              <a href="faq.html" class="list-group-item list-group-item-action">FAQs</a>
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">FAQs</a>
               <a href="javascript:void(0)" class="list-group-item list-group-item-action">Our Story</a>
               <a href="javascript:void(0)" class="list-group-item list-group-item-action">Services</a>
             </div>
@@ -134,6 +136,17 @@
     <script>feather.replace()</script>
     <script type="text/javascript" src="/js/jquery.simplePagination.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script>
+    //prevent multiple form submission
+    $(function() {
+      $('form').submit(function(){
+        $("button[type='submit']", this)
+          .text("Please Wait...")
+          .attr('disabled', 'disabled');
+        return true;
+      });
+    });
+    </script>
   
   </div>
 

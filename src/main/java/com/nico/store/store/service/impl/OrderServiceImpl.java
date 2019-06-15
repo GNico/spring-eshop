@@ -60,8 +60,7 @@ public class OrderServiceImpl implements OrderService {
 			articleRepository.save(article);
 			item.setOrder(order);
 			cartItemRepository.save(item);
-		}
-		
+		}		
 		return order;	
 	}
 	

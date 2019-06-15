@@ -1,8 +1,5 @@
 package com.nico.store.store.controller;
 
-import java.util.Arrays;
-import java.util.List;
-
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +43,6 @@ public class StoreController {
 	public String articleDetail(@PathParam("id") Long id, Model model) {
 		Article article = articleService.findArticleById(id);
 		model.addAttribute("article", article);
-		List<Integer> qtyList = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
-		model.addAttribute("qtyList", qtyList);
-		model.addAttribute("qty", 1);		
 		model.addAttribute("notEnoughStock", model.asMap().get("notEnoughStock"));
 		model.addAttribute("addArticleSuccess", model.asMap().get("addArticleSuccess"));
 		return "articleDetail";

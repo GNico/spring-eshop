@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nico.store.store.domain.Address;
 import com.nico.store.store.domain.Order;
@@ -21,21 +22,17 @@ import com.nico.store.store.service.ShoppingCartService;
 @Controller
 public class CheckoutControler {
 	
-
 	@Autowired 
 	private ShoppingCartService shoppingCartService;
 	
 	@Autowired
 	private OrderService orderService;
 
-
 	@RequestMapping("/checkout")
 	public String checkout( @RequestParam(value="missingRequiredField", required=false) boolean missingRequiredField,
 							Model model, Authentication authentication) {		
 		User user = (User) authentication.getPrincipal();	
-		System.out.println("getting shop cart");
 		ShoppingCart shoppingCart = shoppingCartService.getShoppingCart(user);
-		System.out.println("finish getting shop cart");
 		if(shoppingCart.isEmpty()) {
 			model.addAttribute("emptyCart", true);
 			return "redirect:/shopping-cart/cart";
@@ -45,24 +42,32 @@ public class CheckoutControler {
 		if(missingRequiredField) {
 			model.addAttribute("missingRequiredField", true);
 		}		
-		return "checkout";
-		
+		return "checkout";		
 	}
 	
 	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
 	public String placeOrder(@ModelAttribute("shipping") Shipping shipping,
 							@ModelAttribute("address") Address address,
 							@ModelAttribute("payment") Payment payment,
-							Model model, Authentication authentication) {
-		
+							RedirectAttributes redirectAttributes, Authentication authentication) {		
 		User user = (User) authentication.getPrincipal();		
-		ShoppingCart shoppingCart = shoppingCartService.getShoppingCart(user);				
-		shipping.setAddress(address);
-		Order order = orderService.createOrder(shoppingCart, shipping, payment, user);		
-		
-		//shoppingCartService.clearShoppingCart(shoppingCart);
-		model.addAttribute("order", order);	
-		return "orderSubmitted";
+		ShoppingCart shoppingCart = shoppingCartService.getShoppingCart(user);	
+		if (!shoppingCart.isEmpty()) {
+			shipping.setAddress(address);
+			Order order = orderService.createOrder(shoppingCart, shipping, payment, user);		
+			redirectAttributes.addFlashAttribute("order", order);
+		}
+		return "redirect:/order-submitted";
+	}
+	
+	@RequestMapping(value = "/order-submitted", method = RequestMethod.GET)
+	public String orderSubmitted(Model model) {
+		Order order = (Order) model.asMap().get("order");
+		if (order == null) {
+			return "redirect:/";
+		}
+		model.addAttribute("order", order);
+		return "orderSubmitted";	
 	}
 
 }

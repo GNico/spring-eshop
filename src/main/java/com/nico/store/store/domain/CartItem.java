@@ -15,7 +15,7 @@ import javax.persistence.OneToOne;
 public class CartItem {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private int qty;
 	private String size;

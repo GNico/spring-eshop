@@ -23,10 +23,6 @@ public class HomeController {
 		model.addAttribute("articles", articles);
 		return "index";
 	}
-	
-	@RequestMapping("/login")
-	public String log(Model model) {
-		return "myAccount";
-	}
+
 	
 }

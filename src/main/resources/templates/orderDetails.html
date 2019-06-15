@@ -10,7 +10,7 @@
   
     <div class="row">
       <div class="col-4">
-        <h5 class="font-weight-bold">Order</h5>
+        <h5 class="font-weight-bold">Order details</h5>
         <div class="list-group list-group-flush list-group-no-border list-group-sm">
           <div><strong>Date: </strong><span th:text="${#dates.format(order.orderDate, 'dd-MMM-yyyy')}"></span></div>
           <div><strong>Delivery date: </strong><span th:text="${#dates.format(order.shippingDate, 'dd-MMM-yyyy')}"></span></div>
@@ -37,10 +37,10 @@
       </div>
     </div>
     <hr>
-    <h5 class="font-weight-bold">Items details</h5>    
+    <h5 class="font-weight-bold">Purchased products</h5>    
     <div class="row">
-      <div class="card-body border-bottom">
-        <div class="row align-items-center border-bottom pb-1 pt-1" th:each="cartItem : ${order.cartItems}">
+      <div class="card-body">
+        <div class="row align-items-center border-bottom py-2" th:each="cartItem : ${order.cartItems}">
           <div class="col-2">
             <a th:href="@{/article-detail?id=}+${cartItem.article.id}"><img class="img-fluid" th:src="${cartItem.article.picture}" alt="${cartItem.article.title}"></a>
           </div>

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nico.store.store.domain.Address;
 import com.nico.store.store.domain.Order;
@@ -37,15 +38,22 @@ public class AccountController {
 	
 	@Autowired
 	private OrderService orderService;
-		
-	@RequestMapping("/myProfile")
+
+	@RequestMapping("/login")
+	public String log(Model model) {
+		model.addAttribute("usernameExists", model.asMap().get("usernameExists"));
+		model.addAttribute("emailExists", model.asMap().get("emailExists"));
+		return "myAccount";
+	}
+	
+	@RequestMapping("/my-profile")
 	public String myProfile(Model model, Authentication authentication) {				
 		User user = (User) authentication.getPrincipal();
 		model.addAttribute("user", user);
 		return "myProfile";
 	}
 	
-	@RequestMapping("/myOrders")
+	@RequestMapping("/my-orders")
 	public String myOrders(Model model, Authentication authentication) {
 		User user = (User) authentication.getPrincipal();
 		model.addAttribute("user", user);
@@ -54,7 +62,7 @@ public class AccountController {
 		return "myOrders";
 	}
 	
-	@RequestMapping("/myAddress")
+	@RequestMapping("/my-address")
 	public String myAddress(Model model, Principal principal) {
 		User user = userService.findByUsername(principal.getName());
 		model.addAttribute("user", user);
@@ -70,33 +78,33 @@ public class AccountController {
 		}
 		currentUser.setAddress(address);
 		userService.save(currentUser);
-		return "redirect:myAddress";
+		return "redirect:/my-address";
 	}
 	
 	@RequestMapping(value="/new-user", method=RequestMethod.POST)
 	public String newUserPost(@Valid @ModelAttribute("user") User user, BindingResult bindingResults,
-							  @ModelAttribute("new-password") String password, Model model) {
+							  @ModelAttribute("new-password") String password, 
+							  RedirectAttributes redirectAttributes, Model model) {
 		model.addAttribute("email", user.getEmail());
-		model.addAttribute("username", user.getUsername());		
-		if (bindingResults.hasErrors()) {
-			return "myAccount";
-		}		
+		model.addAttribute("username", user.getUsername());	
 		boolean invalidFields = false;
+		if (bindingResults.hasErrors()) {
+			return "redirect:/login";
+		}		
 		if (userService.findByUsername(user.getUsername()) != null) {
-			model.addAttribute("usernameExists", true);
+			redirectAttributes.addFlashAttribute("usernameExists", true);
 			invalidFields = true;
 		}
 		if (userService.findByEmail(user.getEmail()) != null) {
-			model.addAttribute("emailExists", true);
+			redirectAttributes.addFlashAttribute("emailExists", true);
 			invalidFields = true;
 		}	
 		if (invalidFields) {
-			return "myAccount";
+			return "redirect:/login";
 		}		
-		userService.createUser(user.getUsername(), password,  user.getEmail(), Arrays.asList("ROLE_USER"));	
+		user = userService.createUser(user.getUsername(), password,  user.getEmail(), Arrays.asList("ROLE_USER"));	
 		userSecurityService.authenticateUser(user.getUsername());
-		model.addAttribute("user", user);
-		return "myProfile";  
+		return "redirect:/my-profile";  
 	}
 		
 	@RequestMapping(value="/update-user-info", method=RequestMethod.POST)

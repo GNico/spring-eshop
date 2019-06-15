@@ -11,17 +11,16 @@
       <div class="row">      
 
         <!-- Checkout Info -->                         
-        <div class="col-8">
+        <div class="col-lg-8 mb-3" >
           <div th:if="${missingRequiredField}">
-            <h5 class="alert alert-warning">There are some fields
-              missing. Field with * is required.</h5>
+            <h5 class="alert alert-warning">There are some required fields missing.</h5>
           </div>          
           <div id="accordion">
             <div class="card">
               <div class="card-header bg-white" id="headingOne">
                 <h5 class="mb-0">
                   <button class="btn btn-link checkout-header" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    REVIEW ITEMS
+                    REVIEW ITEMS <i data-feather="chevron-down" class="mb-1"></i>
                   </button>
                 </h5>
               </div>
@@ -37,10 +36,8 @@
                         <small class="ml-3"><b>Size</b>: <span th:text="${cartItem.size}"></span></small>                  
                         <small class="ml-3"><b>Unit Price</b>: $<span th:text="${#numbers.formatDecimal(cartItem.article.price, 0, 'COMMA', 2, 'POINT')}"></span></small>
                     </div>
-                    <div class="col-1">
-                    
-                      <span>x<span th:text="${cartItem.qty}"></span></span>
-                           
+                    <div class="col-1">                    
+                      <span>x<span th:text="${cartItem.qty}"></span></span>                           
                     </div>
                     <div class="col-2 text-right">
                       <span class="font-weight-bold">$ <span th:id="'price'+${cartItem.id}" th:text="${#numbers.formatDecimal(cartItem.subtotal, 0, 'COMMA', 2, 'POINT')}"></span></span>
@@ -62,7 +59,7 @@
               <div class="card-header bg-white" id="headingTwo">
                 <h5 class="mb-0">
                   <button class="btn btn-link checkout-header" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    SHIPPING
+                    SHIPPING <i data-feather="chevron-down" class="mb-1"></i>
                   </button>
                 </h5>
               </div>    
@@ -72,14 +69,11 @@
                     <div class="form-group col-12">
                       <label for="receiver">Receiver Name</label> 
                       <input type="text" class="form-control" id="receiver" name="receiver" required="required"/>
-                    </div>
-  
+                    </div>  
                     <div class="form-group col-12">
                       <label for="streetAddress">Address</label> 
                       <input type="text" class="form-control" id="streetAddress" name="streetAddress" required="required" />
                     </div>
-                    
-  
                     <div class="form-group col-4">
                       <label for="city">City</label> <input type="text"
                         class="form-control" id="city" th:name="city"
@@ -107,7 +101,7 @@
               <div class="card-header bg-white" id="headingThree">
                 <h5 class="mb-0">
                   <button class="btn btn-link checkout-header collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    PAYMENT 
+                    PAYMENT  <i data-feather="chevron-down" class="mb-1"></i>
                   </button>
                 </h5>
               </div>
@@ -201,7 +195,7 @@
         
         
         <!-- Summary Panel -->
-        <div class="col-4">
+        <div class="col-lg-4">
           <div class="card">
             <div class="card-header bg-white checkout-header">ORDER SUMMARY</div>
             <div class="card-body">
@@ -220,16 +214,14 @@
               </div>
             </div>
             <div class="card-footer bg-white border-top-0">
-              <button class="btn btn-primary rounded-pill btn-lg btn-block mt-2 mb-3">
+              <button type="submit" class="btn btn-primary rounded-pill btn-lg btn-block mt-2 mb-3">
               Place your order
-              </button>
-            
+              </button>            
               <p style="font-size: smaller;">
                 By placing your order, you agree to Shoepp <a href="#">privacy</a>
-                notice and <a href="#">conditions</a>.</p>
-                    
+                notice and <a href="#">conditions</a>.</p>                   
             </div>
-          </div>
+          </div>       
         </div>        
       </div>
     </form>             
@@ -238,5 +230,7 @@
   
   <div th:replace="common/header :: footer"> </div>  
   <div th:replace="common/header :: body-scripts"> </div>
+ 
+  
 </body>
 </html>
