@@ -9,13 +9,12 @@
   
   <div class="jumbotron jumbotron-fluid mt-0" th:style="'background-image: url(/image/background/adidas-background.jpg);'">
   	<div class="container">
-      <div class="row text-left py-5">
-          <div class="col-sm-12 col-md-10 offset-md-2 col-lg-8 offset-lg-4 col-xl-6 offset-xl-6 my-auto">         
-              <h1 class="text-white text-uppercase font-weight-bold">New season comes fast</h1>
-              <h5 class="thin text-white alt-font mb-4">2018 - 2019 Winter Season</h5>
-              <p class="lead mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum, eius, quae, aliquam, minima odit vel voluptatum sapiente ducimus vitae necessitatibus sunt ut pariatur dicta eos saepe illo quaerat aspernatur libero.</p>
-              <a th:href="@{/store}" class="btn btn-primary rounded-pill">SHOP NOW</a>
-          </div>
+      <div class="row text-left py-5">   
+         <div class="col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-3 col-xl-6 offset-xl-6 my-auto">  
+            <h2 class="bg-warning text-dark d-inline-block p-1">Brand New</h2>
+            <h1 class="font-weight-bold">High Quality Shoes</h1>
+            <a th:href="@{/store}" class="btn btn-primary rounded-pill" data-addclass-on-xs="btn-sm">SHOP NOW</a>       
+          </div> 
       </div>
   </div>
   </div>  
@@ -148,7 +147,21 @@
       	        slidesToShow: 3,
       	        slidesToScroll: 3
       	      }
-      	    }    	    
+      	    },
+      	  	{
+      	      breakpoint: 550,
+      	      settings: {
+      	        slidesToShow: 2,
+      	        slidesToScroll: 2
+      	      }
+      	    },
+      	  	{
+      	      breakpoint: 380,
+      	      settings: {
+      	        slidesToShow: 1,
+      	        slidesToScroll: 1
+      	      }
+      	    }, 
       	  ]
       });
     });

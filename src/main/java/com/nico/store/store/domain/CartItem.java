@@ -49,6 +49,11 @@ public class CartItem {
 		}
 	}
 	
+	public boolean hasSameSizeThan(String size2) {
+		return this.size.equals(size2);
+	}
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -85,7 +90,7 @@ public class CartItem {
 	public void setSize(String size) {
 		this.size = size;
 	}
-	
+
 	
 	
 	

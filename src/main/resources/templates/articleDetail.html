@@ -9,6 +9,10 @@
   <div class="container page-content mt-3 mb-3">  
     <div th:if="${addArticleSuccess}" class="alert alert-success alert-dismissible fade show" role="alert">
       <strong>Added item to the shopping cart!</strong>
+      <div class="mt-2">
+        <a th:href="@{/store}" class="btn btn-info rounded-pill "><i data-feather="arrow-left"></i> Continue shopping</a>            
+        <a th:href="@{/shopping-cart/cart}" class="btn btn-primary rounded-pill">Go to shopping cart <i data-feather="arrow-right"></i></a>
+      </div>
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>

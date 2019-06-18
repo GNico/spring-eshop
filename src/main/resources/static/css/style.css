@@ -45,6 +45,15 @@ a {
   background-size: cover;
   height: 80%;
 }
+
+.jumbotron h1 { 
+  font-size: 6vmin;	
+}
+
+.jumbotron h2 { 
+  font-size: 5vmin;	
+}
+
 .features-card h5 {
 	font-family: 'Roboto Slab', serif;
 	font-size: 1.5rem;
@@ -121,7 +130,7 @@ a {
  padding-top:1rem
 }
 .footer .row>[class*=col-] {
- margin-bottom:1.5rem
+ margin-bottom:2rem
 }
 .footer .list-group-sm .list-group-item {
  background-color:#0c1a1e;

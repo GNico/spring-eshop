@@ -31,9 +31,9 @@ public class ShoppingCart {
 		cartItems.clear();
 	}
 	
-	public CartItem findCartItemByArticle(Long id) {
+	public CartItem findCartItemByArticleAndSize(Long id, String size) {
 		for (CartItem item : this.cartItems) {
-			if (item.getArticle().getId() == id) {
+			if (item.getArticle().getId().equals(id) && item.getSize().equals(size)) {
 				return item;
 			}
 		}

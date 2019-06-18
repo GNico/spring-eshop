@@ -41,8 +41,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	@CacheEvict(value = "itemcount", allEntries = true)
 	public CartItem addArticleToShoppingCart(Article article, User user, int qty, String size) {
 		ShoppingCart shoppingCart = this.getShoppingCart(user);
-		CartItem cartItem = shoppingCart.findCartItemByArticle(article.getId());
-		if (cartItem != null) {
+		CartItem cartItem = shoppingCart.findCartItemByArticleAndSize(article.getId(), size);
+		if (cartItem != null && cartItem.hasSameSizeThan(size)) {
 			cartItem.addQuantity(qty);
 			cartItem.setSize(size);
 			cartItem = cartItemRepository.save(cartItem);
