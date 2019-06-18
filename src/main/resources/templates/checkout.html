@@ -25,34 +25,36 @@
                 </h5>
               </div>
               <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                <div class="card-body border-bottom">
-                  <div class="row align-items-center border-bottom  pb-2 pt-3" th:each="cartItem : ${cartItemList}">
-                    <div class="col-2">
-                      <a th:href="@{/article-detail?id=}+${cartItem.article.id}"><img class="img-fluid" th:src="${cartItem.article.picture}" alt="${cartItem.article.title}"></a>
-                    </div>
-                    <div class="col-7">
-                      <a th:href="@{/article-detail?id=}+${cartItem.article.id}" class="h6 bold d-inline-block" th:text=${cartItem.article.title}></a>
-                        <div><i data-feather="check-circle" class="text-success"></i> In Stock</div>                  
-                        <small class="ml-3"><b>Size</b>: <span th:text="${cartItem.size}"></span></small>                  
-                        <small class="ml-3"><b>Unit Price</b>: $<span th:text="${#numbers.formatDecimal(cartItem.article.price, 0, 'COMMA', 2, 'POINT')}"></span></small>
-                    </div>
-                    <div class="col-1">                    
-                      <span>x<span th:text="${cartItem.qty}"></span></span>                           
-                    </div>
-                    <div class="col-2 text-right">
-                      <span class="font-weight-bold">$ <span th:id="'price'+${cartItem.id}" th:text="${#numbers.formatDecimal(cartItem.subtotal, 0, 'COMMA', 2, 'POINT')}"></span></span>
-                    </div>                             
-                 </div>  
-                 <div class="d-flex justify-content-between align-items-center mt-3">
-                   <a th:href="@{/shopping-cart/cart}" class="btn btn-info rounded-pill "><i data-feather="arrow-left"></i> Edit cart</a>             
-                   <div class="text-center">
-                     <small class="counter">TOTAL</small>
-                     <h3 class="font-weight-bold">$ <span th:text="${#numbers.formatDecimal(shoppingCart.getGrandTotal(), 0, 'COMMA', 2, 'POINT')}"></span></h3>
-                    </div>
-                   <a data-toggle="collapse" data-parent="#accordion"
-                      class="btn btn-primary rounded-pill" href="#collapseTwo">Next <i data-feather="arrow-right"></i></a>
-                 </div>
-                 </div>
+                <div class="card-body border-bottom">                
+                  <div class="row align-items-center border-bottom  pb-2 pt-2" th:each="cartItem : ${cartItemList}">
+                    <div class="col-12 col-md-6 mb-2">
+                      <div class="row align-items-center">                      
+                        <div class="col-4">
+                          <a th:href="@{/article-detail?id=}+${cartItem.article.id}"><img class="img-fluid" th:src="${cartItem.article.picture}" alt="${cartItem.article.title}"></a>
+                        </div>
+                        <div class="col-8">
+                          <a th:href="@{/article-detail?id=}+${cartItem.article.id}" class="h6 bold d-inline-block" th:text=${cartItem.article.title}></a>
+                            <div><i data-feather="check-circle" class="text-success"></i> In Stock</div>                  
+                            <div><small><b>Size</b>: <span th:text="${cartItem.size}"></span></small></div>                  
+                            <small><b>Unit Price</b>: $<span th:text="${#numbers.formatDecimal(cartItem.article.price, 0, 'COMMA', 2, 'POINT')}"></span></small>
+                        </div>
+                      </div> 
+                    </div>  
+                    <div class="col-12 col-md-6 text-right">
+                      <span>x<span th:text="${cartItem.qty}"></span> units: </span>                           
+                      <span class="font-weight-bold text-info">$ <span th:id="'price'+${cartItem.id}" th:text="${#numbers.formatDecimal(cartItem.subtotal, 0, 'COMMA', 2, 'POINT')}"></span></span>
+                    </div>                  
+                  </div>                  
+                  <div class="text-center mx-auto">
+                    <small class="counter">TOTAL</small>
+                    <h3 class="font-weight-bold">$ <span th:text="${#numbers.formatDecimal(shoppingCart.getGrandTotal(), 0, 'COMMA', 2, 'POINT')}"></span></h3>
+                  </div>                    
+                  <div class="d-flex flex-wrap justify-content-between align-items-center mt-3">      
+                    <a th:href="@{/shopping-cart/cart}" class="btn btn-info rounded-pill  "><i data-feather="arrow-left"></i> Edit cart</a>           
+                    <a data-toggle="collapse" data-parent="#accordion"
+                        class="btn btn-primary rounded-pill " href="#collapseTwo">Next <i data-feather="arrow-right"></i></a>
+                  </div>
+                </div>                 
               </div>
             </div>
             <div class="card">

@@ -5,19 +5,18 @@
 
 <body class="d-flex flex-column">
   <div th:replace="common/header :: navbar"> </div>
-
-  <div class="container page-content">
-  
+  <div class="container page-content">  
     <div class="row">
-      <div class="col-4">
+      <div class="col-12 col-sm-6 col-lg-4 mb-2 text-center text-left-lg">
         <h5 class="font-weight-bold">Order details</h5>
         <div class="list-group list-group-flush list-group-no-border list-group-sm">
           <div><strong>Date: </strong><span th:text="${#dates.format(order.orderDate, 'dd-MMM-yyyy')}"></span></div>
           <div><strong>Delivery date: </strong><span th:text="${#dates.format(order.shippingDate, 'dd-MMM-yyyy')}"></span></div>
           <div><strong>Current status: </strong><span th:text="${order.orderStatus}"></span></div>
-        </div>
+        </div>        
+        <hr class="d-block d-sm-none">
       </div>
-      <div class="col-4">
+      <div class="col-12 col-sm-6 col-lg-4 mb-2 text-center">
         <h5 class="font-weight-bold">Shipping</h5>
         <div class="list-group list-group-flush list-group-no-border list-group-sm">
           <div><strong>Receiver: </strong><span th:text="${order.shipping.receiver}"></span></div>
@@ -26,8 +25,9 @@
           <div><strong>Country: </strong><span th:text="${order.shipping.address.country}"></span></div>
           <div><strong>Zip Code: </strong><span th:text="${order.shipping.address.zipCode}"></span></div>
         </div>
+        <hr class="d-block d-sm-none">        
       </div>
-      <div class="col-4">
+      <div class="col-12 col-sm-6 col-lg-4 mb-2 text-center">
         <h5 class="font-weight-bold">Payment</h5>
         <div class="list-group list-group-flush list-group-no-border list-group-sm">
           <div><strong>Credit card: </strong><span th:text="${order.payment.type}"></span></div>    
@@ -37,25 +37,34 @@
       </div>
     </div>
     <hr>
-    <h5 class="font-weight-bold">Purchased products</h5>    
+    <h5 class="font-weight-bold text-center">Purchased products</h5>    
     <div class="row">
       <div class="card-body">
         <div class="row align-items-center border-bottom py-2" th:each="cartItem : ${order.cartItems}">
-          <div class="col-2">
-            <a th:href="@{/article-detail?id=}+${cartItem.article.id}"><img class="img-fluid" th:src="${cartItem.article.picture}" alt="${cartItem.article.title}"></a>
-          </div>
-          <div class="col-7">
-            <a th:href="@{/article-detail?id=}+${cartItem.article.id}" class="h6 bold d-inline-block" th:text=${cartItem.article.title}></a>
-              <br>
-              <small class="ml-3"><b>Size</b>: <span th:text="${cartItem.size}"></span></small>                  
-              <small class="ml-3"><b>Unit Price</b>: $<span th:text="${#numbers.formatDecimal(cartItem.article.price, 0, 'COMMA', 2, 'POINT')}"></span></small>
-          </div>
-          <div class="col-1">          
-            <span>x<span th:text="${cartItem.qty}"></span></span>                 
-          </div>
-          <div class="col-2 text-right">
-            <span class="font-weight-bold">$ <span th:id="'price'+${cartItem.id}" th:text="${#numbers.formatDecimal(cartItem.subtotal, 0, 'COMMA', 2, 'POINT')}"></span></span>
-          </div>                             
+        
+          <div class="col-12 col-md-6 mb-2">
+            <div class="row align-items-center">
+        
+              <div class="col-4">
+                <a th:href="@{/article-detail?id=}+${cartItem.article.id}"><img class="img-fluid" th:src="${cartItem.article.picture}" alt="${cartItem.article.title}"></a>
+              </div>
+              <div class="col-8">
+                <a th:href="@{/article-detail?id=}+${cartItem.article.id}" class="h6 bold d-inline-block" th:text=${cartItem.article.title}></a>
+                  <br>
+                  <div><small><b>Size</b>: <span th:text="${cartItem.size}"></span></small></div>                  
+                  <small><b>Unit Price</b>: $<span th:text="${#numbers.formatDecimal(cartItem.article.price, 0, 'COMMA', 2, 'POINT')}"></span></small>
+              </div>
+              
+            </div>
+          </div>  
+              
+          <div class="col-12 col-md-6 text-right">
+            <span>x<span th:text="${cartItem.qty}"></span> units: </span>                           
+            <span class="font-weight-bold text-info">$ <span th:id="'price'+${cartItem.id}" th:text="${#numbers.formatDecimal(cartItem.subtotal, 0, 'COMMA', 2, 'POINT')}"></span></span>
+          </div>  
+              
+            
+                                     
        </div>  
        <div class="d-flex justify-content-center align-items-center mt-3">
          <div class="text-center">           
@@ -64,14 +73,10 @@
           </div>         
        </div>
        </div>
-    </div>    
-    
-  
+    </div>   
   </div> <!--  end container -->
   
   <div th:replace="common/header :: footer"> </div>
-  
-  
   <div th:replace="common/header :: body-scripts"> </div>
 </body>
 </html>
